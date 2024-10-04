@@ -1,0 +1,47 @@
+.footer{
+    background-color: #EFEFEF;
+    text-align: center;
+    div{
+        margin-bottom: 16px;
+        .policy{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #6F6F6F;
+            li{
+                color: inherit;
+                font-size: 12px;
+                &:first-of-type{
+                    &::after{
+                        padding: 0 16px;
+                        content: '|';
+                    }
+                }
+                &:last-of-type{
+
+                }
+            }   
+        }   
+    }
+    div{
+        margin-bottom: 12px;
+        h3{
+            margin-bottom: 12px;
+            color: #6F6F6F;
+            font-weight: 700;
+        }
+        ul{
+            li{
+                color:#8E8E8E;
+                font-size: 12px;
+            }
+        }
+    }
+    div{
+        margin-bottom: 10px;
+        p{
+            color:#8E8E8E;
+            font-size: 10px;
+        }
+    }
+}

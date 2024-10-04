@@ -1,0 +1,74 @@
+.mainHeaderWrap{
+    max-width: 480px;
+    height: 100%;
+    padding: 0 20px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // border: 1px solid;    
+    h1{
+        width: 128px;
+        height: 35px;
+        background: url('../../public/logo.svg') center no-repeat;
+    }
+    .btnWrap{
+        a{
+            button{
+                &::after{
+                    width: 32px;
+                    height: 32px;
+                    display: block;
+                    // position: relative;
+                }
+            }
+        .search{
+            margin-right: 12px;
+                &::after{
+                    // width: 32px;
+                    // height: 32px;
+                    // display: block;
+                    content: '';
+                    background: url('../../public/assets/icons/search.svg') center no-repeat;
+                }
+            }
+            .myPage{
+                &::after{
+                    // width: 32px;
+                    // height: 32px;
+                    // display: block;
+                    content: '';
+                    background: url('../../public/assets/icons/person.svg') center no-repeat;
+                }
+            }
+        }
+
+    }
+}
+.subHeaderWrap{
+    max-width: 480px;
+    height: 100%;
+    padding: 0 20px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid; 
+    h2{
+        height: 100%;
+        text-align: center;
+    .goBackBtn{
+
+        &::before{
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            content: '';
+            background: url('../../public/assets/icons/arrow_left.svg');
+        }
+    }
+    
+        font-size: 24px;
+        font-weight: 700;
+    }
+}
