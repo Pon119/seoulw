@@ -1,0 +1,36 @@
+
+.selected{
+   color: #FF4B77;
+}
+
+.category{
+   ul{
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 1px solid #CBCBCB;
+      li{
+         display: flex;
+         flex-direction: column;
+         button{
+            color: black;
+         }
+         div{
+            width: 95px;
+            padding-top: 11px;
+         }
+      }
+      .selected{
+         button{
+            color: #FF4B77;
+            font-weight: bold;
+         }
+         div{
+            border-bottom: 3px solid #FF4B77;
+         }
+      }
+
+   }
+   section{
+      margin-top: 49px;
+   }
+}

@@ -1,0 +1,70 @@
+.tapBarWrap {
+  max-width: 480px;
+  height: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tapBarWrap li {
+  width: 25%;
+  height: 100%;
+  text-align: center;
+}
+.tapBarWrap li a {
+  width: 100%;
+  height: 100%;
+}
+.tapBarWrap li a div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.tapBarWrap li a div p {
+  padding-top: 24px;
+  position: relative;
+}
+.tapBarWrap li a div p::before {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 24%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: "";
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.tapBarWrap li a div .home::before {
+  background-image: url("../../public/assets/icons/home.svg");
+}
+.tapBarWrap li a div .category::before {
+  background-image: url("../../public/assets/icons/burger.svg");
+}
+.tapBarWrap li a div .search::before {
+  background-image: url("../../public/assets/icons/search.svg");
+}
+.tapBarWrap li a div .my::before {
+  background-image: url("../../public/assets/icons/person.svg");
+}
+.tapBarWrap li a div.active p {
+  font-weight: 700;
+  color: #FF4B77;
+}
+.tapBarWrap li a div.active .home::before {
+  background-image: url("../../public/assets/icons/home_pink.svg");
+}
+.tapBarWrap li a div.active .category::before {
+  background-image: url("../../public/assets/icons/burger_pink.svg");
+}
+.tapBarWrap li a div.active .search::before {
+  background-image: url("../../public/assets/icons/search_pink.svg");
+}
+.tapBarWrap li a div.active .my::before {
+  background-image: url("../../public/assets/icons/person_pink.svg");
+}

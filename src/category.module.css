@@ -1,0 +1,30 @@
+.selected {
+  color: #FF4B77;
+}
+
+.category ul {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #CBCBCB;
+}
+.category ul li {
+  display: flex;
+  flex-direction: column;
+}
+.category ul li button {
+  color: black;
+}
+.category ul li div {
+  width: 95px;
+  padding-top: 11px;
+}
+.category ul .selected button {
+  color: #FF4B77;
+  font-weight: bold;
+}
+.category ul .selected div {
+  border-bottom: 3px solid #FF4B77;
+}
+.category section {
+  margin-top: 49px;
+}
