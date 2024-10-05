@@ -1,6 +1,7 @@
 // 2-1. 디테일
 import React, { useState } from "react";
 import detailStyle from "@/styles/detail.module.scss";
+import Link from "next/link";
 
 function Detail() {
   // 탭 메뉴
@@ -8,6 +9,23 @@ function Detail() {
   const tap = (i) => {
     setAll(i);
   };
+
+  //하단의 공연 예매 버튼 
+  // useEffect(() => {
+  //   switch (status) {
+  //     case 'reserved':
+  //       setButtonText('예약하기');
+  //       break;
+  //     case 'completed':
+  //       setButtonText('공연완료');
+  //       break;
+  //     case 'upcoming':
+  //       setButtonText('공연예정');
+  //       break;
+  //     default:
+  //       setButtonText('예약하기'); // 기본값
+  //   }
+  // }, [status]);
 
   return (
     <>
@@ -66,40 +84,45 @@ function Detail() {
           </li>
         </ul>
 
-        <div className="여기까지가 공연 정보">
+        <div className={detailStyle.information}>
           {all === 1 && (
             <div className={detailStyle.info}>
-              {/* 공연 정보 */}
-              <ul>
-                <li>공연정보</li>
-              </ul>
-              <ul className={detailStyle.info2}>
-                <li>대중 음악</li>
-              </ul>
-              {/* 캐스팅 리스트 */}
-              <ul className={detailStyle.cast}>
-                <li>캐스팅</li>
-                <li>
-                  한석규, 신선미, 정재형, 김유진, 송영주, 고상지, 김윤아 등
-                </li>
-              </ul>
-              {/* 가격 */}
-              <ul className={detailStyle.place}>
-                <li>가격</li>
-                <li>
-                  1일권 99,000원, 펫존 1일권 109,00원,펫존 1일권 ＋ MD
-                  148,000원, 얼리버드 티켓 79,000원
-                </li>
-              </ul>
-              <img src="/assets/images/fake_info_img_01.png" />
+              <div className={detailStyle.infoetc}>
+                {/* 공연 정보 */}
+                <ul>
+                  <li>공연정보</li>
+                  <li>대중 음악</li>        
+                </ul>
+                {/* 캐스팅 리스트 */}
+                <ul className={detailStyle.cast}>
+                  <li>캐스팅</li>
+                  <li>
+                    한석규, 신선미, 정재형, 김유진, 송영주, 고상지, 김윤아 등
+                  </li>
+                </ul>
+                {/* 가격 */}
+                <ul className={detailStyle.place}>
+                  <li>가격</li>
+                  <li>
+                    1일권 99,000원, 펫존 1일권 109,00원,펫존 1일권 ＋ MD
+                    148,000원, 얼리버드 티켓 79,000원
+                  </li>
+                </ul>
+                <img src="/assets/images/fake_info_img_01.png" />
 
-              {/* 장소까지 info에 포함되어야 함.  */}
-              <div className={detailStyle.map}>
-                <h2>장소</h2>
-                <p>서울숲공원 (가족마당) </p>
-                <p>서울특별시 성동구 뚝섬로 273</p>
-                <p>02-460-2905</p>
-                <img src="/assets/icons/map.svg" alt="Map" />
+                {/* 장소까지 info에 포함되어야 함.  */}
+                  <hr/>
+                <div className={detailStyle.map}>           
+                  <h2>장소</h2>
+                  <div className={detailStyle.mapinfo}>
+                    <p>서울숲공원 (가족마당) </p>
+                    <p>서울특별시 성동구 뚝섬로 273(성수동1가)</p>
+                      <div className={detailStyle.mapnum}>
+                        <p>02-460-2905</p>
+                        <Link href="">홈페이지</Link>
+                      </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -108,18 +131,27 @@ function Detail() {
         <div className="여기가 리뷰">
           {all === 2 && (
             <div className={detailStyle.reivew}>
-              <p>리뷰 나오는 곳</p>
+              <p>댓글</p>
+              <textarea className={detailStyle.reviewInput} placeholder="후기를 작성해 주세요.">
+                ㅇㅇㅇ
+              </textarea>
             </div>
           )}
         </div>
+
+
+
+
+        
         {all === 3 && (
           <div className={detailStyle.reivew}>
             <p>장소 나오는 곳</p>
           </div>
         )}
-        <div className={detailStyle.footer}>
-          <button className={detailStyle.reserveButton}>예약하기</button>
-        </div>
+       <div className={detailStyle.footer}>
+        <button className={detailStyle.reserveButton}>예약하기</button>
+       </div>
+
       </div>
     </>
   );
