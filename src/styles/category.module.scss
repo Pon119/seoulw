@@ -4,7 +4,7 @@
 }
 
 .category{
-   ul{
+   >ul{
       display: flex;
       justify-content: space-around;
       border-bottom: 1px solid #CBCBCB;
@@ -30,7 +30,13 @@
       }
 
    }
-   section{
+   >section{
       margin-top: 49px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
+      figure{
+   
+      }
    }
 }

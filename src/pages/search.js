@@ -10,6 +10,7 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 // import required modules
 import { FreeMode, Pagination } from 'swiper/modules';
+import Link from 'next/link';
 
 
 function Search() {
@@ -60,25 +61,57 @@ function Search() {
 
       <h2>최근 본 상품</h2>
       <section>
+      <Swiper
+          slidesPerView={2.8}
+          spaceBetween={30}
+          freeMode={true}
+          modules={[FreeMode]}
+          className="mySwiper"
+        >
+        <SwiperSlide>
         <figure>
           <img src='./assets/images/poster_07.jpg'/>
           <p>뮤지컬</p>
           <figcaption>(지킬앤 하이드)</figcaption>
           <button><img src='./assets/icons/x_button.svg'/></button>
         </figure>
+        </SwiperSlide>
+        <SwiperSlide>
         <figure>
           <img src='./assets/images/poster_06.jpg'/>
           <p>연극</p>
-          <figcaption>(더보이즈 인 더 밴드)</figcaption>
+          <figcaption>(더보이즈 인 더밴드)</figcaption>
           <button><img src='./assets/icons/x_button.svg'/></button>
         </figure>
+        </SwiperSlide>
+        <SwiperSlide>
         <figure>
           <img src='./assets/images/poster_04.jpg'/>
           <p>뮤지컬</p>
           <figcaption>(클로버)</figcaption>
           <button><img src='./assets/icons/x_button.svg'/></button>
         </figure>
+        </SwiperSlide>
+        <SwiperSlide>
+        <figure>
+          <img src='./assets/images/poster_06.jpg'/>
+          <p>연극</p>
+          <figcaption>(더보이즈 인 더밴드)</figcaption>
+          <button><img src='./assets/icons/x_button.svg'/></button>
+        </figure>
+        </SwiperSlide>
+        <SwiperSlide>
+        <figure>
+          <img src='./assets/images/poster_04.jpg'/>
+          <p>뮤지컬</p>
+          <figcaption>(클로버)</figcaption>
+          <button><img src='./assets/icons/x_button.svg'/></button>
+        </figure>
+        </SwiperSlide>
+        </Swiper>
       </section>
+
+      <Link href='/bookpage'>b</Link>
     </div>
   )
 }
