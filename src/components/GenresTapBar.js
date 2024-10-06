@@ -4,12 +4,12 @@ import genresTapBarStyle from '@/styles/genresTapBar.module.scss'
 // [↓] swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/pagination';
+import 'swiper/scss';
+// import 'swiper/css/free-mode';
+// import 'swiper/css/pagination';
 // import './styles.css';
 // import required modules
-import { FreeMode, Pagination } from 'swiper/modules';
+import { FreeMode } from 'swiper/modules';
 
 
 const GenresTapBar = () => {
@@ -20,9 +20,9 @@ const GenresTapBar = () => {
         spaceBetween={0}
         freeMode={true}
         pagination={{
-          clickable: true,
+         // clickable: true,
         }}
-        modules={[FreeMode, Pagination]}
+        modules={[FreeMode]}
         className="mySwiper"
       >
         <SwiperSlide><button className={`${genresTapBarStyle.genresBtn} ${genresTapBarStyle.active}`} type='button'>뮤지컬</button></SwiperSlide>

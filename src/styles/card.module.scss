@@ -8,11 +8,12 @@
             border-radius: 10px;
             background-color: #efefef;
             overflow: hidden;
+            position: relative;
             .like{
-                position: relative;
                 &::after{
                     width: 24px;
                     height: 24px;
+                    margin: 8px;
                     display: block;
                     content: '';
                     position: absolute;
@@ -31,9 +32,12 @@
             text-align: center;
             .status{
                 &::after{
-                    width: 60px;
-                    padding: 4px 8px;
-                    display: inline-block;
+                    width: 64px;
+                    height: 22px;
+                    padding: 0 8px;
+                    margin: 0 auto;
+                    display: block;
+                    box-sizing: border-box;
                     font-size: 12px;
                     font-weight: 700;
                     border: 1px solid;
@@ -50,12 +54,8 @@
                 &.ongoing{
                     &::after{
                         content: '공연중';
-                        // padding: 4px 16px;
-                        // font-size: 12px;
-                        // font-weight: 700;
                         color: #FF4B77;
                         border-color: #FF4B77;
-                        // border-radius: 20px;
                     }
                 }
                 &.ended{

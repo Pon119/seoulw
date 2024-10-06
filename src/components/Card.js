@@ -13,7 +13,7 @@ function Card({item}) {
       <figure>
         <div className={cardStyle.imgWrap}>
           <img src={item.img} alt='posterName'/>
-          <button onClick={likeToggle} className={`${cardStyle.like} ${(isActive) ? (cardStyle.active) : ('')}`}>하트</button>
+          <button onClick={likeToggle} className={`${cardStyle.like} ${(isActive) ? (cardStyle.active) : ('')}`} type="button">하트</button>
         </div>
         <figcaption className={cardStyle.imgDescription}>
           <span className={`${cardStyle.status} ${(isPerform === '공연중') ? (cardStyle.ongoing) : (isPerform === '공연 완료' ? cardStyle.ended : cardStyle.upcoming)}`}></span>
@@ -25,7 +25,7 @@ function Card({item}) {
               {item.venue}
             </li>
             <li className={cardStyle.date}>              
-              {item.date}
+              {item.dateFrom}~{item.dateTo}
             </li>
           </ul>
         </figcaption>
