@@ -2,15 +2,18 @@
 import React, { useState } from "react";
 import detailStyle from "@/styles/detail.module.scss";
 import Link from "next/link";
+import { FaStar } from "react-icons/fa";
+import Review from "@/components/Review";
 
 function Detail() {
   // 탭 메뉴
-  const [all, setAll] = useState(1);
+  const [all, setAll] = useState(2);
   const tap = (i) => {
     setAll(i);
   };
 
-  //하단의 공연 예매 버튼 
+  console.log(all);
+  //하단의 공연 예매 버튼
   // useEffect(() => {
   //   switch (status) {
   //     case 'reserved':
@@ -26,6 +29,19 @@ function Detail() {
   //       setButtonText('예약하기'); // 기본값
   //   }
   // }, [status]);
+
+  //리뷰 별점
+
+  // const ARRAY = [0, 1, 2, 3, 4];
+  // const [score, setScore] = useState([false, false, false, false, false]);
+
+  // const starScore = (index) => {
+  //   let star = [...score];
+  //   for (let i = 0; i < 5; i++) {
+  //     star[i] = i <= index ? true : false;
+  //   }
+  //   setScore(star);
+  // };
 
   return (
     <>
@@ -91,7 +107,7 @@ function Detail() {
                 {/* 공연 정보 */}
                 <ul>
                   <li>공연정보</li>
-                  <li>대중 음악</li>        
+                  <li>대중 음악</li>
                 </ul>
                 {/* 캐스팅 리스트 */}
                 <ul className={detailStyle.cast}>
@@ -111,16 +127,16 @@ function Detail() {
                 <img src="/assets/images/fake_info_img_01.png" />
 
                 {/* 장소까지 info에 포함되어야 함.  */}
-                  <hr/>
-                <div className={detailStyle.map}>           
+                <hr />
+                <div className={detailStyle.map}>
                   <h2>장소</h2>
                   <div className={detailStyle.mapinfo}>
                     <p>서울숲공원 (가족마당) </p>
                     <p>서울특별시 성동구 뚝섬로 273(성수동1가)</p>
-                      <div className={detailStyle.mapnum}>
-                        <p>02-460-2905</p>
-                        <Link href="">홈페이지</Link>
-                      </div>
+                    <div className={detailStyle.mapnum}>
+                      <p>02-460-2905</p>
+                      <Link href="">홈페이지</Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -128,30 +144,18 @@ function Detail() {
           )}
         </div>
 
-        <div className="여기가 리뷰">
-          {all === 2 && (
-            <div className={detailStyle.reivew}>
-              <p>댓글</p>
-              <textarea className={detailStyle.reviewInput} placeholder="후기를 작성해 주세요.">
-                ㅇㅇㅇ
-              </textarea>
-            </div>
-          )}
-        </div>
+        {/* <div className="여기가 리뷰"> */}
+        {all === 2 && (<Review />)}
 
-
-
-
-        
         {all === 3 && (
           <div className={detailStyle.reivew}>
             <p>장소 나오는 곳</p>
           </div>
         )}
-       <div className={detailStyle.footer}>
-        <button className={detailStyle.reserveButton}>예약하기</button>
-       </div>
 
+        <div className={detailStyle.footer}>
+          <button className={detailStyle.reserveButton}>예약하기</button>
+        </div>
       </div>
     </>
   );

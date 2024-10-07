@@ -1,0 +1,36 @@
+.review {
+  p {
+    margin: 30px 0 30px;
+  }
+  .input {
+    width: 100%;
+    border: 1px solid #000;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .starbox {
+    margin: 30px 0 30px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 40px 0 40px;
+
+    .star {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    textarea {
+      width: 360px;
+      height: 252px;
+    }
+  }
+  .text{
+    display: flex;
+    justify-content: space-evenly;
+    
+  }
+}
