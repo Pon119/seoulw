@@ -41,7 +41,7 @@ const HeaderMain = () => {
           <Link href='/search'>
             <button type='button' className={headerStyle.search}></button>
           </Link>
-          <Link href='/mypage'>
+          <Link href='mypage'>
             <button type='button' className={headerStyle.myPage}></button>
           </Link>
         </div>
