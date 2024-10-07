@@ -19,6 +19,12 @@ function Header() {
     case '/detail':
       header = <HeaderMain />
       break;
+    case '/mypage':
+      header = <HeaderMypage />
+      break;
+    case '/login':
+      header = <HeaderLogin />
+      break;
     default:
       header = <HeaderMain />
       break;
@@ -85,5 +91,20 @@ const HeaderSearch = () => {
     </div>
   )
 }
+const HeaderMypage = () => {
+  return(
+    <div className={headerStyle.mypageHeaderWrap}>
+      <button><img src="../../assets/icons/arrow_left.svg"/></button>
+      <p>마이페이지</p>
+    </div>
+  )
+}
 
+const HeaderLogin = () => {
+  return(
+    <div>
+
+    </div>
+  )
+}
 export default Header

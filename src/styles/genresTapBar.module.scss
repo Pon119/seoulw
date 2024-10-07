@@ -1,5 +1,5 @@
 .genresTapBarWrap{
-    .genresBtn{
+    a{
         padding: 8px 20px;
         background-color: #ffffff;
         border: 1px solid #CBCBCB;
@@ -10,34 +10,29 @@
             color: #ffffff;
             border: none;
             background-color: #FF4B77;
+            font-weight: 700;
         }
     }
-    .genresBtnsUl{
-        overflow-x: auto;
-        white-space: nowrap;
-        display: flex;
-
-
-        &::-webkit-scrollbar {
-            display: none;
-            // opacity: 0;
-        }
-        .genresBtnsLi{
-            &:not(:last-of-type){
-                margin-right: 8px;
+    .genresSwiper{
+        .genresBtnsWrap{
+            li{
+                .btnslide{
+                    .genresBtn{
+                        padding: 8px 20px;
+                        background-color: #ffffff;
+                        border: 1px solid #CBCBCB;
+                        border-radius: 99px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        &.active{
+                            color: #ffffff;
+                            border: none;
+                            background-color: #FF4B77;
+                            font-weight: 700;
+                        }
+                    }
+                }
             }
-            // .genresBtn{
-            //     padding: 8px 20px;
-            //     background-color: #ffffff;
-            //     border: 1px solid #CBCBCB;
-            //     border-radius: 99px;
-            //     overflow: hidden;
-            //     &.active{
-            //         color: #ffffff;
-            //         border: none;
-            //         background-color: #FF4B77;
-            //     }
-            // }
-        }
+        }   
     }
 }

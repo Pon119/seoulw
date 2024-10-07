@@ -73,3 +73,23 @@
         font-weight: 700;
     }
 }
+
+.mypageHeaderWrap{
+    height: 80px;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    position: relative;
+    button{
+        position: absolute;
+        img{
+            width: 24px;
+            height: 24px;
+        }
+    }
+    p{  margin: 0 auto;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+    }
+}

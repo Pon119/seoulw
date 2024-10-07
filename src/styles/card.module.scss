@@ -70,10 +70,24 @@
                 padding: 0 20px;
                 margin: 16px 0 8px;
                 font-weight: 700;
+
+                display: -webkit-box; /* Flexbox를 사용할 때 */
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2; /* 줄 수 설정 */
+                overflow: hidden;
+                text-overflow: ellipsis; /* 생략 기호(...) 표시 */
             }
             ul{
                 .venue{
+                    width: 80%;
+                    margin: 0 auto;
                     font-size: 14px;
+                    
+                    display: -webkit-box; /* Flexbox를 사용할 때 */
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1; /* 줄 수 설정 */
+                    overflow: hidden;
+                    text-overflow: ellipsis; /* 생략 기호(...) 표시 */
                 }
                 .date{
                     font-size: 12px;

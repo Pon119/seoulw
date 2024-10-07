@@ -8,11 +8,15 @@ import Login from './login'
 
 
 function Mypage() {
-  
   const router = useRouter()
   router.push('login')
+  const login = true;
+  const name = '지연'
 
-
+  if(!login) {
+    router.push('login')
+  }
+  
   return (
     <div>
       <div className={mypageStyle.topwrap}>
