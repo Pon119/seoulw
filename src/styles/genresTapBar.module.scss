@@ -1,0 +1,43 @@
+.genresTapBarWrap{
+    .genresBtn{
+        padding: 8px 20px;
+        background-color: #ffffff;
+        border: 1px solid #CBCBCB;
+        border-radius: 99px;
+        overflow: hidden;
+        white-space: nowrap;
+        &.active{
+            color: #ffffff;
+            border: none;
+            background-color: #FF4B77;
+        }
+    }
+    .genresBtnsUl{
+        overflow-x: auto;
+        white-space: nowrap;
+        display: flex;
+
+
+        &::-webkit-scrollbar {
+            display: none;
+            // opacity: 0;
+        }
+        .genresBtnsLi{
+            &:not(:last-of-type){
+                margin-right: 8px;
+            }
+            // .genresBtn{
+            //     padding: 8px 20px;
+            //     background-color: #ffffff;
+            //     border: 1px solid #CBCBCB;
+            //     border-radius: 99px;
+            //     overflow: hidden;
+            //     &.active{
+            //         color: #ffffff;
+            //         border: none;
+            //         background-color: #FF4B77;
+            //     }
+            // }
+        }
+    }
+}

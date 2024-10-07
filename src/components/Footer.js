@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import footerStyle from "@/styles/footer.module.scss";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 function Footer() {
+  const [unfold, setUnfold] = useState(false);
   const router = useRouter();
   if(router.pathname === '/search' || router.pathname === '/mypage'){
     return null;
+  }
+  const onToggle = () => {
+    console.log('클릭!');    
+    setUnfold((prev) => !prev);
   }
   return (
     <footer className={footerStyle.footer}>
@@ -18,8 +23,11 @@ function Footer() {
       </div>
 
       <div>
-        <h3>서울더블유 주식회사</h3>
-        <ul>
+        <h3>
+          서울더블유 주식회사
+          <button onClick={onToggle} type='button' className={`${footerStyle.toggle} ${unfold ? footerStyle.unfold : ''}`}></button>
+        </h3>
+        <ul className={`${footerStyle.details} ${unfold ? footerStyle.unfold : ''}`}>
           <li>대표 이사: 고유나</li>
           <li>서울 강남구 테헤란로5길 24 장연빌딩 3~6층</li>
           <li>사업자 등록 번호: 123 45 67890</li>
