@@ -1,3 +1,15 @@
+@use "sass:map";
+$mainGenresIcons : (
+    "chair.svg",
+    "main_play.svg",
+    "main_pop.svg",
+    "main_dance.svg",
+    "main_classic.svg",
+    "main_gukak.svg",
+    "main_circus.svg",
+    "main_etc.svg"
+);
+
 .mainWrap{
     .visual{
         .visualSlide{
@@ -7,13 +19,11 @@
                 background-color: #efefef;
                 border-radius: 10px;
                 overflow: hidden;
-
-
             }
         }
     }
     .genresBtns{
-        margin-bottom: 80px;
+        margin: 30px 0 80px;
         .btnsWrap{
             display: flex;
             justify-content: center;
@@ -37,19 +47,22 @@
                     border: 1px solid #cbcbcb;
                     text-align: center;
                     &::before{
-                        width: 40px;
-                        height: 40px;
+                        width: 64px;
+                        height: 64px;
+                        margin: 0 auto;
                         display: block;
-                        border: 1px solid;
+                        // border: 1px solid;
                         content: '';
-                        background: url('../../public/assets/icons/home_pink.svg') center no-repeat;
-                    }                      
-                    button{
-                        font-size: 14px;
-                        &::before{
-                            content: '';
-                            background: url('../../public/assets/icons/home_pink.svg');
-
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    }
+                }
+                @for $i from 1 through length($mainGenresIcons) {
+                    &:nth-of-type(#{$i}){
+                        a{
+                            &::before{
+                                background-image: url('../../public/assets/icons/'+ nth($mainGenresIcons, $i));
+                            }
                         }
                     }
                 }
