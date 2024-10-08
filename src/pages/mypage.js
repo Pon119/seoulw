@@ -2,21 +2,41 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import mypageStyle from '@/styles/mypage.module.scss'
-import Login from './login'
-
+import Swal from 'sweetalert2'
+import Link from 'next/link'
 
 
 
 function Mypage() {
   const router = useRouter()
   const login = true;
-  const name = '지연'
+  const name = '박지연'
 
   if(login) {
     router.push('login')
   } 
-  
 
+  //로그아웃 POPUP
+  function popUp(){
+    Swal.fire({
+    title: "로그아웃",
+    text: "로그아웃 하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#FF4B77",
+    cancelButtonColor: "#8E8E8E",
+    confirmButtonText: "Confirm"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "로그아웃 완료",
+        text: "로그아웃이 완료되었습니다.",
+        confirmButtonColor: "#FF4B77",
+        icon: "success"
+      });
+    }
+  });}
+  
 
   return (
     <div className={mypageStyle.mypagewrap}>
@@ -26,13 +46,12 @@ function Mypage() {
         </div> */}
         <ul>
           <li>안녕하세요. {name}님</li>
-          <li><a href="/edit">회원정보 수정</a></li>
-          <li><a href="/">북마크</a></li>
-          <li><a href="/">나의 리뷰</a></li>
-          <li><a href="/">로그아웃</a></li>
-          <li><a href="/">회원 탈퇴</a></li>
+          <li><Link href="/edit">회원정보 수정</Link></li>
+          <li><Link href="/">북마크</Link></li>
+          <li><Link href="/">나의 리뷰</Link></li>
+          <li onClick={popUp}>로그아웃</li>
+          <li><Link href="/dropout">회원 탈퇴</Link></li>
         </ul>
-      
     </div>
   )
 }
