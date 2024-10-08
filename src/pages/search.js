@@ -1,68 +1,61 @@
 // 3. 검색
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import searchStyle from '@/styles/search.module.scss'
-
+import Link from 'next/link';
+import useSearchStore from '../store/search_store';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
-// import required modules
-import { FreeMode, Pagination } from 'swiper/modules';
-import Link from 'next/link';
+import { FreeMode } from 'swiper/modules';
 
 
 function Search() {
+  const {results, readCookie} = useSearchStore();
+  
+  const [other, setOther] = useState(false);
+  
+  console.log(results);
+  
+  useEffect(()=>{
+    readCookie();
+  },[])
+  
+  
   return (
-    <div className={searchStyle.search}>
-      <h2>최근 검색어</h2>
-      
+    <div className={`search ${searchStyle.search}`}>
+      <h2>최근 검색어</h2>   
       <ul>
-      <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          freeMode={true}
-          modules={[FreeMode]}
-          className="mySwiper"
+      { results.length > 0 ? (
+        <Swiper
+        slidesPerView={'auto'}
+        spaceBetween={30}
+        freeMode={true}
+        modules={[FreeMode]}
+        className="mySwiper"
         >
-        <SwiperSlide>
-        <li>
-          <button>뮤지컬</button>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </li>
-        </SwiperSlide>
-        <SwiperSlide>
-        <li>
-          <button>연극</button>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </li>
-        </SwiperSlide>
-        <SwiperSlide>
-        <li>
-          <button>서커스</button>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </li>
-        </SwiperSlide>
-        <SwiperSlide>
-        <li>
-          <button>연극</button>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </li>
-        </SwiperSlide>
-        <SwiperSlide>
-        <li>
-          <button>서커스</button>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </li>
-        </SwiperSlide>
+          {results.map((result, i) => (
+            <SwiperSlide>
+            <li key={i}>
+              <p>{result.value}</p>
+              <button><img src='./assets/icons/x_button.svg'/></button>
+            </li>
+            </SwiperSlide>
+            )
+          )}
         </Swiper>
+      ) : (
+      <div>
+        <p>최근 검색어가 없습니다.</p>
+      </div>
+      )}
       </ul>
 
       <h2>최근 본 상품</h2>
       <section>
-      <Swiper
-          slidesPerView={2.8}
+        <Swiper
+          slidesPerView={3}
           spaceBetween={30}
           freeMode={true}
           modules={[FreeMode]}
