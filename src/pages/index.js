@@ -3,13 +3,14 @@ import Image from "next/image";
 import mainStyle from "@/styles/main.module.scss";
 import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
+import Link from "next/link";
 
 // Import Swiper styles
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/scss';
 import 'swiper/scss/pagination';
 import { Pagination } from 'swiper/modules';
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Main() {
   // 공연목록 가짜 데이터는 7개입니다
@@ -17,64 +18,64 @@ export default function Main() {
     {
       mt20id: 'PF000000',
       prfnm: '뮤지컬 ( 베르사유의 장미 )',
-      performing: '공연중',
-      venue: '서울 블루스퀘어 신한카드 홀 10420 1024',
-      dateFrom:'2024.11.29',
-      dateTo:'2025.05.18',
+      prfstate: '공연중',
+      fcltynm: '서울 블루스퀘어 신한카드 홀 10420 1024',
+      prfpdfrom:'2024.11.29',
+      prfpdto:'2025.05.18',
       poster:'/assets/images/poster_01.jpg'
     },
     {
       mt20id: 'PF000001',
       prfnm: '제20회 숙명여자대학교 문화예술대학원 전통예술학과 전통음악전공 정기연주회: 절차탁마',
-      performing: '공연 예정',
-      venue: '대학로 자유 극장',
-      dateFrom:'2024.11.29',
-      dateTo:'2025.05.18',
+      prfstate: '공연 예정',
+      fcltynm: '대학로 자유 극장',
+      prfpdfrom:'2024.11.29',
+      prfpdto:'2025.05.18',
       poster:'/assets/images/poster_02.jpg'
     },
     {
       mt20id: 'PF000002',
       prfnm: '국립심포니오케스트라 실내악 시리즈 Ⅱ, 정화된 밤',
-      performing: '공연 예정',
-      venue: '홍익대 대학로 아트센터 대극장',
-      dateFrom:'2024.11.29',
-      dateTo:'2025.05.18',
+      prfstate: '공연 예정',
+      fcltynm: '홍익대 대학로 아트센터 대극장',
+      prfpdfrom:'2024.11.29',
+      prfpdto:'2025.05.18',
       poster:'/assets/images/poster_03.jpg'
     },
     {
       mt20id: 'PF000003',
       prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
-      performing: '공연 예정',
-      venue: '블루스퀘어 신한카드 홀',
-      dateFrom:'2024.11.29',
-      dateTo:'2025.05.18',
+      prfstate: '공연 예정',
+      fcltynm: '블루스퀘어 신한카드 홀',
+      prfpdfrom:'2024.11.29',
+      prfpdto:'2025.05.18',
       poster:'/assets/images/poster_04.jpg'
     },
     {
       mt20id: 'PF000004',
       prfnm: '뮤지컬 ( 클로버 )',
-      performing: '공연 완료',
-      venue: '블루스퀘어 신한카드 홀',
-      dateFrom:'2024.11.29',
-      dateTo:'2025.05.18',
+      prfstate: '공연 완료',
+      fcltynm: '블루스퀘어 신한카드 홀',
+      prfpdfrom:'2024.11.29',
+      prfpdto:'2025.05.18',
       poster:'/assets/images/poster_05.jpg'
     },
     {
       mt20id: 'PF000005',
       prfnm: '뮤지컬 ( 부치하난 )',
-      performing: '공연 완료',
-      venue: '블루스퀘어 신한카드 홀',
-      dateFrom:'2024.11.29',
-      dateTo:'2025.05.18',
+      prfstate: '공연 완료',
+      fcltynm: '블루스퀘어 신한카드 홀',
+      prfpdfrom:'2024.11.29',
+      prfpdto:'2025.05.18',
       poster:'/assets/images/poster_06.jpg'
     },
     {
       mt20id: 'PF000006',
       prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
-      performing: '공연중',
-      venue: '블루스퀘어 신한카드 홀',
-      dateFrom:'2024.01.09',
-      dateTo:'2025.05.18',
+      prfstate: '공연중',
+      fcltynm: '블루스퀘어 신한카드 홀',
+      prfpdfrom:'2024.01.09',
+      prfpdto:'2025.05.18',
       poster:'/assets/images/poster_07.jpg'
     }
   ]
@@ -185,7 +186,8 @@ export default function Main() {
 
   return (
     <div className={mainStyle.mainWrap}>
-      <section className={mainStyle.visual}>
+      {/* 비주얼 */}
+      <section className={`mainVisualCommon ${mainStyle.visual}`}>
         <Swiper
           pagination = {{
             type: 'fraction',
@@ -196,13 +198,13 @@ export default function Main() {
         >
           {
             dummyData.map((item) => (
-              <SwiperSlide className={mainStyle.slidePage}>
+              <SwiperSlide key={item.mt20id} className={mainStyle.slidePage}>
                 <div className={mainStyle.slideWrap}>
                   <img className={mainStyle.slideImg} src={item.poster} />
                   <div className={mainStyle.slideTextWrap}>
                     <h2>{item.prfnm}</h2>
-                    <p className={mainStyle.venue}>{item.venue}</p>
-                    <p className={mainStyle.date}>{item.dateFrom} ~ {item.dateTo}</p>
+                    <p className={mainStyle.venue}>{item.fcltynm}</p>
+                    <p className={mainStyle.date}>{item.prfpdfrom} ~ {item.prfpdto}</p>
                   </div>
                 </div>
               </SwiperSlide>
@@ -214,6 +216,8 @@ export default function Main() {
           <SwiperSlide className={mainStyle.slidePage}><img src={dummyData[4].img} /></SwiperSlide> */}
         </Swiper>
       </section>
+
+      {/* 버튼 */}
       <section className={mainStyle.genresBtns}>
           <ul className={mainStyle.btnsWrap}>
             <li className={mainStyle.btnSubWrapTop}>
@@ -235,85 +239,135 @@ export default function Main() {
           </ul>
       </section>
 
-      <section className={mainStyle.mainContents}>
+      {/* 메인 콘텐츠 */}
+      <section className={`mainContentsCommon ${mainStyle.mainContents}`}>
+        {/* 이번주 공연 */}
         <article className={mainStyle.thisWeek}>
-          <div className={mainStyle.titleWrap}>
+          <div className={`${mainStyle.titleWrap}`}>
             <h2>이번주 공연</h2>
-            <ViewAll link = {'#'} />
+            <ViewAll link = {'/'} />
           </div>
-          <GenresTapBar />
-          <ul className={mainStyle.itemsWrap}>
-            {dummyData.map((item) => (
-              <li>
-                  <Card key={item.mt20id} item={item}/>
-              </li>
-            ))}
-          </ul>
+          <div className={mainStyle.genresTapBarWrap}>
+            <GenresTapBar />
+          </div>
+          <div className={mainStyle.swiperWrap}>
+            <BasicSwiper dataArr={dummyData} />
+          </div>
         </article>
 
+        {/* 공연 예정 */}
         <article className={mainStyle.upcoming}>
           <div className={mainStyle.titleWrap}>
             <h2>공연 예정</h2>
-            <ViewAll link = {'#'} />
+            <ViewAll link = {'/category'} />
           </div>
-          <GenresTapBar />
-          <ul className={mainStyle.itemsWrap}>
-            {dummyData.map((item) => (
-              <li>
-                <SmallCard item={item} />
-              </li>
-            ))}
-          </ul>
+          <div className={mainStyle.genresTapBarWrap}>
+            <GenresTapBar />
+          </div>
+          <div className={mainStyle.swiperWrap}>
+            <ListSwiper dataArr={dummyData} />
+          </div>
         </article>
 
+        {/* 장르별 */}
         <article className={mainStyle.byGenres}>
           <div className={mainStyle.titleWrap}>
             <h2>장르별</h2>
-            <ViewAll link = {'#'} />
+            <ViewAll link = {'/'} />
           </div>
-          <GenresTapBar />
-          <ul className={mainStyle.itemsWrap}>
-            {dummyData.map((item) => (
-              <li>
-                  <Card key={item.mt20id} item={item}/>
-              </li>
-            ))}
-          </ul>
+          <div className={mainStyle.genresTapBarWrap}>
+            <GenresTapBar />
+          </div>
+          <div className={mainStyle.swiperWrap}>
+            <BasicSwiper dataArr={dummyData} />
+          </div>
         </article>
 
+        {/* 관람 후기 */}
         <article className={mainStyle.reviews}>
           <div className={mainStyle.titleWrap}>
             <h2>관람 후기</h2>
-            <ViewAll link = {'#'} />
+            <ViewAll link = {'/'} />
           </div>
-          <ul>
-            컨텐츠
+          <ul className={mainStyle.reviewWrap}>
+            {(reviewDummyData.slice(0,3)).map((item) => (
+              <li key={`${item.mt20id}-${item.userid}`}>
+                <MainReview item={item} />
+              </li>
+            ))}
           </ul>
+          <div className={mainStyle.newReviewsBtnWrap}>
+            <button className={mainStyle.newReviewsBtn} type="button">관람 후기 새로 보기</button>
+          </div>
         </article>
+        
       </section>
     </div>
   );
 }
 
 
+// 전체 보기 버튼
 const ViewAll = ({link}) => {
+  const router = useRouter();
+  const movePage = () => {
+    if(link===''){
+      router.push('/');
+    }else{
+      router.push(link)
+    }
+  }
+
   return(
-    <Link className={mainStyle.viewAllBtn} href={link}>
-      전체보기
-    </Link>
+    <button onClick={movePage} className={mainStyle.viewAllBtn}>전체보기</button>
   )
 }
 
+// 기본 스와이퍼
+const BasicSwiper = ({dataArr}) => {
+  return(
+    <Swiper
+      slidesPerView={'auto'}
+      spaceBetween={10}
+      className={mainStyle.basicSwiper}
+    >
+      {dataArr.map((item) => (
+        <SwiperSlide key={item.mt20id}>
+            <Card key={item.mt20id} item={item}/>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  )
+}
+
+// 리스트 스와이퍼 (공연 예정)
+const ListSwiper = ({dataArr}) => {
+  return(
+    <Swiper
+      slidesPerView={3}
+      spaceBetween={20}
+      freeMode={true}
+      className={mainStyle.basicSwiper}
+    >
+      {dataArr.map((item) => (
+        <SwiperSlide key={item.mt20id}>
+            <SmallCard key={item.mt20id} item={item}/>
+            <SmallCard key={item.mt20id} item={item}/>
+            <SmallCard key={item.mt20id} item={item}/>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  )
+}
+
+// 작은 카드 (공연 예정)
 const SmallCard = ({item}) => {
-  const mm = item.dateFrom.slice(5,7);
-  const dd = item.dateFrom.slice(8,10);
-  const getDay = (dateFrom) => {
+  const getDay = (prfpdfrom) => {
     const week = ['일', '월', '화', '수', '목', '금', '토']
-    const dateFormat = new Date(dateFrom.replace(/\./g, '/'));
+    const dateFormat = new Date(prfpdfrom.replace(/\./g, '/'));
     return week[dateFormat.getDay()];
   }
-  const day = getDay(item.dateFrom);
-
+  const day = getDay(item.prfpdfrom);
   
   return(
     <div className={mainStyle.smallCardWrap}>
@@ -323,12 +377,60 @@ const SmallCard = ({item}) => {
         </div>
         <figcaption className={mainStyle.smallImgDescription}>
           <ul>
-            <li className={mainStyle.date}>{item.dateFrom} ({day}) ~</li>
+            <li className={mainStyle.date}>{item.prfpdfrom} ({day}) ~</li>
             <li className={mainStyle.title}>{item.prfnm}</li>
-            <li className={mainStyle.venue}>{item.venue}</li>
+            <li className={mainStyle.venue}>{item.fcltynm}</li>
           </ul>
         </figcaption>
       </figure>
+    </div>
+  )
+}
+
+// 메인 리뷰
+const MainReview = ({item}) => {
+  let rating = '';
+  switch(item.star){
+    case 10:
+      rating = ''
+      break;
+    case 8:
+      rating = 'eight'
+      break;
+    case 6:
+      rating = 'six'
+      break;
+    case 4:
+      rating = 'four'
+      break;
+    case 2:
+      rating = 'two'
+      break;
+    default:
+      rating = ''
+      break;
+  }
+  const sliceId = (email) => {
+    const atIdx = email.indexOf('@');
+    if(atIdx >= 0){
+      const slicedEmail = (email.slice(0, atIdx)).slice(0, -3) + '***'
+      return slicedEmail
+    }
+  }
+  const slicedId = sliceId(item.userid)
+
+  return(
+    <div className={mainStyle.mainReview}>
+      <p className={mainStyle.title}>{item.prfnm}</p>
+      <h4 className={mainStyle.reviewHeadline}>{item.review}</h4>
+      <p className={mainStyle.review}>{item.review}</p>
+
+      <div className={mainStyle.reviewDetails}>
+        <span className={mainStyle.userid}>{slicedId}</span>
+        <div className={`${mainStyle.starWrap}`}>
+          <span className={`${mainStyle.score} ${mainStyle[rating]}`}>{item.star}</span>
+        </div>
+      </div>
     </div>
   )
 }
