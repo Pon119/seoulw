@@ -1,14 +1,10 @@
-// 2. 카테고리
-import React, { useState } from 'react'
-import categoryStyle from '@/styles/category.module.scss'
+import React from 'react'
+import searchStyle from '@/styles/search.module.scss'
+import useSearchStore from '../store/search_store';
 import Card from '@/components/Card';
 
-function Category() {
-
-  const [all, setAll] = useState(1);
-  const tab = (i)=>{
-    setAll(i);
-  }
+const search2 = () => {
+  const {results} = useSearchStore();
 
   const dummyData = [
     {
@@ -76,69 +72,29 @@ function Category() {
     }
   ]
 
-
   return (
-    <div className={categoryStyle.category}>
-      
-      <ul>
-        <li className={all === 1 ? categoryStyle.selected : ''} onClick={()=>tab(1)}>
-          <button>전체</button>
-          <div></div>
-        </li>
-        <li className={all === 2 ? categoryStyle.selected : ''} onClick={()=>tab(2)}>
-          <button>이번주</button>
-          <div></div>
-        </li>
-        <li className={all === 3 ? categoryStyle.selected : ''} onClick={()=>tab(3)}>
-          <button>공연중</button>
-          <div></div>
-        </li>
-        <li className={all === 4 ? categoryStyle.selected : ''} onClick={()=>tab(4)}>
-          <button>공연 예정</button>
-          <div></div>
-        </li>
-      </ul>
-
-      <section>
-        {all === 1 && (
-          <>
-          {dummyData.map((item) => (
+    <div className={`search ${searchStyle.search}`}>
+      { results.length > 0 ? (
+        <>
+          <h2>검색 결과 <span>(1,000)</span></h2>
+          <div>
+            {dummyData.map((item) => (
               <figure>
                   <Card key={item.id} item={item}/>
               </figure>
             ))}
-          </>
-        )}
-        {all === 2 && (
-          <>
-          <figure>
-            <img src='./assets/images/poster_07.jpg'/>
-            <figcaption>뮤지컬 ( 지킬앤 하이드 ) jeky & Hyde</figcaption>
-          </figure>
-          </>
-        )}
-        {all === 3 && (
-          <>
-          {dummyData.map((item) => (
-              <figure>
-                  <Card key={item.id} item={item}/>
-              </figure>
-            ))}
-          </>
-        )}
-        {all === 4 && (
-          <>
-          <figure>
-            <img src='./assets/images/poster_07.jpg'/>
-            <figcaption>뮤지컬 ( 지킬앤 하이드 ) jeky & Hyde</figcaption>
-          </figure>
-          </>
-        )}
-
-      </section>
-      
+          </div>
+        </>
+      ) : (
+        <>
+          <h2>검색 결과 <span>(0)</span></h2>
+          <div className={searchStyle.none}>
+            <p>검색 결과가 없습니다.</p>
+          </div>
+        </>
+      )}
     </div>
   )
 }
 
-export default Category
+export default search2
