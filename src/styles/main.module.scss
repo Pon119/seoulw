@@ -1,6 +1,6 @@
 @use "sass:map";
 $mainGenresIcons : (
-    "chair.svg",
+    "main_musical.svg",
     "main_play.svg",
     "main_pop.svg",
     "main_dance.svg",
@@ -10,62 +10,165 @@ $mainGenresIcons : (
     "main_etc.svg"
 );
 
+.visual,
+.titleWrap, 
+.reviewWrap,
+.newReviewsBtnWrap{
+    margin: 0 20px;
+}
+.genresTapBarWrap,
+.swiperWrap{
+    margin-left: 20px;
+}
+
+
+
 .mainWrap{
+    margin-bottom: 60px;
+    overflow: hidden;
     .visual{
         .visualSlide{
+            position: relative;
             .slidePage{
                 width: 440px;
                 height: 460px;
                 background-color: #efefef;
                 border-radius: 10px;
                 overflow: hidden;
+                .slideWrap{
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
+                    .slideImg{
+                        object-fit: cover;
+                    }
+                    .slideTextWrap{
+                        width: 240px;
+                        // height: 160px;
+                        padding: 20px;
+                        position: absolute;
+                        bottom: 40px;
+                        left: 40px;
+                        color: #ffffff;
+                        border-radius: 10px;
+                        background-color: rgba($color: #FF4B77, $alpha: 0.8);
+                        h2{
+                            margin-bottom: 20px;
+                            color: inherit;
+                            font-size: 24px;
+                            font-weight: 700;
+
+                            display: -webkit-box; /* Flexbox를 사용할 때 */
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 2; /* 줄 수 설정 */
+                            overflow: hidden;
+                            text-overflow: ellipsis; /* 생략 기호(...) 표시 */
+                        }
+                        .venue{
+                            margin-bottom: 4px;
+                            color: #ffffff;
+                            
+                            display: -webkit-box; /* Flexbox를 사용할 때 */
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 1; /* 줄 수 설정 */
+                            overflow: hidden;
+                            text-overflow: ellipsis; /* 생략 기호(...) 표시 */
+                        }
+                        .date{
+                            color: #cbcbcb;
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+            .swiper-pagination swiper-pagination-fraction swiper-pagination-horizontal{
+                width: fit-content !important; 
+                padding: 4px 16px;
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                border-radius: 20px;
+                background-color: rgba($color: #FF4B77, $alpha: 1.0);
+                color: #ffffff !important;
             }
         }
     }
     .genresBtns{
-        margin: 30px 0 80px;
+        margin: 30px 20px 80px;
         .btnsWrap{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
             li{
-                width: 95px;
-                height: 95px;
-                margin-right: 20px;
-                &:nth-of-type(-n+4){
+                &.btnSubWrapTop{
                     margin-bottom: 20px;
-                }
-                &:nth-of-type(4n){
-                    margin-right: 0;
-                }
-                a{
-                    width: 100%;
-                    height: 100%;
-                    display: block;
-                    border-radius: 10px;                    
-                    border: 1px solid #cbcbcb;
-                    text-align: center;
-                    &::before{
-                        width: 64px;
-                        height: 64px;
-                        margin: 0 auto;
-                        display: block;
-                        // border: 1px solid;
-                        content: '';
-                        background-position: center;
-                        background-repeat: no-repeat;
-                    }
-                }
-                @for $i from 1 through length($mainGenresIcons) {
-                    &:nth-of-type(#{$i}){
-                        a{
-                            &::before{
-                                background-image: url('../../public/assets/icons/'+ nth($mainGenresIcons, $i));
+                    ul{
+                        li{
+                            @for $i from 1 through length($mainGenresIcons) {
+                                &:nth-of-type(#{$i}){
+                                    a{
+                                        &::before{
+                                            background-image: url('../../public/assets/icons/'+ nth($mainGenresIcons, $i));
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                ul{
+                    display: flex;
+                    li{
+                        width: 95px;
+                        height: 95px;
+                        margin-right: 20px;
+                        &:nth-of-type(4){
+                            margin-right: 0;
+                        }
+                        a{
+                            width: 100%;
+                            height: 100%;
+                            display: block;
+                            border-radius: 10px;                    
+                            border: 1px solid #cbcbcb;
+                            text-align: center;
+                            &::before{
+                                width: 64px;
+                                height: 64px;
+                                margin: 0 auto;
+                                display: block;
+                                content: '';
+                                background-position: center;
+                                background-repeat: no-repeat;
+                            }
+                        }
+                    }
+                }
+                &.btnSubWrapBottom{
+                    ul{
+                        li{
+                            @for $i from 5 through length($mainGenresIcons) {
+                                &:nth-of-type(#{$i - 4}){
+                                    a{
+                                        &::before{
+                                            background-image: url('../../public/assets/icons/'+ nth($mainGenresIcons, $i));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                // @for $i from 1 through length($mainGenresIcons) {
+                //     ul{
+                //         li{
+                //             &:nth-of-type(#{$i}){
+                //                 a{
+                //                     &::before{
+                //                         background-image: url('../../public/assets/icons/'+ nth($mainGenresIcons, $i));
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
     }
@@ -84,12 +187,9 @@ $mainGenresIcons : (
                     font-size: 24px;
                 }
             }
-            .itemsWrap{
-                margin-top: 30px;
-            }
         }
-        .thisWeek{
 
+        .thisWeek{
         }
         .upcoming{
             ul{
@@ -104,6 +204,26 @@ $mainGenresIcons : (
         }
         .byGenres{}
         .reviews{
+            width: 100%;
+            .reviewWrap{
+                margin-bottom: 44px;
+            }
+            .newReviewsBtn{
+                padding: 10px 140px;
+                border: 1px solid #cbcbcb;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                &::after{
+                    width: 24px;
+                    height: 24px;
+                    margin-left: 2px;
+                    // vertical-align: middle;
+                    display: block;
+                    content: '';
+                    background: url('../../public/assets/icons/arrow_spin.svg') center no-repeat;
+                }
+            }
 
         }
 
@@ -128,14 +248,21 @@ $mainGenresIcons : (
         background: url('../../public/assets/icons/arrow_right.svg') center no-repeat;
     }
 }
-
+// 기본 스와이퍼
+.basicSwiper{
+    margin-top: 30px;
+}
 // 공연 예정 카드(small)
 .smallCardWrap{
     width: 336px;
+    &:not(:last-of-type){
+        margin-bottom: 12px;
+    }
     figure{
         display: flex;
         align-items: center;
         .smallImgWrap{
+            width: 50%;
             width: 140px;
             height: 170px;
             margin-right: 16px;
@@ -146,6 +273,7 @@ $mainGenresIcons : (
             }
         }
         .smallImgDescription{
+            width: 50%;
             ul{
                 li{
                     &.date{
@@ -156,14 +284,106 @@ $mainGenresIcons : (
                     &.title{
                         margin-bottom: 12px;
                         font-weight: 700;
+
+                        display: -webkit-box; /* Flexbox를 사용할 때 */
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2; /* 줄 수 설정 */
+                        overflow: hidden;
+                        text-overflow: ellipsis; /* 생략 기호(...) 표시 */
                     }
                     &.venue{
                         color: #8E8E8E;
                         font-size: 14px;
+
+                        display: -webkit-box; /* Flexbox를 사용할 때 */
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1; /* 줄 수 설정 */
+                        overflow: hidden;
+                        text-overflow: ellipsis; /* 생략 기호(...) 표시 */
                     }
                 }
             }
 
         }
     }
+}
+
+// 메인 리뷰
+.mainReview{
+    padding: 20px 0;
+    .title{
+        width: 60%;
+        margin-bottom: 12px;
+        color: #8E8E8E;
+        display: -webkit-box; /* Flexbox를 사용할 때 */
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1; /* 줄 수 설정 */
+        overflow: hidden;
+        text-overflow: ellipsis; /* 생략 기호(...) 표시 */
+    }
+    .reviewHeadline{
+        margin-bottom: 10px;
+        width: 80%;
+        font-weight: 700;
+        display: -webkit-box; /* Flexbox를 사용할 때 */
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1; /* 줄 수 설정 */
+        overflow: hidden;
+        text-overflow: ellipsis; /* 생략 기호(...) 표시 */
+    }
+    .review{
+        color: #8E8E8E;
+        font-size: 14px;
+        display: -webkit-box; /* Flexbox를 사용할 때 */
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2; /* 줄 수 설정 */
+        overflow: hidden;
+        text-overflow: ellipsis; /* 생략 기호(...) 표시 */
+    }
+    .reviewDetails{
+        margin-top: 16px;
+        display: flex;
+        font-size: 14px;
+
+        .userid{
+            margin-right: 20px;
+            color: #8E8E8E;
+            font-size: inherit;
+            
+        }
+        .starWrap{
+            width: 100px;
+            vertical-align: middle;
+            overflow: hidden;
+            .score{
+                width: 100%;
+                height: 24px;
+                font-size: 14px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                &::before{
+                    width: 80px;
+                    height: 24px;
+                    margin-right: 4px;
+                    display: block;
+                    content: '';
+                    background: url('../../public/assets/icons/star_5.svg') center no-repeat;
+                }
+                &.eight{
+                    transform: translateX(-16px);
+                }
+                &.six{
+                    transform: translateX(-32px);
+                }
+                &.four{
+                    transform: translateX(-48px);
+                }
+                &.two{
+                    transform: translateX(-64px);
+                }
+            }
+        }
+    }
+
 }

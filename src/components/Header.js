@@ -1,166 +1,180 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import headerStyle from "@/styles/header.module.scss";
-import Link from 'next/link'
-import { useRouter } from 'next/router';
-import useSearchStore from '@/store/search_store';
-import Search from '@/pages/search';
-
+import Link from "next/link";
+import { useRouter } from "next/router";
+import useSearchStore from "@/store/search_store";
+import Search from "@/pages/search";
 
 function Header() {
   const router = useRouter();
   let header;
-  switch(router.pathname){
-    case '/':
-      header = <HeaderMain />
+  switch (router.pathname) {
+    case "/":
+      header = <HeaderMain />;
       break;
-    case '/category':
-      header = <HeaderMain />
+    case "/category":
+      header = <HeaderMain />;
       break;
-    case '/detail':
-      header = <HeaderMain />
+    case "/detail":
+      header = <HeaderMain />;
       break;
-    case '/search':
-      header = <HeaderSearch />
+    case "/search":
+      header = <HeaderSearch />;
       break;
-    case '/search2':
-      header = <HeaderSearch />
+    case "/search2":
+      header = <HeaderSearch />;
       break;
     default:
-      header = <HeaderMain />
+      header = <HeaderMain />;
       break;
   }
-  return (
-    
-    <header>
-      {header}
-    </header>
-  )
+  return <header>{header}</header>;
 }
 
 const HeaderMain = () => {
-  return(
-      <div className={headerStyle.mainHeaderWrap}>
-        <Link href="/">
-          <h1 className='logo'></h1>
+  return (
+    <div className={headerStyle.mainHeaderWrap}>
+      <Link href="/">
+        <h1 className="logo"></h1>
+      </Link>
+      <div className={headerStyle.btnWrap}>
+        <Link href="/search">
+          <button type="button" className={headerStyle.search}></button>
         </Link>
-        <div className={headerStyle.btnWrap}>
-          <Link href='/search'>
-            <button type='button' className={headerStyle.search}></button>
-          </Link>
-          <Link href='mypage'>
-            <button type='button' className={headerStyle.myPage}></button>
-          </Link>
-        </div>
+        <Link href="mypage">
+          <button type="button" className={headerStyle.myPage}></button>
+        </Link>
       </div>
-  )
-}
-
-
-
+    </div>
+  );
+};
 
 const HeaderSub = () => {
-    function goBack() {
-        if (window.history.length > 2) {
-            router.back();  // 히스토리가 있을 때만 뒤로가기
-        } else {
-        router.push('/');  // 히스토리가 없으면 홈으로 이동
-        }
+  function goBack() {
+    if (window.history.length > 2) {
+      router.back(); // 히스토리가 있을 때만 뒤로가기
+    } else {
+      router.push("/"); // 히스토리가 없으면 홈으로 이동
     }
-  return(
+  }
+  return (
     <div className={headerStyle.subHeaderWrap}>
       <h2>
-        <button type='button' className={headerStyle.goBackBtn} onClick={goBack}></button>
+        <button
+          type="button"
+          className={headerStyle.goBackBtn}
+          onClick={goBack}
+        ></button>
         마이페이지
       </h2>
     </div>
-  )
-}
+  );
+};
 
 const HeaderDetail = () => {
-  return(
+  return (
     <div>
       <button></button>
       <h2></h2>
     </div>
-  )
-}
-
+  );
+};
 
 const HeaderSearch = () => {
   const router = useRouter();
-  const {searchWord, setSearchWord, setResults} = useSearchStore();
-  
+  const { searchWord, setSearchWord, setResults } = useSearchStore();
 
   function goBack() {
     if (window.history.length > 2) {
-      router.back();  // 히스토리가 있을 때만 뒤로가기
+      router.back(); // 히스토리가 있을 때만 뒤로가기
     } else {
-      router.push('/');  // 히스토리가 없으면 홈으로 이동
+      router.push("/"); // 히스토리가 없으면 홈으로 이동
     }
   }
-  
-  
+
   const togResult = (e) => {
     e.preventDefault();
     if (searchWord) {
       setResults([searchWord]);
-      router.push('/search2');
+      router.push("/search2");
     }
   };
 
-  return(
+  return (
     <div className={headerStyle.searchWrap}>
-      <button type='button' className={headerStyle.goBackBtn} onClick={goBack}></button>
+      <button
+        type="button"
+        className={headerStyle.goBackBtn}
+        onClick={goBack}
+      ></button>
       <form onSubmit={togResult}>
         <input
-          type='text' name='searchWord' 
+          type="text"
+          name="searchWord"
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
-          placeholder='티켓명, 아티스트명을 검색하세요.'> 
-        </input>
-        <button type='submit'></button>
+          placeholder="티켓명, 아티스트명을 검색하세요."
+        ></input>
+        <button type="submit"></button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 const HeaderSearch2 = () => {
   const router = useRouter();
-  const {searchWord, setSearchWord, setResults} = useSearchStore();
+  const { searchWord, setSearchWord, setResults } = useSearchStore();
 
   function goBack() {
-    router.push('/search');
+    router.push("/search");
   }
-  
+
   const togResult = (e) => {
     e.preventDefault();
     if (searchWord) {
       setResults([searchWord]);
-      router.push('/search2');
+      router.push("/search2");
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!searchWord.trim()) {
-      router.push('/search');
+      router.push("/search");
     }
-  },[searchWord]);
+  }, [searchWord]);
 
-
-  return(
+  return (
     <div className={headerStyle.searchWrap}>
-      <button type='button' className={headerStyle.goBackBtn} onClick={goBack}></button>
+      <button
+        type="button"
+        className={headerStyle.goBackBtn}
+        onClick={goBack}
+      ></button>
       <form onSubmit={togResult}>
         <input
-          type='text' name='searchWord' 
+          type="text"
+          name="searchWord"
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
-          placeholder='티켓명, 아티스트명을 검색하세요.'> 
-        </input>
-        <button type='submit'></button>
+          placeholder="티켓명, 아티스트명을 검색하세요."
+        ></input>
+        <button type="submit"></button>
       </form>
     </div>
-  )
-}
+  );
+};
+const HeaderMypage = () => {
+  return (
+    <div className={headerStyle.mypageHeaderWrap}>
+      <button>
+        <img src="../../assets/icons/arrow_left.svg" />
+      </button>
+      <p>마이페이지</p>
+    </div>
+  );
+};
 
-export default Header
+const HeaderLogin = () => {
+  return <div></div>;
+};
+export default Header;
