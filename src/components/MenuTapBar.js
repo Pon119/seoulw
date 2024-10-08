@@ -15,31 +15,24 @@ const MenuTapBar = () => {
     switch(router.pathname){
       case '/':
         setIsActive(() => 0);
-        console.log(isActive);
         break;
       case '/category':
         setIsActive(() => 1);
-        console.log(isActive);
         break;
       case '/search':
         setIsActive(() => 2);
-        console.log(isActive);
         break;
       case '/mypage':
         setIsActive(() => 3);
-        console.log(isActive);
         break;
       case '/login':
         setIsActive(() => 3);
-        console.log(isActive);
         break;
       default:
         setIsActive(() => 0);
-        console.log(isActive);
         break;
     }
   }, [router.pathname])
-  console.log(isActive);
 
   return (
     <nav>

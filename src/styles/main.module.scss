@@ -81,16 +81,6 @@ $mainGenresIcons : (
                     }
                 }
             }
-            .swiper-pagination swiper-pagination-fraction swiper-pagination-horizontal{
-                width: fit-content !important; 
-                padding: 4px 16px;
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                border-radius: 20px;
-                background-color: rgba($color: #FF4B77, $alpha: 1.0);
-                color: #ffffff !important;
-            }
         }
     }
     .genresBtns{
@@ -205,23 +195,29 @@ $mainGenresIcons : (
         .byGenres{}
         .reviews{
             width: 100%;
+            // padding: 0 20px;
             .reviewWrap{
                 margin-bottom: 44px;
             }
-            .newReviewsBtn{
-                padding: 10px 140px;
-                border: 1px solid #cbcbcb;
-                border-radius: 4px;
-                display: flex;
-                align-items: center;
-                &::after{
-                    width: 24px;
-                    height: 24px;
-                    margin-left: 2px;
-                    // vertical-align: middle;
-                    display: block;
-                    content: '';
-                    background: url('../../public/assets/icons/arrow_spin.svg') center no-repeat;
+            .newReviewsBtnWrap{
+                .newReviewsBtn{
+                    width: 100%;
+                    padding: 10px 50px;
+                    border: 1px solid #cbcbcb;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    white-space: nowrap;
+                    &::after{
+                        width: 24px;
+                        height: 24px;
+                        margin-left: 2px;
+                        // vertical-align: middle;
+                        display: block;
+                        content: '';
+                        background: url('../../public/assets/icons/arrow_spin.svg') center no-repeat;
+                    }
                 }
             }
 

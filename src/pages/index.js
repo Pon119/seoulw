@@ -4,13 +4,16 @@ import mainStyle from "@/styles/main.module.scss";
 import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Import Swiper styles
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/scss';
+import 'swiper/scss/free-mode';
 import 'swiper/scss/pagination';
 import { Pagination } from 'swiper/modules';
-import { useRouter } from "next/router";
+import { FreeMode } from 'swiper/modules';
+
 
 export default function Main() {
   // 공연목록 가짜 데이터는 7개입니다
@@ -210,10 +213,6 @@ export default function Main() {
               </SwiperSlide>
             ))
           }
-          {/* <SwiperSlide className={mainStyle.slidePage}><img src={dummyData[1].img} /></SwiperSlide>
-          <SwiperSlide className={mainStyle.slidePage}><img src={dummyData[2].img} /></SwiperSlide>
-          <SwiperSlide className={mainStyle.slidePage}><img src={dummyData[3].img} /></SwiperSlide>
-          <SwiperSlide className={mainStyle.slidePage}><img src={dummyData[4].img} /></SwiperSlide> */}
         </Swiper>
       </section>
 
@@ -344,9 +343,10 @@ const BasicSwiper = ({dataArr}) => {
 const ListSwiper = ({dataArr}) => {
   return(
     <Swiper
-      slidesPerView={3}
+      slidesPerView={2}
       spaceBetween={20}
       freeMode={true}
+      modules={[FreeMode]}
       className={mainStyle.basicSwiper}
     >
       {dataArr.map((item) => (
