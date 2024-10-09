@@ -4,6 +4,7 @@ import detailStyle from "@/styles/detail.module.scss";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 import Review from "@/components/Review";
+import Map from "@/components/Map";
 
 function Detail() {
   // 탭 메뉴
@@ -150,6 +151,7 @@ function Detail() {
         {all === 3 && (
           <div className={detailStyle.reivew}>
             <p>장소 나오는 곳</p>
+            <Map/>
           </div>
         )}
 
