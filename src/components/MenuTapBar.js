@@ -1,16 +1,33 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import menuTapBarStyle from '@/styles/menuTapBar.module.scss'
 import { useRouter } from 'next/router'
 
 const MenuTapBar = () => {
   const [isActive, setIsActive] = useState(0);
   const [isDetail, setIsDetail] = useState(false);
+  const [buttonText, setButtonText] = useState('예약하기');
   const router = useRouter();
-
   const movePage = (page) => {
     router.push(page)
   }
+
+  const checkStatus = (status) => {
+    switch (status) {
+      case 'reserved':
+        setButtonText('예약하기');
+        break;
+      case 'completed':
+        setButtonText('공연완료');
+        break;
+      case 'upcoming':
+        setButtonText('공연예정');
+        break;
+      default:
+        setButtonText('예약하기'); // 기본값
+    }
+  }
+
 
   useEffect(() => {
     setIsDetail(() => false)
@@ -31,7 +48,9 @@ const MenuTapBar = () => {
         setIsActive(() => 3);
         break;
       case '/detail':
-        setIsDetail(() => true)
+        setIsDetail(() => true)   
+        const status = 'reserved'
+        checkStatus(status);
         break;
       default:
         setIsActive(() => 0);
@@ -45,7 +64,7 @@ const MenuTapBar = () => {
         {
           isDetail ? (
             <div className={menuTapBarStyle.reserveButtonWrap}>
-              <button className={menuTapBarStyle.reserveButton}>예약하기</button>
+              <button className={`${menuTapBarStyle.reserveButton} ${buttonText === '예약하기' ? '' : (buttonText === '공연예정' ? menuTapBarStyle.upcoming : menuTapBarStyle.completed)}`}>{buttonText}</button>
             </div>
           ) : (
             <ul className={menuTapBarStyle.tapBarWrap}>

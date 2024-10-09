@@ -23,8 +23,12 @@
                 background-color: #ff4b77; // 호버 시 배경색 변경
             }
         
-            &:disabled {
-                background-color: #ccc; // 비활성화 상태 색상
+            &.completed {
+                background-color: #8E8E8E; // 비활성화 상태 색상
+                cursor: not-allowed; // 비활성화 상태 커서
+            }
+            &.upcoming {
+                background-color: #0D326F; // 비활성화 상태 색상
                 cursor: not-allowed; // 비활성화 상태 커서
             }
         }
