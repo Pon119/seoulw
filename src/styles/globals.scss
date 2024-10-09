@@ -26,22 +26,17 @@
     margin: 0 auto;
     position: relative;
     .mainVisualCommon{
-      position: relative;
-      .swiper-pagination.swiper-pagination-fraction.swiper-pagination-horizontal{
-        position: absolute;
-        right: 0;
-      }
-        .swiper-pagination-fraction{
-          width: fit-content;
-          padding: 4px 12px;
-          border-radius: 20px;
-          background-color: rgba($color:#2f2f2f, $alpha:0.5);
-          color: #ffffff !important;
-          font-size: 14px;
-          right: 0;
-
-          
-
+      .swiper-pagination {
+        --swiper-pagination-fraction-color: #ffffff;
+        --swiper-pagination-left: 100px;
+        --swiper-pagination-bottom: 16px;
+        // --swiper-pagination-right: 100px;
+        width: auto;
+        padding: 4px 12px;
+        margin-left: 375px;
+        border-radius: 20px;
+        background-color: rgba($color:#2f2f2f, $alpha:0.5);
+        font-size: 14px;
           .swiper-pagination-current,
           .swiper-pagination-total{
             color: #ffffff !important;

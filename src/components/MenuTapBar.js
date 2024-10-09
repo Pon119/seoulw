@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 
 const MenuTapBar = () => {
   const [isActive, setIsActive] = useState(0);
+  const [isDetail, setIsDetail] = useState(false);
   const router = useRouter();
 
   const movePage = (page) => {
@@ -12,6 +13,7 @@ const MenuTapBar = () => {
   }
 
   useEffect(() => {
+    setIsDetail(() => false)
     switch(router.pathname){
       case '/':
         setIsActive(() => 0);
@@ -28,6 +30,9 @@ const MenuTapBar = () => {
       case '/login':
         setIsActive(() => 3);
         break;
+      case '/detail':
+        setIsDetail(() => true)
+        break;
       default:
         setIsActive(() => 0);
         break;
@@ -35,41 +40,50 @@ const MenuTapBar = () => {
   }, [router.pathname])
 
   return (
-    <nav>
-      <ul className={menuTapBarStyle.tapBarWrap}>
-        <li onClick={() => movePage('/')}>
-          <button type='button'>
-            <div className={ `${isActive === 0 ? menuTapBarStyle.active : ''}` }>
-              <p className={menuTapBarStyle.home}>홈</p>
+     
+      <nav className={menuTapBarStyle.menuTapBar}>
+        {
+          isDetail ? (
+            <div className={menuTapBarStyle.reserveButtonWrap}>
+              <button className={menuTapBarStyle.reserveButton}>예약하기</button>
             </div>
-          </button>
-        </li>
-
-        <li onClick={() => movePage('/category')}>
-          <button type='button'>
-            <div className={ `${isActive === 1 ? menuTapBarStyle.active : ''}` }>
-              <p className={menuTapBarStyle.category}>카테고리</p>
-            </div>
-          </button>
-        </li>
-
-        <li onClick={() => movePage('/search')}>
-          <button type='button'>
-            <div className={ `${isActive === 2 ? menuTapBarStyle.active : ''}` }>
-              <p className={menuTapBarStyle.search}>검색</p>
-            </div>
-          </button>
-        </li>
-
-        <li onClick={() => movePage('/mypage')}>
-          <button type='button'>
-            <div className={ `${isActive === 3 ? menuTapBarStyle.active : ''}` }>
-              <p className={menuTapBarStyle.my}>MY</p>
-            </div>
-          </button>
-        </li>
-      </ul>
-    </nav>
+          ) : (
+            <ul className={menuTapBarStyle.tapBarWrap}>
+              <li onClick={() => movePage('/')}>
+                <button type='button'>
+                  <div className={ `${isActive === 0 ? menuTapBarStyle.active : ''}` }>
+                    <p className={menuTapBarStyle.home}>홈</p>
+                  </div>
+                </button>
+              </li>
+      
+              <li onClick={() => movePage('/category')}>
+                <button type='button'>
+                  <div className={ `${isActive === 1 ? menuTapBarStyle.active : ''}` }>
+                    <p className={menuTapBarStyle.category}>카테고리</p>
+                  </div>
+                </button>
+              </li>
+      
+              <li onClick={() => movePage('/search')}>
+                <button type='button'>
+                  <div className={ `${isActive === 2 ? menuTapBarStyle.active : ''}` }>
+                    <p className={menuTapBarStyle.search}>검색</p>
+                  </div>
+                </button>
+              </li>
+      
+              <li onClick={() => movePage('/mypage')}>
+                <button type='button'>
+                  <div className={ `${isActive === 3 ? menuTapBarStyle.active : ''}` }>
+                    <p className={menuTapBarStyle.my}>MY</p>
+                  </div>
+                </button>
+              </li>
+            </ul>            
+          )
+        }
+      </nav>
   )
 }
 
