@@ -1,8 +1,9 @@
 // 3. 검색
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import searchStyle from '@/styles/search.module.scss'
 import Link from 'next/link';
 import useSearchStore from '../store/search_store';
+import { useRouter } from 'next/router';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -13,21 +14,26 @@ import { FreeMode } from 'swiper/modules';
 
 function Search() {
   const {results, readCookie} = useSearchStore();
-  
-  const [other, setOther] = useState(false);
-  
+  const remove = useSearchStore((state) => state.deleteC);
+  const router = useRouter();
+
   console.log(results);
   
   useEffect(()=>{
     readCookie();
   },[])
   
+  const { setSearchWord } = useSearchStore();
+  const pClick = (value) => {
+    setSearchWord(value);
+    router.push('/search2');
+  };
   
   return (
     <div className={`search ${searchStyle.search}`}>
       <h2>최근 검색어</h2>   
       <ul>
-      { results.length > 0 ? (
+      { results!== null && results.length > 0 ? (
         <Swiper
         slidesPerView={'auto'}
         spaceBetween={30}
@@ -35,11 +41,11 @@ function Search() {
         modules={[FreeMode]}
         className="mySwiper"
         >
-          {results.map((result, i) => (
-            <SwiperSlide>
-            <li key={i}>
-              <p>{result.value}</p>
-              <button><img src='./assets/icons/x_button.svg'/></button>
+          {results.slice().reverse().map((result) => (
+            <SwiperSlide key={result.id}>
+            <li>
+              <p onClick={() => pClick(result.value)}>{result.value}</p>
+              <button onClick={() => remove(result.value)}><img src='./assets/icons/x_button.svg'/></button>
             </li>
             </SwiperSlide>
             )

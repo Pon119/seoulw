@@ -22,7 +22,7 @@ function Header() {
       header = <HeaderSearch />;
       break;
     case "/search2":
-      header = <HeaderSearch />;
+      header = <HeaderSearch2 />;
       break;
     default:
       header = <HeaderMain />;
@@ -120,12 +120,12 @@ const HeaderSearch = () => {
     </div>
   );
 };
-
 const HeaderSearch2 = () => {
   const router = useRouter();
   const { searchWord, setSearchWord, setResults } = useSearchStore();
 
   function goBack() {
+    setSearchWord('');
     router.push("/search");
   }
 
@@ -138,10 +138,21 @@ const HeaderSearch2 = () => {
   };
 
   useEffect(() => {
-    if (!searchWord.trim()) {
+    if (!searchWord.trim() === '') {
       router.push("/search");
     }
-  }, [searchWord]);
+  }, [searchWord, router]);
+
+  const handle = (e) => {
+    const value = e.target.value;
+    setSearchWord(value);
+
+    if (value.trim() === '') {
+      setTimeout(()=>{
+        router.push('/search');
+      }, 0);
+    }
+  };
 
   return (
     <div className={headerStyle.searchWrap}>
@@ -155,7 +166,8 @@ const HeaderSearch2 = () => {
           type="text"
           name="searchWord"
           value={searchWord}
-          onChange={(e) => setSearchWord(e.target.value)}
+          onChange={handle}
+          // onChange={(e) => setSearchWord(e.target.value)}
           placeholder="티켓명, 아티스트명을 검색하세요."
         ></input>
         <button type="submit"></button>
@@ -163,6 +175,7 @@ const HeaderSearch2 = () => {
     </div>
   );
 };
+
 const HeaderMypage = () => {
   return (
     <div className={headerStyle.mypageHeaderWrap}>
