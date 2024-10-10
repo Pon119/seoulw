@@ -3,7 +3,6 @@ import Image from "next/image";
 import mainStyle from "@/styles/main.module.scss";
 import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 // Import Swiper styles
@@ -13,6 +12,7 @@ import 'swiper/scss/free-mode';
 import 'swiper/scss/pagination';
 import { Pagination } from 'swiper/modules';
 import { FreeMode } from 'swiper/modules';
+import { useState } from "react";
 
 
 export default function Main() {
@@ -187,6 +187,14 @@ export default function Main() {
     }
   ];
 
+  const moveToDetailPage = () => {
+    //해당 공연 디테일 페이지로 이동
+  }
+
+  const moveToCategoryPage = () => {
+    // 해당 카테고리 페이지로 이동
+  }
+
   return (
     <div className={mainStyle.mainWrap}>
       {/* 비주얼 */}
@@ -202,7 +210,7 @@ export default function Main() {
           {
             dummyData.map((item) => (
               <SwiperSlide key={item.mt20id} className={mainStyle.slidePage}>
-                <div className={mainStyle.slideWrap}>
+                <div onClick={moveToDetailPage} className={mainStyle.slideWrap}>
                   <img className={mainStyle.slideImg} src={item.poster} />
                   <div className={mainStyle.slideTextWrap}>
                     <h2>{item.prfnm}</h2>
@@ -221,18 +229,18 @@ export default function Main() {
           <ul className={mainStyle.btnsWrap}>
             <li className={mainStyle.btnSubWrapTop}>
               <ul>
-                <li><Link href='#'>뮤지컬</Link></li>
-                <li><Link href='#'>연극</Link></li>
-                <li><Link href='#'>대중음악</Link></li>
-                <li><Link href='#'>무용</Link></li>
+                <li onClick={moveToCategoryPage}><button type='button'>뮤지컬</button></li>
+                <li><button type='button'>연극</button></li>
+                <li><button type='button'>대중음악</button></li>
+                <li><button type='button'>무용</button></li>
               </ul>
             </li>
             <li className={mainStyle.btnSubWrapBottom}>
               <ul>
-                <li><Link href='#'>클래식</Link></li>
-                <li><Link href='#'>국악</Link></li>
-                <li><Link href='#'>서커스/마술</Link></li>
-                <li><Link href='#'>기타</Link></li>
+                <li><button type='button'>클래식</button></li>
+                <li><button type='button'>국악</button></li>
+                <li><button type='button'>서커스/마술</button></li>
+                <li><button type='button'>기타</button></li>
               </ul>
             </li>          
           </ul>
@@ -244,7 +252,7 @@ export default function Main() {
         <article className={mainStyle.thisWeek}>
           <div className={`${mainStyle.titleWrap}`}>
             <h2>이번주 공연</h2>
-            <ViewAll link = {'/'} />
+            <ViewAll page = {'/'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
             <GenresTapBar />
@@ -258,7 +266,7 @@ export default function Main() {
         <article className={mainStyle.upcoming}>
           <div className={mainStyle.titleWrap}>
             <h2>공연 예정</h2>
-            <ViewAll link = {'/category'} />
+            <ViewAll page = {'/category'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
             <GenresTapBar />
@@ -272,7 +280,7 @@ export default function Main() {
         <article className={mainStyle.byGenres}>
           <div className={mainStyle.titleWrap}>
             <h2>장르별</h2>
-            <ViewAll link = {'/'} />
+            <ViewAll page = {'/'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
             <GenresTapBar />
@@ -286,11 +294,11 @@ export default function Main() {
         <article className={mainStyle.reviews}>
           <div className={mainStyle.titleWrap}>
             <h2>관람 후기</h2>
-            <ViewAll link = {'/'} />
+            {/* <ViewAll page = {'/'} /> */}
           </div>
           <ul className={mainStyle.reviewWrap}>
             {(reviewDummyData.slice(0,3)).map((item) => (
-              <li key={`${item.mt20id}-${item.userid}`}>
+              <li key={`${item.mt20id}-${item.userid}`} className={mainStyle.reviewItem}>
                 <MainReview item={item} />
               </li>
             ))}
@@ -307,13 +315,13 @@ export default function Main() {
 
 
 // 전체 보기 버튼
-const ViewAll = ({link}) => {
+const ViewAll = ({page}) => {
   const router = useRouter();
   const movePage = () => {
-    if(link===''){
+    if(page === ''){
       router.push('/');
     }else{
-      router.push(link)
+      router.push(page)
     }
   }
 
@@ -341,27 +349,54 @@ const BasicSwiper = ({dataArr}) => {
 
 // 리스트 스와이퍼 (공연 예정)
 const ListSwiper = ({dataArr}) => {
+  let groupDataArr = [];
+ 
+  for(let i=0; i<dataArr.length; i+=3){
+    const emptyItem = {
+      fcltynm: '',
+      mt20id:'',
+      poster:'',
+      prfnm:'',
+      prfpdfrom:'',
+      prfpdto:'',
+      prfstate:''
+    }
+    const group = dataArr.slice(i, i+3)
+    if(group.length < 3){
+      while (group.length < 3) {
+        group.push(emptyItem);
+      }
+    }
+    groupDataArr.push(group);    
+  }
+
+  console.log(groupDataArr);
+
   return(
     <Swiper
-      slidesPerView={2}
+      slidesPerView={'auto'}
       spaceBetween={20}
       freeMode={true}
       modules={[FreeMode]}
       className={mainStyle.basicSwiper}
     >
-      {dataArr.map((item) => (
-        <SwiperSlide key={item.mt20id}>
-            <SmallCard key={item.mt20id} item={item}/>
-            <SmallCard key={item.mt20id} item={item}/>
-            <SmallCard key={item.mt20id} item={item}/>
-        </SwiperSlide>
-      ))}
+      {
+        groupDataArr.map((group, idx) => (
+          <SwiperSlide key={idx}>
+            {group.map((item) => (
+              <SmallCard key={item.mt20id} item={item}/>
+            ))}
+          </SwiperSlide>
+        ))
+      }
     </Swiper>
   )
 }
 
 // 작은 카드 (공연 예정)
 const SmallCard = ({item}) => {
+  const [isVisible, setIsVisible] = useState(true);
+  
   const getDay = (prfpdfrom) => {
     const week = ['일', '월', '화', '수', '목', '금', '토']
     const dateFormat = new Date(prfpdfrom.replace(/\./g, '/'));
@@ -371,18 +406,34 @@ const SmallCard = ({item}) => {
   
   return(
     <div className={mainStyle.smallCardWrap}>
-      <figure>
-        <div className={mainStyle.smallImgWrap}>
-          <img src={item.poster} />
-        </div>
-        <figcaption className={mainStyle.smallImgDescription}>
-          <ul>
-            <li className={mainStyle.date}>{item.prfpdfrom} ({day}) ~</li>
-            <li className={mainStyle.title}>{item.prfnm}</li>
-            <li className={mainStyle.venue}>{item.fcltynm}</li>
-          </ul>
-        </figcaption>
-      </figure>
+      {
+        (item.poster === '') && (item.prfnm === '') && (item.fcltynm === '') && (item.prfpdfrom === '') ?
+        <figure className={mainStyle.notVisible}>
+          <div className={mainStyle.smallImgWrap}>
+            <img src={item.poster} />
+          </div>
+          <figcaption className={mainStyle.smallImgDescription}>
+            <ul>
+              <li className={mainStyle.date}>{item.prfpdfrom} ({day}) ~</li>
+              <li className={mainStyle.title}>{item.prfnm}</li>
+              <li className={mainStyle.venue}>{item.fcltynm}</li>
+            </ul>
+          </figcaption>
+        </figure>
+        : 
+        <figure>
+          <div className={mainStyle.smallImgWrap}>
+            <img src={item.poster} />
+          </div>
+          <figcaption className={mainStyle.smallImgDescription}>
+            <ul>
+              <li className={mainStyle.date}>{item.prfpdfrom} ({day}) ~</li>
+              <li className={mainStyle.title}>{item.prfnm}</li>
+              <li className={mainStyle.venue}>{item.fcltynm}</li>
+            </ul>
+          </figcaption>
+        </figure>
+      }
     </div>
   )
 }
