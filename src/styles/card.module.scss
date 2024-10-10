@@ -43,6 +43,7 @@
                     font-weight: 700;
                     border: 1px solid;
                     border-radius: 20px;
+                    white-space: nowrap;
                 }
                 &.upcoming{
                     &::after{
