@@ -150,7 +150,6 @@ function Detail() {
 
         {all === 3 && (
           <div className={detailStyle.reivew}>
-            <p>장소 나오는 곳</p>
             <Map/>
           </div>
         )}
