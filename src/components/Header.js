@@ -13,7 +13,9 @@ function Header() {
     router.push(page)
   }
   
-
+  if(router.pathname === '/login' || router.pathname === '/join'){
+    return null;
+  }
   let header;
 
   switch (router.pathname) {
@@ -31,9 +33,6 @@ function Header() {
       break;
     case "/search2":
       header = <HeaderSearch />;
-      break;
-    case "/login":
-      header = <HeaderLogin />;
       break;
     default:
       header = <HeaderMain movePage={movePage} />;
@@ -195,8 +194,5 @@ const HeaderMypage = () => {
   );
 };
 
-const HeaderLogin = () => {
-  return <div></div>;
-};
 
 export default Header;

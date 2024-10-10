@@ -6,11 +6,13 @@ import { useRouter } from 'next/router';
 function Footer() {
   const [unfold, setUnfold] = useState(false);
   const router = useRouter();
-  if(router.pathname === '/search' || router.pathname === '/mypage'){
+  if(router.pathname === '/search' 
+      || router.pathname === '/mypage' 
+      || router.pathname === '/login' 
+      || router.pathname === '/join'){
     return null;
   }
   const onToggle = () => {
-    console.log('클릭!');    
     setUnfold((prev) => !prev);
   }
   return (

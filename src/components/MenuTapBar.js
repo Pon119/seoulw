@@ -8,6 +8,11 @@ const MenuTapBar = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [buttonText, setButtonText] = useState('예약하기');
   const router = useRouter();
+
+  if(router.pathname === '/login' || router.pathname === '/join'){
+    return null;
+  }
+
   const movePage = (page) => {
     router.push(page)
   }
@@ -31,6 +36,8 @@ const MenuTapBar = () => {
 
   useEffect(() => {
     setIsDetail(() => false)
+    setIsLogin(() => false)
+
     switch(router.pathname){
       case '/':
         setIsActive(() => 0);
@@ -44,12 +51,9 @@ const MenuTapBar = () => {
       case '/mypage':
         setIsActive(() => 3);
         break;
-      case '/login':
-        setIsActive(() => 3);
-        break;
       case '/detail':
         setIsDetail(() => true)   
-        const status = 'reserved'
+        const status = 'reserved' //하드코딩
         checkStatus(status);
         break;
       default:
@@ -58,15 +62,16 @@ const MenuTapBar = () => {
     }
   }, [router.pathname])
 
-  return (
-     
+  return (     
       <nav className={menuTapBarStyle.menuTapBar}>
         {
           isDetail ? (
             <div className={menuTapBarStyle.reserveButtonWrap}>
               <button className={`${menuTapBarStyle.reserveButton} ${buttonText === '예약하기' ? '' : (buttonText === '공연예정' ? menuTapBarStyle.upcoming : menuTapBarStyle.completed)}`}>{buttonText}</button>
             </div>
-          ) : (
+          )
+          : 
+          (
             <ul className={menuTapBarStyle.tapBarWrap}>
               <li onClick={() => movePage('/')}>
                 <button type='button'>
@@ -101,6 +106,7 @@ const MenuTapBar = () => {
               </li>
             </ul>            
           )
+          
         }
       </nav>
   )
