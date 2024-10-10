@@ -1,7 +1,10 @@
 // 2. 카테고리
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import categoryStyle from '@/styles/category.module.scss'
 import Card from '@/components/Card';
+import GenresTapBar from '@/components/GenresTapBar';
+import axios from 'axios';
+import { sos_code_blue, apiSearch, apiDetail } from '../pages/api/api';
 
 function Category() {
 
@@ -75,10 +78,24 @@ function Category() {
       poster:'/assets/images/poster_07.jpg'
     }
   ]
+  
+
+  useEffect(() => {
+    const search = async () => {
+      let result = await sos_code_blue();
+      console.log(result);
+    };
+  
+    search();
+  }, []);
+
+
+
 
   return (
     <div className={categoryStyle.category}>
-      
+      <div><GenresTapBar/></div>
+
       <ul>
         <li className={all === 1 ? categoryStyle.selected : ''} onClick={()=>tab(1)}>
           <button>전체</button>
@@ -103,7 +120,7 @@ function Category() {
           <>
           {dummyData.map((item) => (
               <figure key={item.id}>
-                  <Card key={item.id} item={item}/>
+                <Card key={item.id} item={item}/>
               </figure>
             ))}
           </>
@@ -120,17 +137,18 @@ function Category() {
           <>
           {dummyData.map((item) => (
               <figure key={item.id}>
-                  <Card item={item}/>
+                <Card item={item}/>
               </figure>
             ))}
           </>
         )}
         {all === 4 && (
           <>
-          <figure>
-            <img src='./assets/images/poster_07.jpg'/>
-            <figcaption>뮤지컬 ( 지킬앤 하이드 ) jeky & Hyde</figcaption>
-          </figure>
+          {dummyData.map((item) => (
+              <figure key={item.id}>
+                <Card item={item}/>
+              </figure>
+            ))}
           </>
         )}
 

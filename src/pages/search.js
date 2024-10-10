@@ -1,5 +1,5 @@
 // 3. 검색
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import searchStyle from '@/styles/search.module.scss'
 import Link from 'next/link';
 import useSearchStore from '../store/search_store';
@@ -11,9 +11,10 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { FreeMode } from 'swiper/modules';
 
+import Card from '@/components/Card';
 
 function Search() {
-  const {results, readCookie} = useSearchStore();
+  const {results, readCookie, setResults} = useSearchStore();
   const remove = useSearchStore((state) => state.deleteC);
   const router = useRouter();
 
@@ -26,6 +27,14 @@ function Search() {
   const { setSearchWord } = useSearchStore();
   const pClick = (value) => {
     setSearchWord(value);
+
+     // 현재 results에서 value를 가져오는 과정
+  const newResults = results.map(result => result.value); // 현재 결과의 value 배열
+  newResults.push(value); // 클릭한 검색어 추가
+
+  console.log('New Results to Set:', newResults); // 디버깅 로그 추가
+  setResults(newResults); // 새로운 결과 설정
+
     router.push('/search2');
   };
   

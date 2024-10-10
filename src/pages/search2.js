@@ -77,7 +77,7 @@ function Search2() {
       { results!== null && results.length > 0 ? (
         <>
           <h2>검색 결과 <span>(1,000)</span></h2>
-          <div>
+          <div className={searchStyle.thousand}>
             {dummyData.map((item) => (
               <figure key={item.id}>
                   <Card key={item.id} item={item}/>

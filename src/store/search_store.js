@@ -24,6 +24,7 @@ const useSearchStore = create((set) => ({
       rere.shift();
     }
     const sortResults = rere.sort((a, b) => a.timestamp - b.timestamp);
+
     document.cookie = `results=${JSON.stringify(sortResults)}; path=/;`;
     return { results: sortResults };
   }),
