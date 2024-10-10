@@ -84,6 +84,7 @@ $mainGenresIcons : (
             }
         }
     }
+    //메인 상단 장르 버튼
     .genresBtns{
         margin: 30px 20px 80px;
         .btnsWrap{
@@ -120,6 +121,8 @@ $mainGenresIcons : (
                             border-radius: 10px;                    
                             border: 1px solid #cbcbcb;
                             text-align: center;
+                            font-size: 14px;
+                            white-space: nowrap;
                             &::before{
                                 width: 60px;
                                 height: 60px;
