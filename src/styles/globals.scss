@@ -18,8 +18,10 @@
   }
   main{
     // border: 1px solid;
-    &.commonPadding{
-      padding: 0 20px;
+    div{
+      &.commonPadding{
+        padding: 0 20px;
+      }
     }
     
     max-width: 480px;
