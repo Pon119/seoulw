@@ -203,6 +203,7 @@ export default function Main() {
           pagination = {{
             type: 'fraction',
           }}
+          loop={true}
           navigation={true}
           modules={[Pagination]}
           className={mainStyle.visualSlide}

@@ -7,11 +7,8 @@ const MenuTapBar = () => {
   const [isActive, setIsActive] = useState(0);
   const [isDetail, setIsDetail] = useState(false);
   const [buttonText, setButtonText] = useState('예약하기');
+  const [hide, setHide] = useState(false);
   const router = useRouter();
-
-  if(router.pathname === '/login' || router.pathname === '/join'){
-    return null;
-  }
 
   const movePage = (page) => {
     router.push(page)
@@ -33,10 +30,13 @@ const MenuTapBar = () => {
     }
   }
 
+  // if(router.pathname === '/login' || router.pathname === '/join'){
+  //   return null;
+  // }
 
   useEffect(() => {
-    setIsDetail(() => false)
-    setIsLogin(() => false)
+    setIsDetail(() => false);
+    setHide(() => false);
 
     switch(router.pathname){
       case '/':
@@ -56,6 +56,9 @@ const MenuTapBar = () => {
         const status = 'reserved' //하드코딩
         checkStatus(status);
         break;
+      case '/login':
+      case '/join':
+        setHide(() => true)
       default:
         setIsActive(() => 0);
         break;
@@ -63,7 +66,7 @@ const MenuTapBar = () => {
   }, [router.pathname])
 
   return (     
-      <nav className={menuTapBarStyle.menuTapBar}>
+      <nav className={`${menuTapBarStyle.menuTapBar} ${hide ? menuTapBarStyle.hide : ''}`}>
         {
           isDetail ? (
             <div className={menuTapBarStyle.reserveButtonWrap}>

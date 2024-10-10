@@ -1,5 +1,8 @@
 .menuTapBar{
     height: 100%;
+    &.hide{
+        display: none;
+    }
     //예매 버튼
     .reserveButtonWrap{
         max-width: 480px;
