@@ -34,6 +34,9 @@ function Header() {
     case "/search2":
       header = <HeaderSearch />;
       break;
+    case "/mypage":
+      header = <HeaderSub name={'마이페이지'} />;
+      break;
     default:
       header = <HeaderMain movePage={movePage} />;
       break;
@@ -67,7 +70,7 @@ const GoBackBtn = () => {
   )
 }
 
-//메인 헤더
+// 메인 헤더
 const HeaderMain = ({movePage}) => {
   
   return (
@@ -81,11 +84,12 @@ const HeaderMain = ({movePage}) => {
   );
 };
 
+// 서브 헤더
 const HeaderSub = ({name}) => {
   return (
     <div className={headerStyle.subHeaderWrap}>
       <GoBackBtn />
-      <h2>{name}</h2>
+      <h2 className={headerStyle.title}>{name}</h2>
     </div>
   );
 };

@@ -278,12 +278,31 @@ $mainGenresIcons : (
             margin-right: 16px;
             border-radius: 10px;
             overflow: hidden;
+            position: relative;
             img{
                 object-fit: cover;
             }
+            .like{
+                &::after{
+                    width: 24px;
+                    height: 24px;
+                    margin: 8px;
+                    display: block;
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    background: url('../../public/assets/icons/heart.svg') center no-repeat;
+                }
+                &.active{
+                    &::after{
+                        background-image: url('../../public/assets/icons/heart_pink.svg');
+                    }
+                }
+            }
         }
         .smallImgDescription{
-            width: 50%;
+            width: 52%;
             ul{
                 li{
                     &.date{
@@ -292,6 +311,7 @@ $mainGenresIcons : (
                         color: #FF4B77;
                     }
                     &.title{
+                        width: 100%;
                         margin-bottom: 12px;
                         font-weight: 700;
                         

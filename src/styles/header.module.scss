@@ -47,6 +47,9 @@
 
 // 뒤로 가기 버튼
 .goBackBtnWrap{
+  position: absolute;
+  top: 33%;
+  left: 20px;
   .goBackBtn {
     &::before {
       width: 24px;
@@ -63,12 +66,11 @@
   height: 100%;
   padding: 0 20px;
   margin: 0 auto;
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  border: 1px solid;
-  h2 {
-    height: 100%;
+  .title {
     text-align: center;
     font-size: 24px;
     font-weight: 700;

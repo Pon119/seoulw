@@ -371,7 +371,6 @@ const ListSwiper = ({dataArr}) => {
     groupDataArr.push(group);    
   }
 
-  console.log(groupDataArr);
 
   return(
     <Swiper
@@ -396,7 +395,12 @@ const ListSwiper = ({dataArr}) => {
 
 // 작은 카드 (공연 예정)
 const SmallCard = ({item}) => {
-  const [isVisible, setIsVisible] = useState(true);
+  // const [isVisible, setIsVisible] = useState(true);
+  const [isActive, setIsActive] = useState(false);
+  const likeToggle = () => {
+    setIsActive((prev) => !prev)
+  }
+
   
   const getDay = (prfpdfrom) => {
     const week = ['일', '월', '화', '수', '목', '금', '토']
@@ -408,23 +412,10 @@ const SmallCard = ({item}) => {
   return(
     <div className={mainStyle.smallCardWrap}>
       {
-        (item.poster === '') && (item.prfnm === '') && (item.fcltynm === '') && (item.prfpdfrom === '') ?
-        <figure className={mainStyle.notVisible}>
+        <figure className={ ((item.poster === '') && (item.prfnm === '') && (item.fcltynm === '') && (item.prfpdfrom === '')) ? mainStyle.notVisible : '' }>
           <div className={mainStyle.smallImgWrap}>
-            <img src={item.poster} />
-          </div>
-          <figcaption className={mainStyle.smallImgDescription}>
-            <ul>
-              <li className={mainStyle.date}>{item.prfpdfrom} ({day}) ~</li>
-              <li className={mainStyle.title}>{item.prfnm}</li>
-              <li className={mainStyle.venue}>{item.fcltynm}</li>
-            </ul>
-          </figcaption>
-        </figure>
-        : 
-        <figure>
-          <div className={mainStyle.smallImgWrap}>
-            <img src={item.poster} />
+            <img src={item.poster} alt={item.prfnm} />
+            <button onClick={likeToggle} className={`${mainStyle.like} ${isActive ? mainStyle.active : ''}`} type="button"></button>
           </div>
           <figcaption className={mainStyle.smallImgDescription}>
             <ul>
