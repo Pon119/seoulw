@@ -4,10 +4,9 @@ import categoryStyle from '@/styles/category.module.scss'
 import Card from '@/components/Card';
 import GenresTapBar from '@/components/GenresTapBar';
 import axios from 'axios';
-import { sos_code_blue, apiSearch, apiDetail } from '../pages/api/api';
+import { handler } from '../pages/api/api';
 
 function Category() {
-
   const [all, setAll] = useState(1);
   const tab = (i)=>{
     setAll(i);
@@ -79,22 +78,28 @@ function Category() {
     }
   ]
   
+  var convert = require('xml-js');
 
   useEffect(() => {
-    const search = async () => {
-      let result = await sos_code_blue();
-      console.log(result);
+    console.log(1);
+    const search = async (id) => {
+      // let a = await axios.get('/api/api?type=apiDetail&mt20id=PF250136');
+      let a = await axios.get('/api/api?type=apiCategory&cpage=2');
+
+      var result2 = convert.xml2json(a.data, {compact: true, spaces: 4});
+      var re = JSON.parse(result2).dbs.db;
+      console.log(re);
     };
-  
-    search();
+    search('play');
   }, []);
 
 
 
-
   return (
-    <div className={categoryStyle.category}>
-      <div><GenresTapBar/></div>
+    <div className={`categoryCommon ${categoryStyle.category}`}>
+      <div className={categoryStyle.genresTapBarWrap}>
+        <GenresTapBar/>
+      </div>
 
       <ul>
         <li className={all === 1 ? categoryStyle.selected : ''} onClick={()=>tab(1)}>
@@ -119,10 +124,8 @@ function Category() {
         {all === 1 && (
           <>
           {dummyData.map((item) => (
-              <figure key={item.id}>
-                <Card key={item.id} item={item}/>
-              </figure>
-            ))}
+            <Card key={item.id} item={item}/>
+          ))}
           </>
         )}
         {all === 2 && (
@@ -136,19 +139,15 @@ function Category() {
         {all === 3 && (
           <>
           {dummyData.map((item) => (
-              <figure key={item.id}>
-                <Card item={item}/>
-              </figure>
-            ))}
+            <Card key={item.id} item={item}/>
+          ))}
           </>
         )}
         {all === 4 && (
           <>
           {dummyData.map((item) => (
-              <figure key={item.id}>
-                <Card item={item}/>
-              </figure>
-            ))}
+            <Card key={item.id} item={item}/>
+          ))}
           </>
         )}
 

@@ -4,6 +4,9 @@
 }
 
 .category{
+   .genresTapBarWrap{
+      margin-left: 20px;
+   }
    >ul{
       display: flex;
       justify-content: space-between;
@@ -38,9 +41,5 @@
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 20px;
       padding: 0 20px;
-      >figure{
-         display: flex;
-         justify-content: center;
-      }
    }
 }

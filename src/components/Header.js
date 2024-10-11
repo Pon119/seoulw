@@ -133,12 +133,6 @@ const HeaderSearch2 = () => {
     }
   };
 
-  useEffect(() => {
-    if (!searchWord.trim() === '') {
-      router.push("/search");
-    }
-  }, [searchWord, router]);
-
   const handle = (e) => {
     const value = e.target.value;
     setSearchWord(value);
@@ -179,11 +173,7 @@ const HeaderSearch3 = () => {
 
   const goBack = () => {
     setSearchWord(''); 
-    if (window.history.length > 2) {
-      router.back();
-    } else {
-      router.push("/"); 
-    }
+    router.back();
   };
 
   const togResult = (e) => {
