@@ -4,15 +4,14 @@ import { useRouter } from "next/router";
 import mypageStyle from "@/styles/mypage.module.scss";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 function Mypage() {
   const router = useRouter();
-  const login = true;
+  // const login = true;
   const name = "박지연";
-
-  if (login) {
-    router.push("login");
-  }
+  const { data: session } = useSession();
+  console.log(session)
 
   //로그아웃 POPUP
   function popUp() {
@@ -26,15 +25,20 @@ function Mypage() {
       confirmButtonText: "Confirm",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "로그아웃 완료",
-          text: "로그아웃이 완료되었습니다.",
-          confirmButtonColor: "#FF4B77",
-          icon: "success",
-        });
+
+        signOut();
+
+        // Swal.fire({
+        //   title: "로그아웃 완료",
+        //   text: "로그아웃이 완료되었습니다.",
+        //   confirmButtonColor: "#FF4B77",
+        //   icon: "success",
+        // });
       }
     });
   }
+
+  if(!session) signIn();
 
   return (
     <div className={mypageStyle.mypagewrap}>
@@ -53,7 +57,8 @@ function Mypage() {
         <li>
           <Link href="/">나의 리뷰</Link>
         </li>
-        <li onClick={popUp}>로그아웃</li>
+        {/* <li onClick={popUp}>로그아웃</li> */}
+        <li onClick={popUp  }>로그아웃</li>
         <li>
           <Link href="/dropout">회원 탈퇴</Link>
         </li>
