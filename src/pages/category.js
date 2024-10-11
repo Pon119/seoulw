@@ -94,7 +94,6 @@ function Category() {
   }, []);
 
 
-
   return (
     <div className={`categoryCommon ${categoryStyle.category}`}>
       <div className={categoryStyle.genresTapBarWrap}>

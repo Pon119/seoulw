@@ -1,4 +1,4 @@
-.genresTapBarWrap{
+.genresTapBar{
     span{
         height: 42px;
         padding: 8px 20px;
@@ -8,6 +8,7 @@
         border-radius: 99px;
         overflow: hidden;
         white-space: nowrap;
+        cursor: pointer;
         &.active{
             color: #ffffff;
             border: none;
@@ -24,6 +25,7 @@
                 border-radius: 99px;
                 overflow: hidden;
                 white-space: nowrap;
+                
                 &.active{
                     color: #ffffff;
                     border: none;

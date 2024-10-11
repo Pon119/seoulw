@@ -26,6 +26,7 @@ $mainGenresIcons : (
 .mainWrap{
     margin-bottom: 60px;
     overflow: hidden;
+    //메인 비주얼 슬라이드
     .visual{
         .visualSlide{
             position: relative;
@@ -39,6 +40,7 @@ $mainGenresIcons : (
                     width: 100%;
                     height: 100%;
                     position: relative;
+                    cursor: pointer;
                     .slideImg{
                         object-fit: cover;
                     }
@@ -81,18 +83,9 @@ $mainGenresIcons : (
                     }
                 }
             }
-            .swiper-pagination swiper-pagination-fraction swiper-pagination-horizontal{
-                width: fit-content !important; 
-                padding: 4px 16px;
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                border-radius: 20px;
-                background-color: rgba($color: #FF4B77, $alpha: 1.0);
-                color: #ffffff !important;
-            }
         }
     }
+    //메인 상단 장르 버튼
     .genresBtns{
         margin: 30px 20px 80px;
         .btnsWrap{
@@ -103,11 +96,11 @@ $mainGenresIcons : (
                         li{
                             @for $i from 1 through length($mainGenresIcons) {
                                 &:nth-of-type(#{$i}){
-                                    a{
+                                    button{
                                         &::before{
                                             background-image: url('../../public/assets/icons/'+ nth($mainGenresIcons, $i));
                                         }
-                                    }
+                                    }   
                                 }
                             }
                         }
@@ -122,16 +115,18 @@ $mainGenresIcons : (
                         &:nth-of-type(4){
                             margin-right: 0;
                         }
-                        a{
+                        button{
                             width: 100%;
                             height: 100%;
                             display: block;
                             border-radius: 10px;                    
                             border: 1px solid #cbcbcb;
                             text-align: center;
+                            font-size: 14px;
+                            white-space: nowrap;
                             &::before{
-                                width: 64px;
-                                height: 64px;
+                                width: 60px;
+                                height: 60px;
                                 margin: 0 auto;
                                 display: block;
                                 content: '';
@@ -146,7 +141,7 @@ $mainGenresIcons : (
                         li{
                             @for $i from 5 through length($mainGenresIcons) {
                                 &:nth-of-type(#{$i - 4}){
-                                    a{
+                                    button{
                                         &::before{
                                             background-image: url('../../public/assets/icons/'+ nth($mainGenresIcons, $i));
                                         }
@@ -172,6 +167,7 @@ $mainGenresIcons : (
             }
         }
     }
+    //메인 장르 버튼 하단 ~ 푸터 이전까지 컨텐츠 묶음
     .mainContents{
         article{
             &:not(:last-of-type){
@@ -205,23 +201,34 @@ $mainGenresIcons : (
         .byGenres{}
         .reviews{
             width: 100%;
+            // padding: 0 20px;
             .reviewWrap{
                 margin-bottom: 44px;
+                .reviewItem{
+                    &:not(:last-of-type){
+                        border-bottom: 1px solid #efefef;
+                    }                    
+                }
             }
-            .newReviewsBtn{
-                padding: 10px 140px;
-                border: 1px solid #cbcbcb;
-                border-radius: 4px;
-                display: flex;
-                align-items: center;
-                &::after{
-                    width: 24px;
-                    height: 24px;
-                    margin-left: 2px;
-                    // vertical-align: middle;
-                    display: block;
-                    content: '';
-                    background: url('../../public/assets/icons/arrow_spin.svg') center no-repeat;
+            .newReviewsBtnWrap{
+                .newReviewsBtn{
+                    width: 100%;
+                    padding: 10px 50px;
+                    border: 1px solid #cbcbcb;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    white-space: nowrap;
+                    &::after{
+                        width: 24px;
+                        height: 24px;
+                        margin-left: 2px;
+                        // vertical-align: middle;
+                        display: block;
+                        content: '';
+                        background: url('../../public/assets/icons/arrow_spin.svg') center no-repeat;
+                    }
                 }
             }
 
@@ -259,21 +266,45 @@ $mainGenresIcons : (
         margin-bottom: 12px;
     }
     figure{
+        cursor: pointer;
         display: flex;
         align-items: center;
+        &.notVisible{
+            opacity: 0;
+            cursor: default;
+        }
         .smallImgWrap{
-            width: 50%;
+            // width: 50%;
             width: 140px;
             height: 170px;
             margin-right: 16px;
             border-radius: 10px;
             overflow: hidden;
+            position: relative;
             img{
                 object-fit: cover;
             }
+            .like{
+                &::after{
+                    width: 24px;
+                    height: 24px;
+                    margin: 8px;
+                    display: block;
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    background: url('../../public/assets/icons/heart.svg') center no-repeat;
+                }
+                &.active{
+                    &::after{
+                        background-image: url('../../public/assets/icons/heart_pink.svg');
+                    }
+                }
+            }
         }
         .smallImgDescription{
-            width: 50%;
+            width: 52%;
             ul{
                 li{
                     &.date{
@@ -282,8 +313,10 @@ $mainGenresIcons : (
                         color: #FF4B77;
                     }
                     &.title{
+                        width: 100%;
                         margin-bottom: 12px;
                         font-weight: 700;
+                        
 
                         display: -webkit-box; /* Flexbox를 사용할 때 */
                         -webkit-box-orient: vertical;
@@ -310,7 +343,8 @@ $mainGenresIcons : (
 
 // 메인 리뷰
 .mainReview{
-    padding: 20px 0;
+    margin: 20px 0;
+    cursor: pointer;
     .title{
         width: 60%;
         margin-bottom: 12px;

@@ -1,6 +1,7 @@
 .cardWrap{
     width: 210px;
     figure{
+        cursor: pointer;
         .imgWrap{
             width: 210px;
             height: 240px;
@@ -42,6 +43,7 @@
                     font-weight: 700;
                     border: 1px solid;
                     border-radius: 20px;
+                    white-space: nowrap;
                 }
                 &.upcoming{
                     &::after{

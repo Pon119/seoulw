@@ -1,62 +1,10 @@
-.mainHeaderWrap {
-  max-width: 480px;
-  height: 100%;
-  padding: 0 20px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  h1 {
-    width: 128px;
-    height: 35px;
-    background: url("../../public/logo.svg") center no-repeat;
-  }
-  .btnWrap {
-    a {
-      button {
-        &::after {
-          width: 32px;
-          height: 32px;
-          display: block;
-          // position: relative;
-        }
-      }
-      .search {
-        margin-right: 12px;
-        &::after {
-          // width: 32px;
-          // height: 32px;
-          // display: block;
-          content: "";
-          background: url("../../public/assets/icons/search.svg") center
-            no-repeat;
-        }
-      }
-      .myPage {
-        &::after {
-          // width: 32px;
-          // height: 32px;
-          // display: block;
-          content: "";
-          background: url("../../public/assets/icons/person.svg") center
-            no-repeat;
-        }
-      }
-    }
-  }
-}
-.subHeaderWrap {
-  max-width: 480px;
-  height: 100%;
-  padding: 0 20px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid;
-  h2 {
-    height: 100%;
-    text-align: center;
+// 뒤로 가기 버튼
+.btnWrapCommon{
+  position: relative;
+  .goBackBtnWrap{
+    position: absolute;
+    top: 33%;
+    left: 20px;
     .goBackBtn {
       &::before {
         width: 24px;
@@ -66,11 +14,104 @@
         background: url("../../public/assets/icons/arrow_left.svg");
       }
     }
-
-    font-size: 24px;
-    font-weight: 700;
   }
 }
+
+// 메인 헤더
+.mainHeaderWrap {
+  max-width: 480px;
+  height: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &.hide{
+    display: none;
+  }
+  h1 {
+    width: 128px;
+    height: 35px;
+    background: url("../../public/logo.svg") center no-repeat;
+    cursor: pointer;
+  }
+  .btnWrap {
+    button {
+      &::after {
+        width: 32px;
+        height: 32px;
+        display: block;
+        // position: relative;
+      }
+    }
+    .search {
+      margin-right: 12px;
+      &::after {
+        // width: 32px;
+        // height: 32px;
+        // display: block;
+        content: "";
+        background: url("../../public/assets/icons/search.svg") center
+          no-repeat;
+      }
+    }
+    .myPage {
+      &::after {
+        // width: 32px;
+        // height: 32px;
+        // display: block;
+        content: "";
+        background: url("../../public/assets/icons/person.svg") center
+          no-repeat;
+      }
+    }    
+  }
+}
+
+// 서브 헤더
+.subHeaderWrap {
+  max-width: 480px;
+  height: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .subtitle {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    // .goBackBtn {
+    //   &::before {
+    //     width: 24px;
+    //     height: 24px;
+    //     display: inline-block;
+    //     content: "";
+    //     background: url("../../public/assets/icons/arrow_left.svg");
+    //   }
+    // }
+
+  }
+}
+
+// 디테일 헤더
+.detailHeaderWrap{
+  max-width: 480px;
+  height: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  .itemTitle{
+    margin-left: 32px;
+    font-size: 20px;
+
+  }
+
+}
+
+// 검색 헤더
 .searchWrap {
   max-width: 480px;
   height: 100%;
@@ -117,3 +158,4 @@
     }
   }
 }
+
