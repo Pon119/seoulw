@@ -83,8 +83,8 @@ function Category() {
   useEffect(() => {
     console.log(1);
     const search = async (id) => {
-      // let a = await axios.get('/api/api?type=apiDetail&mt20id=PF250136');
-      let a = await axios.get('/api/api?type=apiCategory&cpage=2');
+      let a = await axios.get('/api/api?type=apiDetail&mt20id=PF250136');
+      // let a = await axios.get('/api/api?type=apiCategory&cpage=2');
 
       var result2 = convert.xml2json(a.data, {compact: true, spaces: 4});
       var re = JSON.parse(result2).dbs.db;
