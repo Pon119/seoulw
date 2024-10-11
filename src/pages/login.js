@@ -1,11 +1,15 @@
-import React from 'react'
-import Link from 'next/link'
-import loginStyle from '@/styles/login.module.scss'
+import React, { useState } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter } from 'next/router';
+import Logininput from '@/components/Logininput';
+import Link from 'next/link'
+import loginStyle from '@/styles/login.module.scss'
+
 
 
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
   async function handleSubmit(e){
     
@@ -44,12 +48,9 @@ function Login() {
     <div className={loginStyle.loginwrap}>
       <h2>로그인</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-        <input type='Email' label="Email" isRequired className={loginStyle.inputtext} placeholder='이메일 주소'/>
-        <button type="button" class="input_reset_btn input_btn"></button>
-        <p class="error_msg"></p>
-        </div>
-        <input type='password'  className={loginStyle.inputpass} placeholder='비밀번호 (영문/숫자/특수문자 조합 8~15자) '/>
+       <Logininput  type="email" msg="아이디" value={email} setValue={setEmail}/>
+       <Logininput type="password" msg="비밀번호 (영문/숫자/특수문자 조합 8~15자)" value={password} setValue={setPassword} />
+      
         <input type="submit" value="로그인" onClick={() => signIn()} />
         
         <input type='checkbox' className={loginStyle.checkbox} id="chk1" name="chk" defaultChecked/>
