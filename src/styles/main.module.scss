@@ -26,6 +26,7 @@ $mainGenresIcons : (
 .mainWrap{
     margin-bottom: 60px;
     overflow: hidden;
+    //메인 비주얼 슬라이드
     .visual{
         .visualSlide{
             position: relative;
@@ -166,6 +167,7 @@ $mainGenresIcons : (
             }
         }
     }
+    //메인 장르 버튼 하단 ~ 푸터 이전까지 컨텐츠 묶음
     .mainContents{
         article{
             &:not(:last-of-type){
