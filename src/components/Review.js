@@ -5,7 +5,7 @@ import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { collection, addDoc } from "firebase/firestore"; 
-import { db } from "../lib/firebase"
+import db from "../lib/firebase";
 
 function Review() {
   // 더미 임시 데이터
@@ -74,13 +74,15 @@ function Review() {
 
   const handleSubmit = async () => {   
     try {
+      // 내용을 서버에 보내기 > 어찌어찌 성공함.
+      
       const docRef = await addDoc(collection(db, "review"), {
         mt20id :"PF000001",
         userid :"userid",
-        prfnm :"prfnm",
+        prfnm :prfrnmValue,
         star :starValue,
         review :reviewText,
-        postdate : "postdate",
+        postdate : new Date().toLocaleDateString(),
         poster :"poster"
       });
       console.log(docRef);
@@ -88,6 +90,7 @@ function Review() {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+
 
    
     // if (starValue > 0 && reviewText) {

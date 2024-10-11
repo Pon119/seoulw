@@ -79,26 +79,46 @@
       gap: 20px; // 섹션 간 간격
 
       .infoetc {
+        margin-top: 40px;
+
         ul {
           list-style: none;
-          padding: 0;
-          margin: 0;
+          padding: 0;    
           display: flex;
+          margin: 0px 20px;
+
+          .infotitle{
+            width: 20%;
+          }
 
           li {
             margin-bottom: 10px;
-            font-size: 16px;
+            font-size: 16px;  
+            width: 80%;
 
             &:first-child {
               font-weight: bold;
               font-size: 18px;
-              width: auto;
+              
+              white-space: nowrap;
+            }
+
+            &:last-child{
+              margin-bottom: 30px;
             }
           }
         }
 
         .cast {
           margin-top: 10px;
+
+          &:first-child {
+            font-weight: bold;
+            font-size: 18px;
+            width: auto;
+            white-space: nowrap;
+            margin-right: 44px;
+          }
         }
 
         .place {
