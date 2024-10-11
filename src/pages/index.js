@@ -1,19 +1,18 @@
 // 1. 메인
-import Image from "next/image";
-import mainStyle from "@/styles/main.module.scss";
-import Card from "@/components/Card";
-import GenresTapBar from "@/components/GenresTapBar";
-import { useRouter } from "next/router";
 
 // Import Swiper styles
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/scss';
 import 'swiper/scss/free-mode';
 import 'swiper/scss/pagination';
-import { Pagination } from 'swiper/modules';
-import { FreeMode } from 'swiper/modules';
-import { useState } from "react";
+import { Pagination, FreeMode, Autoplay } from 'swiper/modules';
 
+import Image from "next/image";
+import mainStyle from "@/styles/main.module.scss";
+import Card from "@/components/Card";
+import GenresTapBar from "@/components/GenresTapBar";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function Main() {
   // 공연목록 가짜 데이터는 7개입니다
@@ -203,14 +202,18 @@ export default function Main() {
           pagination = {{
             type: 'fraction',
           }}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
           loop={true}
           navigation={true}
-          modules={[Pagination]}
+          modules={[Pagination, Autoplay]}
           className={mainStyle.visualSlide}
         >
           {
-            dummyData.map((item) => (
-              <SwiperSlide key={item.mt20id} className={mainStyle.slidePage}>
+            dummyData.map((item, idx) => (
+              <SwiperSlide key={`${item.mt20id} ${idx}`} className={mainStyle.slidePage}>
                 <div onClick={moveToDetailPage} className={mainStyle.slideWrap}>
                   <img className={mainStyle.slideImg} src={item.poster} />
                   <div className={mainStyle.slideTextWrap}>
@@ -339,8 +342,8 @@ const BasicSwiper = ({dataArr}) => {
       spaceBetween={10}
       className={mainStyle.basicSwiper}
     >
-      {dataArr.map((item) => (
-        <SwiperSlide key={item.mt20id}>
+      {dataArr.map((item, idx) => (
+        <SwiperSlide key={`${item.mt20id} ${item.idx}`}>
             <Card key={item.mt20id} item={item}/>
         </SwiperSlide>
       ))}

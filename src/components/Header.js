@@ -7,40 +7,47 @@ import Search from "@/pages/search";
 
 
 function Header() {
+  const [header, setHeader] = useState();
   const router = useRouter();
 
   const movePage = (page) => {
     router.push(page)
   }
-  
-  if(router.pathname === '/login' || router.pathname === '/join'){
-    return null;
-  }
-  let header;
 
-  switch (router.pathname) {
-    case "/":
-      header = <HeaderMain movePage={movePage} />;
-      break;
-    case "/category":
-      header = <HeaderSub name={'뮤지컬'} />;
-      break;
-    case "/detail":
-      header = <HeaderMain movePage={movePage} />;
-      break;
-    case "/search":
-      header = <HeaderSearch />;
-      break;
-    case "/search2":
-      header = <HeaderSearch />;
-      break;
-    case "/mypage":
-      header = <HeaderSub name={'마이페이지'} />;
-      break;
-    default:
-      header = <HeaderMain movePage={movePage} />;
-      break;
-  }
+  // if(router.pathname === '/login' || router.pathname === '/join'){
+  //   return null;
+  // }
+
+  
+  useEffect(() => {
+    switch (router.pathname) {
+      case "/":
+        setHeader(() => <HeaderMain movePage={movePage} hide={false} /> );
+        break;
+      case "/category":
+        setHeader(() => <HeaderSub name={'뮤지컬'} />);
+        break;
+      case "/detail":
+        setHeader(() => <HeaderDetail name={'서울 숲 재즈 페스티벌'} />);
+        break;
+      case "/search":
+        setHeader(() => <HeaderSearch />);
+        break;
+      case "/search2":
+        setHeader(() => <HeaderSearch />);
+        break;
+      case "/mypage":
+        setHeader(() => <HeaderSub name={'마이페이지'} />);
+        break;
+      case "/login":
+      case "/join":
+        setHeader(() => <HeaderMain movePage={movePage} hide={true} /> );
+        break;
+      default:
+        setHeader(() => <HeaderMain movePage={movePage} hide={false} />);
+        break;
+    }
+  }, [router.pathname])
 
   return (
     <header>
@@ -49,6 +56,7 @@ function Header() {
   );
 }
 
+// 뒤로 가기 버튼
 const GoBackBtn = () => {
   const router = useRouter();
   const goBack = () => {
@@ -71,10 +79,11 @@ const GoBackBtn = () => {
 }
 
 // 메인 헤더
-const HeaderMain = ({movePage}) => {
+const HeaderMain = ({movePage, hide}) => {
+  console.log(hide);
   
   return (
-    <div className={headerStyle.mainHeaderWrap}>
+    <div className={`${headerStyle.mainHeaderWrap} ${hide ? headerStyle.hide : ''}`}>
       <h1 onClick={() => movePage('/')} className="logo"></h1>
       <div className={headerStyle.btnWrap}>
         <button onClick={() => movePage('/search')} type="button" className={headerStyle.search}></button>
@@ -87,22 +96,24 @@ const HeaderMain = ({movePage}) => {
 // 서브 헤더
 const HeaderSub = ({name}) => {
   return (
-    <div className={headerStyle.subHeaderWrap}>
+    <div className={`${headerStyle.subHeaderWrap} ${headerStyle.btnWrapCommon}`}>
       <GoBackBtn />
-      <h2 className={headerStyle.title}>{name}</h2>
+      <h2 className={headerStyle.subtitle}>{name}</h2>
     </div>
   );
 };
 
-const HeaderDetail = ({movePage}) => {
+// 디테일 헤더
+const HeaderDetail = ({name}) => {
   return (
-    <div className={headerStyle.detailHeaderWrap}>
+    <div className={`${headerStyle.detailHeaderWrap} ${headerStyle.btnWrapCommon}`}>
       <GoBackBtn />
-      <h2></h2>
+      <h2 className={headerStyle.itemTitle}>{name}</h2>
     </div>
   );
 };
 
+// 검색 헤더
 const HeaderSearch = () => {
   const router = useRouter();
   const { searchWord, setSearchWord, setResults } = useSearchStore();
@@ -187,16 +198,17 @@ const HeaderSearch2 = () => {
   );
 };
 
-const HeaderMypage = () => {
-  return (
-    <div className={headerStyle.mypageHeaderWrap}>
-      <button type="button">
-        <img src="../../assets/icons/arrow_left.svg" />
-      </button>
-      <p>마이페이지</p>
-    </div>
-  );
-};
+
+// const HeaderMypage = () => {
+//   return (
+//     <div className={headerStyle.mypageHeaderWrap}>
+//       <button type="button">
+//         <img src="../../assets/icons/arrow_left.svg" />
+//       </button>
+//       <p>마이페이지</p>
+//     </div>
+//   );
+// };
 
 
 export default Header;

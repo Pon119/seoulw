@@ -1,3 +1,23 @@
+// 뒤로 가기 버튼
+.btnWrapCommon{
+  position: relative;
+  .goBackBtnWrap{
+    position: absolute;
+    top: 33%;
+    left: 20px;
+    .goBackBtn {
+      &::before {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        content: "";
+        background: url("../../public/assets/icons/arrow_left.svg");
+      }
+    }
+  }
+}
+
+// 메인 헤더
 .mainHeaderWrap {
   max-width: 480px;
   height: 100%;
@@ -6,6 +26,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  &.hide{
+    display: none;
+  }
   h1 {
     width: 128px;
     height: 35px;
@@ -45,48 +68,50 @@
   }
 }
 
-// 뒤로 가기 버튼
-.goBackBtnWrap{
-  position: absolute;
-  top: 33%;
-  left: 20px;
-  .goBackBtn {
-    &::before {
-      width: 24px;
-      height: 24px;
-      display: inline-block;
-      content: "";
-      background: url("../../public/assets/icons/arrow_left.svg");
-    }
-  }
-}
-
+// 서브 헤더
 .subHeaderWrap {
   max-width: 480px;
   height: 100%;
   padding: 0 20px;
   margin: 0 auto;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  .title {
+  .subtitle {
     text-align: center;
     font-size: 24px;
     font-weight: 700;
-    .goBackBtn {
-      &::before {
-        width: 24px;
-        height: 24px;
-        display: inline-block;
-        content: "";
-        background: url("../../public/assets/icons/arrow_left.svg");
-      }
-    }
+    // .goBackBtn {
+    //   &::before {
+    //     width: 24px;
+    //     height: 24px;
+    //     display: inline-block;
+    //     content: "";
+    //     background: url("../../public/assets/icons/arrow_left.svg");
+    //   }
+    // }
 
   }
 }
 
+// 디테일 헤더
+.detailHeaderWrap{
+  max-width: 480px;
+  height: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  .itemTitle{
+    margin-left: 32px;
+    font-size: 20px;
+
+  }
+
+}
+
+// 검색 헤더
 .searchWrap {
   max-width: 480px;
   height: 100%;
@@ -133,3 +158,4 @@
     }
   }
 }
+
