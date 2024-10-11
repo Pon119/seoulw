@@ -22,7 +22,7 @@ function Header() {
       header = <HeaderSearch />;
       break;
     case "/search2":
-      header = <HeaderSearch />;
+      header = <HeaderSearch2 />;
       break;
     default:
       header = <HeaderMain />;
@@ -84,13 +84,9 @@ const HeaderSearch = () => {
   const router = useRouter();
   const { searchWord, setSearchWord, setResults } = useSearchStore();
 
-  function goBack() {
-    if (window.history.length > 2) {
-      router.back(); // 히스토리가 있을 때만 뒤로가기
-    } else {
-      router.push("/"); // 히스토리가 없으면 홈으로 이동
+  function goBack(){
+    router.back();
     }
-  }
 
   const togResult = (e) => {
     e.preventDefault();
@@ -113,20 +109,20 @@ const HeaderSearch = () => {
           name="searchWord"
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
-          placeholder="티켓명, 아티스트명을 검색하세요."
+          placeholder="공연명, 공연장소를 검색하세요."
         ></input>
         <button type="submit"></button>
       </form>
     </div>
   );
 };
-
 const HeaderSearch2 = () => {
   const router = useRouter();
   const { searchWord, setSearchWord, setResults } = useSearchStore();
 
   function goBack() {
-    router.push("/search");
+    setSearchWord('');
+    router.back();
   }
 
   const togResult = (e) => {
@@ -134,6 +130,68 @@ const HeaderSearch2 = () => {
     if (searchWord) {
       setResults([searchWord]);
       router.push("/search2");
+    }
+  };
+
+  const handle = (e) => {
+    const value = e.target.value;
+    setSearchWord(value);
+
+    if (value.trim() === '') {
+      setTimeout(()=>{
+        router.push('/search');
+      }, 0);
+    }
+  };
+
+  return (
+    <div className={headerStyle.searchWrap}>
+      <button
+        type="button"
+        className={headerStyle.goBackBtn}
+        onClick={goBack}
+      ></button>
+      <form onSubmit={togResult}>
+        <input
+          type="text"
+          name="searchWord"
+          value={searchWord}
+          onChange={handle}
+          // onChange={(e) => setSearchWord(e.target.value)}
+          placeholder="공연명, 공연장소를 검색하세요."
+        ></input>
+        <button type="submit"></button>
+      </form>
+    </div>
+  );
+};
+
+
+const HeaderSearch3 = () => {
+  const router = useRouter();
+  const { searchWord, setSearchWord, setResults } = useSearchStore();
+
+  const goBack = () => {
+    setSearchWord(''); 
+    router.back();
+  };
+
+  const togResult = (e) => {
+    e.preventDefault();
+    if (searchWord) {
+      setResults([searchWord]);
+      router.push("/search2");
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSearchWord(value);
+
+    if (value.trim() === '') {
+      setTimeout(() => {
+        router.push('/search');
+      }, 0);
     }
   };
 
@@ -141,7 +199,7 @@ const HeaderSearch2 = () => {
     if (!searchWord.trim()) {
       router.push("/search");
     }
-  }, [searchWord]);
+  }, [searchWord, router]);
 
   return (
     <div className={headerStyle.searchWrap}>
@@ -155,14 +213,16 @@ const HeaderSearch2 = () => {
           type="text"
           name="searchWord"
           value={searchWord}
-          onChange={(e) => setSearchWord(e.target.value)}
+          onChange={handleChange}
           placeholder="티켓명, 아티스트명을 검색하세요."
-        ></input>
+        />
         <button type="submit"></button>
       </form>
     </div>
   );
 };
+
+
 const HeaderMypage = () => {
   return (
     <div className={headerStyle.mypageHeaderWrap}>

@@ -1,5 +1,6 @@
 
 .bookpage{
+   padding: 0 20px;
    >div{
       display: flex;
       justify-content: space-between;
@@ -27,6 +28,12 @@
             padding-top: 14px;
             text-align: center;
             font-weight: 500;
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
          }
          button{
             position: absolute;
