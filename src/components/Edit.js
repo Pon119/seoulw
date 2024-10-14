@@ -1,7 +1,7 @@
 import React from 'react'
 import editStyle from '@/styles/edit.module.scss'
 
-const edit = () => {
+const Edit = () => {
   const idName = 'parkwl***'
   return (
     <div className={editStyle.editwrap}>
@@ -27,4 +27,4 @@ const edit = () => {
   )
 }
 
-export default edit
+export default Edit
