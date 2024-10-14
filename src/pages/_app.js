@@ -3,14 +3,22 @@ import Footer from "@/components/Footer";
 import MenuTapBar from "@/components/MenuTapBar";
 import "@/styles/globals.scss";
 import "@/styles/reset.scss";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Head from 'next/head'
 import { SessionProvider } from "next-auth/react"
+import useCategoryStore from '@/store/category_store';
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
   }) {
+
+  const {setCategory} = useCategoryStore();
+  useEffect(()=>{
+    setCategory();
+  },[])
+
+
   return (
     <>
     <SessionProvider session={session}>

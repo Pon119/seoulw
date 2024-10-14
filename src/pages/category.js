@@ -5,9 +5,13 @@ import Card from '@/components/Card';
 import GenresTapBar from '@/components/GenresTapBar';
 import axios from 'axios';
 import { handler } from '../pages/api/api';
+import useCategoryStore from '@/store/category_store';
+import { fn } from '@/utils/apiFunc';
 
 function Category() {
   const [all, setAll] = useState(1);
+  const [dataMusical, setDataMusical] = useState([]);
+  
   const tab = (i)=>{
     setAll(i);
   }
@@ -78,21 +82,30 @@ function Category() {
     }
   ]
   
-  var convert = require('xml-js');
 
-  useEffect(() => {
-    console.log(1);
-    const search = async (id) => {
-      let a = await axios.get('/api/api?type=apiDetail&mt20id=PF250136');
-      // let a = await axios.get('/api/api?type=apiCategory&cpage=2');
+let count = 1;
 
-      var result2 = convert.xml2json(a.data, {compact: true, spaces: 4});
-      var re = JSON.parse(result2).dbs.db;
-      console.log(re);
-    };
-    search('play');
+useEffect(() => {
+  /** xml - json 변환 함수(axios get값, 카테고리만 장르 써주기*/
+  (async function(){
+    // let a=await fn.category('musical', count); 
+    let b=await fn.thisWeek('musical', count); 
+    let c=await fn.ing('play', count); 
+    // let d=await fn.upcoming('circus', count); 
+    // let c=await fn.category('musical', count); 
+    // setDataMusical(a);
+    count++;
+    // console.log(c);
+    // console.log(d);
+    // console.log(b);
+  }());
+
+
+
   }, []);
 
+  
+  if(!dataMusical.length) return<></>;
 
   return (
     <div className={`categoryCommon ${categoryStyle.category}`}>
