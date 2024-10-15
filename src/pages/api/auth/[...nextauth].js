@@ -30,7 +30,12 @@ export const authOptions = {
           const querySnapshot = await getDocs(q);
 
           if(!querySnapshot.empty){
-            return { email, name: email };
+            let userName='';
+
+            querySnapshot.forEach(item=>{
+              userName = item.data().userName;
+            })
+            return { email, name: userName};
           }else{
 
             const f = query(

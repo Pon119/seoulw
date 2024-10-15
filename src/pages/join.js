@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import joinStyle from '@/styles/join.module.scss';
 import { useRouter } from 'next/router';
 import Logininput from '@/components/Logininput';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, query, where , getDocs} from 'firebase/firestore';
 import db from '@/lib/firebase';
 
 function Join() {
@@ -11,7 +11,7 @@ function Join() {
     const [password, setPassword] = useState('');
     const [joinname, setJoinname] = useState('');
     const [phone, setPhone] = useState('');
-
+    const [emailExists, setEmailExists] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
    
@@ -71,13 +71,16 @@ function Join() {
         });
     }
 
+   
+
+
     return (
         <div className={joinStyle.loginwrap}>
             <h2>회원가입</h2>
             <form onSubmit={handleSubmit}>
                 <div className={joinStyle.loginrow}>
                     <Logininput type="email" msg="아이디" value={email} setValue={setEmail} />
-                    <button>중복 체크</button>
+                    <button type="button">중복 체크</button>
                 </div>
                 <Logininput type="password" msg="비밀번호 (영문/숫자/특수문자 조합 8~15자)" value={password} setValue={setPassword} />
                 <Logininput type="password" msg="비밀번호 확인" value={confirmPassword} setValue={setConfirmPassword} />
