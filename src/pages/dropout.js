@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Swal from 'sweetalert2';
 import dropoutStyle from '@/styles/dropout.module.scss'
-import { useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import db from '@/lib/firebase';
 import { collection,getDocs, query, where, deleteDoc, doc  } from 'firebase/firestore';
 import { useRouter } from 'next/router';
@@ -14,12 +14,24 @@ const dropout = () => {
   
   // 이메일로 회원을 찾고, 해당 회원의 정보를 삭제하는 함수
   const handleDropout = async () => {
-    if (isAgreed) {
+    if (isAgreed && session?.user?.email) {
       try {
-        await deleteDoc(collection(db, "member", id),{
-            
-        }) 
-        router.push('/');// 홈으로 리다이렉트
+        const userEmail = session.user.email; 
+        const memberRef = collection(db, 'member'); 
+        //member사용자의 이메일 주소를 사용하여 컬렉션을 쿼리
+        const q = query(memberRef, where('userId', '==', userEmail));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0];
+          const userId = userDoc.id; 
+
+          await deleteDoc(doc(db, 'member', userId));
+          signOut();
+        } else {
+          
+          alert('사용자를 찾을 수 없습니다. 다시 시도해주세요.');
+        }
       } catch (error) {
         console.error('회원 탈퇴 실패:', error.message);
         alert('회원 탈퇴 실패. 다시 시도해주세요.');
@@ -52,6 +64,27 @@ const dropout = () => {
     setIsAgreed(!isAgreed);
   };
 
+
+  // "계속 사용하기" 버튼 클릭 시 호출되는 함수
+  const handleKeepUsing = () => {
+    Swal.fire({
+      title: "계속 사용할래?",
+      text: "정말 계속 사용하시겠습니까?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#FF4B77",
+      cancelButtonColor: "#8E8E8E",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push('/'); // 홈으로 이동
+      }
+    });
+  };
+
+  if(!session) signIn();
+
  
   return (
     <div className={dropoutStyle.dropoutwrap}>
@@ -71,7 +104,7 @@ const dropout = () => {
         <input type='checkbox' className={dropoutStyle.checkbox} id="info1" name="info" onChange={handleCheckboxChange}
           checked={isAgreed} />
         <label for="info1" ><i></i>위 내용을 숙지하였으며 탈퇴에 동의합니다.</label>
-        <input type="submit" className={dropoutStyle.keepbtn} value="계속 사용하기" />
+        <input type="submit" className={dropoutStyle.keepbtn} value="계속 사용하기" onClick={handleKeepUsing} />
         <input type="submit" onClick={popUp} className={dropoutStyle.dropbtn} value="회원 탈퇴" />
         </form>
     </div>

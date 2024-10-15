@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import joinStyle from '@/styles/join.module.scss';
 
-const Logininput = ({ type, id, msg, value, setValue, error }) => {
+const Logininput = ({ type, id, msg, value, setValue, error,readOnly }) => {
+
+    console.log(readOnly)
     const [visible, setVisible] = useState(false);
     
 
@@ -36,7 +38,7 @@ const Logininput = ({ type, id, msg, value, setValue, error }) => {
             icon = "url(./assets/icons/my_password.svg) 15px no-repeat";
             break;
         case 'text':
-            icon = "url(./assets/icons/my_name.svg) 15px 19px no-repeat";
+            icon = "url(./assets/icons/my_name.svg) 15px 50% no-repeat";
             break;
         case 'tel':
             icon = "url(./assets/icons/my_phone.svg) 15px no-repeat";
@@ -53,6 +55,7 @@ const Logininput = ({ type, id, msg, value, setValue, error }) => {
                 onChange={(e) => setValue(e.target.value)} // 입력 값 변경 시 상태 업데이트
                 placeholder={msg}
                 value={value} // 입력 필드의 값
+                disabled={readOnly}
             />
             {value && <button type="button" onClick={clearInput} className={`${joinStyle.input_reset_btn} ${joinStyle.inp_button}`}></button>}
             {(type==='password' && value) && <button type="button" onClick={handleVisible} className={`${joinStyle.input_eye_btn} ${joinStyle.inp_button}`}></button>}
