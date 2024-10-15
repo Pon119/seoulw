@@ -6,8 +6,14 @@ import GenresTapBar from '@/components/GenresTapBar';
 import axios from 'axios';
 import { handler } from '../pages/api/api';
 import { fn } from '@/utils/apiFunc';
+import { useSearchParams } from 'next/navigation'
 
 function Category() {
+
+
+
+
+  // ============================================================================
   const [all, setAll] = useState(1);
   const [clickedGenre, setClickedGenre] = useState(0);
   const [functionData, setFunctionData] = useState([]);

@@ -22,6 +22,7 @@ function getThisWeekDate() {
 }
 let {stdate, eddate} = getThisWeekDate();
 
+
 //api 관련 기본 변수
 const API_KEY = '7b1ab9ea464e4d70ad4c8bad7505f532';
 const defaultParams = {
@@ -79,7 +80,6 @@ async function apiMain(res){
       cpage: 1,
       shcate: shcate
     }
-    // console.log(stdate, eddate);
     // const detailResult = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${mt20id}`, {params: {service:API_KEY} });
 
     requests.genres.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams }})); //장르
@@ -97,6 +97,10 @@ async function apiMain(res){
     ...requests.ing,
     ...requests.upcoming,
   ]);
+  console.log('============================');
+  
+  // console.log(results[4]); 
+  // 0뮤지컬 1연극 2대중음악 3무용 4클래식 여기서 오류남(섞여서 들어옴) 5국악 6서커스/마술 7기타
 
   // results.forEach((result) => {
   //   if(result.length !== 0){
@@ -111,19 +115,20 @@ async function apiMain(res){
     ing: [],
     upcoming: [],
   };
+  
   //results를 각각의 배열에 맞게 분류
-  results.forEach((result, index) => {
+  results.forEach((result, index) => { 
     // 각 요청이 어떤 키에 해당하는지 계산
     const genreIndex = Math.floor(index / 4); // 장르 요청의 인덱스
     const requestTypeIndex = index % 4; // 요청 타입의 인덱스
+    // console.log(`${index}: 장르번호:${genreIndex}  | 넷중:${requestTypeIndex}`);
+    
 
     const genreLabel = genreParams[genreIndex].label; // 장르 라벨
     const typeLabel = ['genres', 'thisWeek', 'ing', 'upcoming'][requestTypeIndex]; // 요청 타입 라벨
 
     if (result.data !== null) {
-      const jsonGenre = convert.xml2json(result.data, {compact: true, spaces: 4});
-      let dataGenre = JSON.parse(jsonGenre).dbs.db;
-
+      let dataGenre = xmlTOjson(result.data)
       response[typeLabel].push({ [genreLabel]: dataGenre }); // 성공 시 데이터 추가
     } else {
       response[typeLabel].push({ [genreLabel]: null }); // 실패 시 null 추가

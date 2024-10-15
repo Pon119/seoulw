@@ -21,87 +21,101 @@ export default function Main() {
   const [clickedGenre, setClickedGenre] = useState(0);
   // console.log(mainData);
   const router = useRouter();
-  let thisWeekData = (mainData.length === 0) ? [] : mainData.thisWeek  //이번주 데이터
-  let upcomingData = (mainData.length === 0) ? [] : mainData.upcoming  //공연예정
-  let genresData = (mainData.length === 0) ? [] : mainData.genres// 장르별
-
-  // const visualDataArr = 
-  const visualData = (Object.values(thisWeekData[1])[0]).map((item) => (
-    item
-  ))
-  console.log(visualData);
-
-  console.log(Object.values(thisWeekData[clickedGenre])[0]);
-  console.log(upcomingData);
-  console.log(genresData);
+  let thisWeekRawData = (mainData.length === 0) ? [] : mainData.thisWeek  //이번주 데이터
+  let upcomingRawData = (mainData.length === 0) ? [] : mainData.upcoming  //공연예정
+  let genresRawData = (mainData.length === 0) ? [] : mainData.genres// 장르별
+  console.log(thisWeekRawData)
+  
+  let thisWeekExtractedData = Object.values(thisWeekRawData[clickedGenre])[0]
+  let upcomingExtractedData = Object.values(upcomingRawData[clickedGenre])[0]
+  let genresExtractedData = Object.values(genresRawData[clickedGenre])[0]
+  const visualData = (Object.values(thisWeekRawData[0])[0]).slice(0,5)
+                                                  //ㄴ 0 연극 
+                                                    // 1 한국음악(국악)
+                                                    // 2 연극 
+                                                    // 3 한국음악(국악) 
+                                                    // 4 연극 
+                                                    // 5 한국음악(국악) 
+                                                    // 6 연극 
+                                                    // 7 한국음악(국악)
+  visualData.forEach((obj) => {
+    console.log(obj.genrenm._text)
+  })
+  
+  
+  
+  // console.log(visualData);
+  // console.log(thisWeekExtractedData);
+  // console.log(upcomingExtractedData);
+  // console.log(genresExtractedData);
 
   
-  // 공연목록 가짜 데이터는 7개입니다
-  const dummyData = [
-    {
-      mt20id: 'PF000000',
-      prfnm: '뮤지컬 ( 베르사유의 장미 )',
-      prfstate: '공연중',
-      fcltynm: '서울 블루스퀘어 신한카드 홀 10420 1024',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_01.jpg'
-    },
-    {
-      mt20id: 'PF000001',
-      prfnm: '제20회 숙명여자대학교 문화예술대학원 전통예술학과 전통음악전공 정기연주회: 절차탁마',
-      prfstate: '공연 예정',
-      fcltynm: '대학로 자유 극장',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_02.jpg'
-    },
-    {
-      mt20id: 'PF000002',
-      prfnm: '국립심포니오케스트라 실내악 시리즈 Ⅱ, 정화된 밤',
-      prfstate: '공연 예정',
-      fcltynm: '홍익대 대학로 아트센터 대극장',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_03.jpg'
-    },
-    {
-      mt20id: 'PF000003',
-      prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
-      prfstate: '공연 예정',
-      fcltynm: '블루스퀘어 신한카드 홀',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_04.jpg'
-    },
-    {
-      mt20id: 'PF000004',
-      prfnm: '뮤지컬 ( 클로버 )',
-      prfstate: '공연 완료',
-      fcltynm: '블루스퀘어 신한카드 홀',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_05.jpg'
-    },
-    {
-      mt20id: 'PF000005',
-      prfnm: '뮤지컬 ( 부치하난 )',
-      prfstate: '공연 완료',
-      fcltynm: '블루스퀘어 신한카드 홀',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_06.jpg'
-    },
-    {
-      mt20id: 'PF000006',
-      prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
-      prfstate: '공연중',
-      fcltynm: '블루스퀘어 신한카드 홀',
-      prfpdfrom:'2024.01.09',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_07.jpg'
-    }
-  ]
+  // // 공연목록 가짜 데이터는 7개입니다
+  // const dummyData = [
+  //   {
+  //     mt20id: 'PF000000',
+  //     prfnm: '뮤지컬 ( 베르사유의 장미 )',
+  //     prfstate: '공연중',
+  //     fcltynm: '서울 블루스퀘어 신한카드 홀 10420 1024',
+  //     prfpdfrom:'2024.11.29',
+  //     prfpdto:'2025.05.18',
+  //     poster:'/assets/images/poster_01.jpg'
+  //   },
+  //   {
+  //     mt20id: 'PF000001',
+  //     prfnm: '제20회 숙명여자대학교 문화예술대학원 전통예술학과 전통음악전공 정기연주회: 절차탁마',
+  //     prfstate: '공연 예정',
+  //     fcltynm: '대학로 자유 극장',
+  //     prfpdfrom:'2024.11.29',
+  //     prfpdto:'2025.05.18',
+  //     poster:'/assets/images/poster_02.jpg'
+  //   },
+  //   {
+  //     mt20id: 'PF000002',
+  //     prfnm: '국립심포니오케스트라 실내악 시리즈 Ⅱ, 정화된 밤',
+  //     prfstate: '공연 예정',
+  //     fcltynm: '홍익대 대학로 아트센터 대극장',
+  //     prfpdfrom:'2024.11.29',
+  //     prfpdto:'2025.05.18',
+  //     poster:'/assets/images/poster_03.jpg'
+  //   },
+  //   {
+  //     mt20id: 'PF000003',
+  //     prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
+  //     prfstate: '공연 예정',
+  //     fcltynm: '블루스퀘어 신한카드 홀',
+  //     prfpdfrom:'2024.11.29',
+  //     prfpdto:'2025.05.18',
+  //     poster:'/assets/images/poster_04.jpg'
+  //   },
+  //   {
+  //     mt20id: 'PF000004',
+  //     prfnm: '뮤지컬 ( 클로버 )',
+  //     prfstate: '공연 완료',
+  //     fcltynm: '블루스퀘어 신한카드 홀',
+  //     prfpdfrom:'2024.11.29',
+  //     prfpdto:'2025.05.18',
+  //     poster:'/assets/images/poster_05.jpg'
+  //   },
+  //   {
+  //     mt20id: 'PF000005',
+  //     prfnm: '뮤지컬 ( 부치하난 )',
+  //     prfstate: '공연 완료',
+  //     fcltynm: '블루스퀘어 신한카드 홀',
+  //     prfpdfrom:'2024.11.29',
+  //     prfpdto:'2025.05.18',
+  //     poster:'/assets/images/poster_06.jpg'
+  //   },
+  //   {
+  //     mt20id: 'PF000006',
+  //     prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
+  //     prfstate: '공연중',
+  //     fcltynm: '블루스퀘어 신한카드 홀',
+  //     prfpdfrom:'2024.01.09',
+  //     prfpdto:'2025.05.18',
+  //     poster:'/assets/images/poster_07.jpg'
+  //   }
+  // ]
 
   // 리뷰 가짜 데이터는 10개입니다
   const reviewDummyData = [
@@ -210,12 +224,10 @@ export default function Main() {
   
   
   const moveToDetailPage = (mt20id) => {
-    //해당 공연 디테일 페이지로 이동
-    router.push(`/detail?mt20id=${mt20id}`)
+    // router.push(`/detail?mt20id=${mt20id}`)
   }
 
   const moveToCategoryPage = (genreIdx) => {
-    // 해당 카테고리 페이지로 이동
     router.push(`/category?genre=${genreIdx}`)
   }
 
@@ -238,7 +250,7 @@ export default function Main() {
         >
           {
             visualData.map((item, idx) => (
-              <SwiperSlide key={`${item.mt20id._text} ${idx}`} className={mainStyle.slidePage}>
+              <SwiperSlide key={idx} className={mainStyle.slidePage}>
                 <div onClick={() => moveToDetailPage(item.mt20id._text)} className={mainStyle.slideWrap}>
                   <img className={mainStyle.slideImg} src={item.poster._text} />
                   <div className={mainStyle.slideTextWrap}>
@@ -284,10 +296,10 @@ export default function Main() {
             <ViewAll page = {'/'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar />
+            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <BasicSwiper dataArr={thisWeekData} clickedGenre={clickedGenre} />
+            <BasicSwiper dataArr={thisWeekExtractedData} clickedGenre={clickedGenre} />
           </div>
         </article>
 
@@ -298,10 +310,10 @@ export default function Main() {
             <ViewAll page = {'/category'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar />
+            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <ListSwiper dataArr={upcomingData} clickedGenre={clickedGenre} />
+            <ListSwiper dataArr={upcomingExtractedData} clickedGenre={clickedGenre} moveToDetailPage={moveToDetailPage} />
           </div>
         </article>
 
@@ -312,10 +324,10 @@ export default function Main() {
             <ViewAll page = {'/'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar />
+            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <BasicSwiper dataArr={genresData} clickedGenre = {clickedGenre} />
+            <BasicSwiper dataArr={genresExtractedData} clickedGenre = {clickedGenre} />
           </div>
         </article>
 
@@ -327,7 +339,7 @@ export default function Main() {
           </div>
           <ul className={mainStyle.reviewWrap}>
             {(reviewDummyData.slice(0,3)).map((item) => (
-              <li key={`${item.mt20id}-${item.userid}`} className={mainStyle.reviewItem}>
+              <li key={`${item.mt20id}_${item.userid}`} className={mainStyle.reviewItem}>
                 <MainReview item={item} />
               </li>
             ))}
@@ -361,15 +373,15 @@ const ViewAll = ({page}) => {
 
 // 기본 스와이퍼
 const BasicSwiper = ({dataArr, clickedGenre}) => {
-  let realDataArr = Object.values(dataArr[clickedGenre])[0]
+  // let realDataArr = Object.values(dataArr[clickedGenre])[0]
   return(
     <Swiper
       slidesPerView={'auto'}
       spaceBetween={10}
       className={mainStyle.basicSwiper}
     >
-      {realDataArr.map((item, idx) => (
-        <SwiperSlide key={`${item.mt20id} ${item.idx}`}>
+      {dataArr.map((item, idx) => (
+        <SwiperSlide key={`${item.mt20id}_${idx}`}>
             <Card key={item.mt20id} item={item}/>
         </SwiperSlide>
       ))}
@@ -378,13 +390,12 @@ const BasicSwiper = ({dataArr, clickedGenre}) => {
 }
 
 // 리스트 스와이퍼 (공연 예정)
-const ListSwiper = ({dataArr, clickedGenre}) => {
-  let realDataArr = Object.values(dataArr[clickedGenre])[0]
-  console.log(realDataArr);
+const ListSwiper = ({dataArr, clickedGenre, moveToDetailPage}) => {
+  // let realDataArr = Object.values(dataArr[clickedGenre])[0]
   
   let groupDataArr = [];
  
-  for(let i=0; i<realDataArr.length; i+=3){
+  for(let i=0; i<dataArr.length; i+=3){
     const emptyItem = {
       area: {_text:''},
       fcltynm: {_text:''},
@@ -395,14 +406,18 @@ const ListSwiper = ({dataArr, clickedGenre}) => {
       prfpdto:{_text:''},
       prfstate:{_text:''}
     }
-    const group = realDataArr.slice(i, i+3)
+    const group = dataArr.slice(i, i+3)
+    
     if(group.length < 3){
-      while (group.length < 3) {
+      while (group.length === 3) {
         group.push(emptyItem);
       }
     }
-    groupDataArr.push(group);    
+    groupDataArr.push(group);
   }  
+
+  console.log(groupDataArr);
+  
 
 
   return(
@@ -417,7 +432,7 @@ const ListSwiper = ({dataArr, clickedGenre}) => {
         groupDataArr.map((group, idx) => (
           <SwiperSlide key={`${group}_${idx}`}>
             {group.map((item) => (
-              <SmallCard key={item.mt20id} item={item}/>
+              <SmallCard key={item.mt20id._text} item={item} moveToDetailPage={moveToDetailPage} />
             ))}
           </SwiperSlide>
         ))
@@ -427,7 +442,7 @@ const ListSwiper = ({dataArr, clickedGenre}) => {
 }
 
 // 작은 카드 (공연 예정)
-const SmallCard = ({item}) => {
+const SmallCard = ({item, moveToDetailPage}) => {
   // const [isVisible, setIsVisible] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const likeToggle = () => {
@@ -444,7 +459,7 @@ const SmallCard = ({item}) => {
   return(
     <div className={mainStyle.smallCardWrap}>
       {
-        <figure className={ ((item.poster._text === '') && (item.prfnm._text === '') && (item.fcltynm._text === '') && (item.prfpdfrom._text === '')) ? mainStyle.notVisible : '' }>
+        <figure onClick={() => moveToDetailPage(item.mt20id._text)} className={ ((item.poster._text === '') && (item.prfnm._text === '') && (item.fcltynm._text === '') && (item.prfpdfrom._text === '')) ? mainStyle.notVisible : '' }>
           <div className={mainStyle.smallImgWrap}>
             <img src={item.poster._text} alt={item.prfnm._text} />
             <button onClick={likeToggle} className={`${mainStyle.like} ${isActive ? mainStyle.active : ''}`} type="button"></button>

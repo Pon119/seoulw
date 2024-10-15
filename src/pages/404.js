@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import errorStyle from '@/styles/error.module.scss';
 
 const NotFound = () => {
     const router = useRouter();
@@ -11,10 +12,12 @@ const NotFound = () => {
         }
     }
   return (
-    <div>
-      <h2>페이지를 찾을 수 없습니다.</h2>
-      <p>페이지가 존재하지 않거나, 사용할 수 없는 페이지입니다.</p>
-      <p>입력하신 주소가 정확한지 다시 한 번 확인해주세요.</p>
+    <div className={errorStyle.errorWrap}>
+      <h2 className={errorStyle.title}>페이지를 찾을 수 없습니다.</h2>
+      <div className={errorStyle.errorMsgWrap}>
+        <p>사용할 수 없는 페이지입니다.</p>
+        <p>입력하신 주소가 정확한지 다시 한 번 확인해주세요.</p>
+      </div>
       <button onClick={goBack}>이전 페이지로</button>
     </div>
   )

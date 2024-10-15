@@ -11,12 +11,12 @@ function Card({item}) {
     setIsActive((prev) => !prev)
   }
 
-  const movePage = (mt20id) =>{
+  const moveToDetailPage = (mt20id) =>{
     router.push(`/detail?mt20id=${mt20id}`)
   }
 
   return (
-    <div className={cardStyle.cardWrap} onClick={()=>movePage(item.mt20id)}>
+    <div className={cardStyle.cardWrap} onClick={()=>moveToDetailPage(item.mt20id._text)}>
       <figure>
         <div className={cardStyle.imgWrap}>
           <img src={item.poster._text} alt={item.prfnm._text} />
