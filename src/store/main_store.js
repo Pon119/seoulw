@@ -6,9 +6,8 @@ const useMainStore = create((set) => ({
   mainData:[],
   setMainData: async () => {
     let result = await fn.main();
-    set({mainData:result});    
-  } 
-
+    set({mainData: result});    
+  }
 }));
 
 

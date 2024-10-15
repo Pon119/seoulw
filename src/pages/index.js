@@ -12,13 +12,25 @@ import mainStyle from "@/styles/main.module.scss";
 import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import Loading from '@/components/Loading';
-// import store from '../store/main_store';
+import { useEffect, useState } from "react";
+import store from '../store/main_store';
 
 export default function Main() {
-  // const mainData = store();
-  // console.log(mainData);
+  const [clickedGenre, setClickedGenre] = useState(0);
+  let thisWeekData = [];
+  let upcomingData =[];
+  let genresData = [];
+  const {mainData} = store();
+  console.log(mainData);
+  // console.log(mainData.genres);
+  // console.log(mainData.genres[clickedGenre]);
+  // useEffect(()=>{
+  //   if(!mainData.length){
+  //     thisWeekData = Object.values(mainData.thisWeek[clickedGenre])[0];
+  //     upcomingData = Object.values(mainData.upcoming[clickedGenre])[0];
+  //     genresData = Object.values(mainData.genres[clickedGenre])[0];
+  //   }
+  // }, [mainData])
   
   // 공연목록 가짜 데이터는 7개입니다
   const dummyData = [
@@ -199,6 +211,9 @@ export default function Main() {
     // 해당 카테고리 페이지로 이동
   }
 
+// 전체보기 버튼 클릭시 router.push('/category?genre=GGGA&all=1')
+
+
   return (
     <div className={mainStyle.mainWrap}>
       {/* 비주얼 */}
@@ -261,13 +276,13 @@ export default function Main() {
         <article className={mainStyle.thisWeek}>
           <div className={`${mainStyle.titleWrap}`}>
             <h2>이번주 공연</h2>
-            <ViewAll page = {'/'} />
+            <ViewAll page = {'/category?genre=GGGA&all=2'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar />
+            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <BasicSwiper dataArr={dummyData} />
+            <BasicSwiper dataArr={thisWeekData} clickedGenre={clickedGenre} />
           </div>
         </article>
 
@@ -275,10 +290,10 @@ export default function Main() {
         <article className={mainStyle.upcoming}>
           <div className={mainStyle.titleWrap}>
             <h2>공연 예정</h2>
-            <ViewAll page = {'/category'} />
+            <ViewAll page = {'/category?genre=GGGA&all=4'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar />
+            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
           </div>
           <div className={mainStyle.swiperWrap}>
             <ListSwiper dataArr={dummyData} />
@@ -289,13 +304,13 @@ export default function Main() {
         <article className={mainStyle.byGenres}>
           <div className={mainStyle.titleWrap}>
             <h2>장르별</h2>
-            <ViewAll page = {'/'} />
+            <ViewAll page = {'/category?genre=GGGA&all=1'} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar />
+            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <BasicSwiper dataArr={dummyData} />
+            {/* <BasicSwiper dataArr={dummyData} /> */}
           </div>
         </article>
 
@@ -340,7 +355,8 @@ const ViewAll = ({page}) => {
 }
 
 // 기본 스와이퍼
-const BasicSwiper = ({dataArr}) => {
+const BasicSwiper = ({dataArr, clickedGenre}) => {
+  console.log(dataArr)
   return(
     <Swiper
       slidesPerView={'auto'}
