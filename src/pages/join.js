@@ -75,7 +75,10 @@ function Join() {
         <div className={joinStyle.loginwrap}>
             <h2>회원가입</h2>
             <form onSubmit={handleSubmit}>
-                <Logininput type="email" msg="아이디" value={email} setValue={setEmail} />
+                <div className={joinStyle.loginrow}>
+                    <Logininput type="email" msg="아이디" value={email} setValue={setEmail} />
+                    <button>중복 체크</button>
+                </div>
                 <Logininput type="password" msg="비밀번호 (영문/숫자/특수문자 조합 8~15자)" value={password} setValue={setPassword} />
                 <Logininput type="password" msg="비밀번호 확인" value={confirmPassword} setValue={setConfirmPassword} />
                 <Logininput type="text" msg="성함" value={joinname} setValue={setJoinname} />

@@ -1,9 +1,12 @@
 import React from 'react'
 import editStyle from '@/styles/edit.module.scss'
+import Header from "@/components/Header";
 
-const Edit = () => {
+const edit = () => {
   const idName = 'parkwl***'
   return (
+  
+    <Header>
     <div className={editStyle.editwrap}>
     {/* <div className={mypageStyle.topwrap}>
     <button><img src="../../assets/icons/arrow_left.svg"/></button>
@@ -21,10 +24,9 @@ const Edit = () => {
 
         <input type="submit" className={editStyle.inputbtn} value="수정 완료" />
       </form>
-      
       </div>
-
+   </Header>
   )
 }
 
-export default Edit
+export default edit

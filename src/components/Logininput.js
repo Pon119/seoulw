@@ -56,7 +56,7 @@ const Logininput = ({ type, id, msg, value, setValue, error }) => {
             />
             {value && <button type="button" onClick={clearInput} className={`${joinStyle.input_reset_btn} ${joinStyle.inp_button}`}></button>}
             {(type==='password' && value) && <button type="button" onClick={handleVisible} className={`${joinStyle.input_eye_btn} ${joinStyle.inp_button}`}></button>}
-            {error && <p className={joinStyle.errormsg} style={{ color: 'red' }}>{error}</p>}
+            {error && <div className={joinStyle.errormsg} style={{ color: 'red', margin:'5px 0px'}}>{error}</div>}
         </div>
     );
 };
