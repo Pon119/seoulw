@@ -8,21 +8,25 @@ import Head from 'next/head'
 import { SessionProvider } from "next-auth/react"
 import useMainStore from '@/store/main_store';
 import { fn } from "@/utils/apiFunc";
+import Loading from "@/components/Loading";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
   }) {
 
-  const {setMainData, mainData} = useMainStore();
+  const {mainData, setMainData} = useMainStore();
   
   useEffect(()=>{
     setMainData();
   },[])
 
+  console.log(mainData);
+  
 
 
   return (
+    mainData.length === 0 ? <Loading /> :
     <>
     <SessionProvider session={session}>
     <Head>
@@ -35,7 +39,7 @@ export default function App({
     </Head>
     <div className="app">
       <Header />
-      <Suspense fallback={<main><div>로딩중</div></main>}>
+      <Suspense fallback={<main><div><Loading /></div></main>}>
         <main>
           <Component {...pageProps} />
         </main>

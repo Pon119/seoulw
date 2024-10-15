@@ -62,21 +62,33 @@ async function apiMain(res){
   const requests = { genres: [], thisWeek: [], ing: [], upcoming: [] };
   genreParams.forEach(({ shcate }) => {
     const mainParams = {
-      ...defaultParams,
+      service: API_KEY,
+      rows: '20',   //요청개수
+      signgucode: '11',
+      stdate: '20240101',
+      eddate: '20241231',
       cpage: 1,
       shcate: shcate,
     };
     const mainThisWeekParams = {
-      ...defaultParams,
+      service: API_KEY,
+      rows: '20',   //요청개수
+      signgucode: '11',
       stdate: stdate,
       eddate: eddate,
       cpage: 1,
       shcate: shcate
     }
-    requests.genres.push(instance.get('', { params: { ...mainParams }})); //장르
-    requests.thisWeek.push(instance.get('', { params: { ...mainThisWeekParams } }));  //이번주
-    requests.ing.push(instance.get('', { params: { ...mainParams, prfstate: '02' } })); //공연중
-    requests.upcoming.push(instance.get('', { params: { ...mainParams, prfstate: '01' } }));  //공연예정
+    // console.log(stdate, eddate);
+    // const detailResult = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${mt20id}`, {params: {service:API_KEY} });
+
+    requests.genres.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams }})); //장르
+    requests.thisWeek.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainThisWeekParams } }));  //이번주
+    requests.ing.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams, prfstate: '02' } })); //공연중
+    requests.upcoming.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams, prfstate: '01' } }));  //공연예정
+
+    //예시
+    // requests.upcoming.push(instance.get('', { params: { ...mainParams, prfstate: '01' } }));  //공연예정
   });
 
   const results = await Promise.all([
@@ -158,12 +170,12 @@ async function apiUpcoming(shcate, cpage, res) {
 
 // [↓] 서치 시작=====================================================================
 async function apiSearch(searchWord, cpage, res){
-  let encodedWord = encodeURIComponent(searchWord);
-  let title = await instance.get('', {params: {cpage: `${cpage}`, shprfnm:`${encodedWord}`}}) 
-  let venue = await instance.get('', {params: {cpage: `${cpage}`, shprfnmfct:`${encodedWord}`}}) 
+  // let encodedWord = encodeURIComponent(searchWord);
+  let title = await instance.get('', {params: {cpage: `${cpage}`, shprfnm:`${searchWord}`}}) 
+  let venue = await instance.get('', {params: {cpage: `${cpage}`, shprfnmfct:`${searchWord}`}}) 
   
-  let titleData = xmlTOjson(title.data) ;
-  let venueData = xmlTOjson(venue.data) ;
+  let titleData = xmlTOjson(title.data);
+  let venueData = xmlTOjson(venue.data);
   res.json({titleData,venueData});
 }
 // [↑] 서치 종료=============================================================================

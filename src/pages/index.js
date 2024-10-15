@@ -14,11 +14,27 @@ import GenresTapBar from "@/components/GenresTapBar";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from '@/components/Loading';
-// import store from '../store/main_store';
+import store from '../store/main_store';
 
 export default function Main() {
-  // const mainData = store();
+  const {mainData} = store();
+  const [clickedGenre, setClickedGenre] = useState(0);
   // console.log(mainData);
+  const router = useRouter();
+  let thisWeekData = (mainData.length === 0) ? [] : mainData.thisWeek  //이번주 데이터
+  let upcomingData = (mainData.length === 0) ? [] : mainData.upcoming  //공연예정
+  let genresData = (mainData.length === 0) ? [] : mainData.genres// 장르별
+
+  // const visualDataArr = 
+  const visualData = (Object.values(thisWeekData[1])[0]).map((item) => (
+    item
+  ))
+  console.log(visualData);
+
+  console.log(Object.values(thisWeekData[clickedGenre])[0]);
+  console.log(upcomingData);
+  console.log(genresData);
+
   
   // 공연목록 가짜 데이터는 7개입니다
   const dummyData = [
@@ -191,12 +207,16 @@ export default function Main() {
     }
   ];
 
-  const moveToDetailPage = () => {
+  
+  
+  const moveToDetailPage = (mt20id) => {
     //해당 공연 디테일 페이지로 이동
+    router.push(`/detail?mt20id=${mt20id}`)
   }
 
-  const moveToCategoryPage = () => {
+  const moveToCategoryPage = (genreIdx) => {
     // 해당 카테고리 페이지로 이동
+    router.push(`/category?genre=${genreIdx}`)
   }
 
   return (
@@ -217,14 +237,14 @@ export default function Main() {
           className={mainStyle.visualSlide}
         >
           {
-            dummyData.map((item, idx) => (
-              <SwiperSlide key={`${item.mt20id} ${idx}`} className={mainStyle.slidePage}>
-                <div onClick={moveToDetailPage} className={mainStyle.slideWrap}>
-                  <img className={mainStyle.slideImg} src={item.poster} />
+            visualData.map((item, idx) => (
+              <SwiperSlide key={`${item.mt20id._text} ${idx}`} className={mainStyle.slidePage}>
+                <div onClick={() => moveToDetailPage(item.mt20id._text)} className={mainStyle.slideWrap}>
+                  <img className={mainStyle.slideImg} src={item.poster._text} />
                   <div className={mainStyle.slideTextWrap}>
-                    <h2>{item.prfnm}</h2>
-                    <p className={mainStyle.venue}>{item.fcltynm}</p>
-                    <p className={mainStyle.date}>{item.prfpdfrom} ~ {item.prfpdto}</p>
+                    <h2>{item.prfnm._text}</h2>
+                    <p className={mainStyle.venue}>{item.fcltynm._text}</p>
+                    <p className={mainStyle.date}>{item.prfpdfrom._text} ~ {item.prfpdto._text}</p>
                   </div>
                 </div>
               </SwiperSlide>
@@ -238,18 +258,18 @@ export default function Main() {
           <ul className={mainStyle.btnsWrap}>
             <li className={mainStyle.btnSubWrapTop}>
               <ul>
-                <li onClick={moveToCategoryPage}><button type='button'>뮤지컬</button></li>
-                <li><button type='button'>연극</button></li>
-                <li><button type='button'>대중음악</button></li>
-                <li><button type='button'>무용</button></li>
+                <li onClick={() => moveToCategoryPage('GGGA')}><button type='button'>뮤지컬</button></li>
+                <li onClick={() => moveToCategoryPage('AAAA')}><button type='button'>연극</button></li>
+                <li onClick={() => moveToCategoryPage('CCCD')}><button type='button'>대중음악</button></li>
+                <li onClick={() => moveToCategoryPage('BBB')}><button type='button'>무용</button></li>
               </ul>
             </li>
             <li className={mainStyle.btnSubWrapBottom}>
               <ul>
-                <li><button type='button'>클래식</button></li>
-                <li><button type='button'>국악</button></li>
-                <li><button type='button'>서커스/마술</button></li>
-                <li><button type='button'>기타</button></li>
+                <li onClick={() => moveToCategoryPage('CCCA')}><button type='button'>클래식</button></li>
+                <li onClick={() => moveToCategoryPage('CCCC')}><button type='button'>국악</button></li>
+                <li onClick={() => moveToCategoryPage('EEEB')}><button type='button'>서커스/마술</button></li>
+                <li onClick={() => moveToCategoryPage('EEEA')}><button type='button'>기타</button></li>
               </ul>
             </li>          
           </ul>
@@ -267,7 +287,7 @@ export default function Main() {
             <GenresTapBar />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <BasicSwiper dataArr={dummyData} />
+            <BasicSwiper dataArr={thisWeekData} clickedGenre={clickedGenre} />
           </div>
         </article>
 
@@ -281,7 +301,7 @@ export default function Main() {
             <GenresTapBar />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <ListSwiper dataArr={dummyData} />
+            <ListSwiper dataArr={upcomingData} clickedGenre={clickedGenre} />
           </div>
         </article>
 
@@ -295,7 +315,7 @@ export default function Main() {
             <GenresTapBar />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <BasicSwiper dataArr={dummyData} />
+            <BasicSwiper dataArr={genresData} clickedGenre = {clickedGenre} />
           </div>
         </article>
 
@@ -340,14 +360,15 @@ const ViewAll = ({page}) => {
 }
 
 // 기본 스와이퍼
-const BasicSwiper = ({dataArr}) => {
+const BasicSwiper = ({dataArr, clickedGenre}) => {
+  let realDataArr = Object.values(dataArr[clickedGenre])[0]
   return(
     <Swiper
       slidesPerView={'auto'}
       spaceBetween={10}
       className={mainStyle.basicSwiper}
     >
-      {dataArr.map((item, idx) => (
+      {realDataArr.map((item, idx) => (
         <SwiperSlide key={`${item.mt20id} ${item.idx}`}>
             <Card key={item.mt20id} item={item}/>
         </SwiperSlide>
@@ -357,27 +378,31 @@ const BasicSwiper = ({dataArr}) => {
 }
 
 // 리스트 스와이퍼 (공연 예정)
-const ListSwiper = ({dataArr}) => {
+const ListSwiper = ({dataArr, clickedGenre}) => {
+  let realDataArr = Object.values(dataArr[clickedGenre])[0]
+  console.log(realDataArr);
+  
   let groupDataArr = [];
  
-  for(let i=0; i<dataArr.length; i+=3){
+  for(let i=0; i<realDataArr.length; i+=3){
     const emptyItem = {
-      fcltynm: '',
-      mt20id:'',
-      poster:'',
-      prfnm:'',
-      prfpdfrom:'',
-      prfpdto:'',
-      prfstate:''
+      area: {_text:''},
+      fcltynm: {_text:''},
+      mt20id:{_text:''},
+      poster:{_text:''},
+      prfnm:{_text:''},
+      prfpdfrom:{_text:''},
+      prfpdto:{_text:''},
+      prfstate:{_text:''}
     }
-    const group = dataArr.slice(i, i+3)
+    const group = realDataArr.slice(i, i+3)
     if(group.length < 3){
       while (group.length < 3) {
         group.push(emptyItem);
       }
     }
     groupDataArr.push(group);    
-  }
+  }  
 
 
   return(
@@ -390,7 +415,7 @@ const ListSwiper = ({dataArr}) => {
     >
       {
         groupDataArr.map((group, idx) => (
-          <SwiperSlide key={idx}>
+          <SwiperSlide key={`${group}_${idx}`}>
             {group.map((item) => (
               <SmallCard key={item.mt20id} item={item}/>
             ))}
@@ -408,28 +433,27 @@ const SmallCard = ({item}) => {
   const likeToggle = () => {
     setIsActive((prev) => !prev)
   }
-
   
   const getDay = (prfpdfrom) => {
     const week = ['일', '월', '화', '수', '목', '금', '토']
     const dateFormat = new Date(prfpdfrom.replace(/\./g, '/'));
     return week[dateFormat.getDay()];
   }
-  const day = getDay(item.prfpdfrom);
+  const day = getDay(item.prfpdfrom._text);
   
   return(
     <div className={mainStyle.smallCardWrap}>
       {
-        <figure className={ ((item.poster === '') && (item.prfnm === '') && (item.fcltynm === '') && (item.prfpdfrom === '')) ? mainStyle.notVisible : '' }>
+        <figure className={ ((item.poster._text === '') && (item.prfnm._text === '') && (item.fcltynm._text === '') && (item.prfpdfrom._text === '')) ? mainStyle.notVisible : '' }>
           <div className={mainStyle.smallImgWrap}>
-            <img src={item.poster} alt={item.prfnm} />
+            <img src={item.poster._text} alt={item.prfnm._text} />
             <button onClick={likeToggle} className={`${mainStyle.like} ${isActive ? mainStyle.active : ''}`} type="button"></button>
           </div>
           <figcaption className={mainStyle.smallImgDescription}>
             <ul>
-              <li className={mainStyle.date}>{item.prfpdfrom} ({day}) ~</li>
-              <li className={mainStyle.title}>{item.prfnm}</li>
-              <li className={mainStyle.venue}>{item.fcltynm}</li>
+              <li className={mainStyle.date}>{item.prfpdfrom._text} ({day}) ~</li>
+              <li className={mainStyle.title}>{item.prfnm._text}</li>
+              <li className={mainStyle.venue}>{item.fcltynm._text}</li>
             </ul>
           </figcaption>
         </figure>

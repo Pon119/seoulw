@@ -8,7 +8,7 @@ import 'swiper/scss/free-mode';
 import { FreeMode } from 'swiper/modules';
 
 
-const GenresTapBar = ({clickedGenre,setClickedGenre}) => {
+const GenresTapBar = ({clickedGenre, setClickedGenre}) => {
   const genres = [
     '뮤지컬',
     '연극',
@@ -37,7 +37,7 @@ const GenresTapBar = ({clickedGenre,setClickedGenre}) => {
       >
         {
           genres.map((genre, idx) => (
-            <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
+            <SwiperSlide key={`${genre}${idx}`} className={genresTapBarStyle.genresBtnsSlide}>
               <span onClick={() => onActive(idx)} className={`${genresTapBarStyle.genresBtn} ${clickedGenre === idx ? genresTapBarStyle.active : ''}`}>
                 {genre}
               </span>
