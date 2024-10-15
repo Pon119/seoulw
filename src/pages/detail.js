@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 import Review from "@/components/Review";
 import Map from "@/components/Map";
-var parseString = require("xml2js").parseString;
+// var parseString = require("xml2js").parseString;
 
 function Detail() {
   // 탭 메뉴
@@ -67,9 +67,9 @@ function Detail() {
   </db>
   </dbs>`;
 
-  parseString(itemXML, function (err, result) {
-    detail = result.dbs.db[0];
-  });
+  // parseString(itemXML, function (err, result) {
+  //   detail = result.dbs.db[0];
+  // });
 
   console.log(detail);
   //하단의 공연 예매 버튼
