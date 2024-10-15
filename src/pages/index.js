@@ -13,8 +13,13 @@ import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Loading from '@/components/Loading';
+// import store from '../store/main_store';
 
 export default function Main() {
+  // const mainData = store();
+  // console.log(mainData);
+  
   // 공연목록 가짜 데이터는 7개입니다
   const dummyData = [
     {

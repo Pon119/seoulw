@@ -35,6 +35,10 @@ function Header() {
         setHeader(() => <HeaderSearch />);
         break;
       case "/mypage":
+      case "/edit":
+      case "/review":
+      case "/bookmark":
+      case "/dropout":
         setHeader(() => <HeaderSub name={"마이페이지"} />);
         break;
       case "/login":
