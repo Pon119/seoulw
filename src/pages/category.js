@@ -5,9 +5,12 @@ import Card from '@/components/Card';
 import GenresTapBar from '@/components/GenresTapBar';
 import axios from 'axios';
 import { handler } from '../pages/api/api';
+import { fn } from '@/utils/apiFunc';
 
 function Category() {
   const [all, setAll] = useState(1);
+  const [dataMusical, setDataMusical] = useState([]);
+  
   const tab = (i)=>{
     setAll(i);
   }
@@ -78,21 +81,28 @@ function Category() {
     }
   ]
   
-  var convert = require('xml-js');
 
-  useEffect(() => {
-    console.log(1);
-    const search = async (id) => {
-      let a = await axios.get('/api/api?type=apiDetail&mt20id=PF250136');
-      // let a = await axios.get('/api/api?type=apiCategory&cpage=2');
+  let count = 1;
 
-      var result2 = convert.xml2json(a.data, {compact: true, spaces: 4});
-      var re = JSON.parse(result2).dbs.db;
-      console.log(re);
+  const handleGenre = async (selectedGenre) => {
+    const genreMapping = {
+      'GGGA': 1,
+      'AAAA': 2,
+      'CCCD': 3,
+      'BBB': 4,
+      'CCCA': 5,
+      'CCCC': 6,
+      'EEEB': 7,
+      'EEEA': 8,
     };
-    search('play');
-  }, []);
 
+    const shcateValue = genreMapping[selectedGenre];
+    const data = await fn.genre(shcateValue, 1); 
+    console.log(data);
+  };
+
+  
+  // if(!dataMusical.length) return<></>;
 
   return (
     <div className={`categoryCommon ${categoryStyle.category}`}>

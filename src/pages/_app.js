@@ -3,14 +3,31 @@ import Footer from "@/components/Footer";
 import MenuTapBar from "@/components/MenuTapBar";
 import "@/styles/globals.scss";
 import "@/styles/reset.scss";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Head from 'next/head'
 import { SessionProvider } from "next-auth/react"
+import useMainStore from '@/store/main_store';
+import { fn } from "@/utils/apiFunc";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
   }) {
+
+  const {setMainData, mainData} = useMainStore();
+  
+  useEffect(()=>{
+    // fn.search('예술',1)
+    // (res=>{
+    //   console.log(res)
+
+    // });
+
+    setMainData();
+  },[])
+
+
+
   return (
     <>
     <SessionProvider session={session}>

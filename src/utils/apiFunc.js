@@ -1,22 +1,51 @@
+import axios from 'axios';
 import React from 'react'
 
 var convert = require('xml-js');
 
-export default async function category (genre, cpage){
-  let result = await axios.get(`/api/api?type=apiCategory&cpage=${cpage}`);
+export function xmlTOjson (axiosResult){
 
-  var result2 = convert.xml2json(result.data[genre], {compact: true, spaces: 4});
-  var data = JSON.parse(result2).dbs.db;
-  return data;
+  // const xmlData = (genre === '') ? axiosResult.data : axiosResult.data[genre]; 
+  
+  const jsonGenre = convert.xml2json(axiosResult, {compact: true, spaces: 4});
+  let dataGenre = JSON.parse(jsonGenre).dbs.db;
+  return dataGenre;
 }
 
+export const fn = {
+  main : async () => {
+    let res = await axios.get(`/api/api?type=apiMain`);
+    return res.data;
+  },
 
-export default async function detail(id){
-  // let a = await axios.get('/api/api?type=apiDetail');
-  let result = await axios.get(`/api/api?type=apiDetail&mt20id=${id}`);
-  console.log()
+  genre : async (shcate, cpage) => {
+    let res = await axios.get(`/api/api?type=apiGenre&shcate=${shcate}&cpage=${cpage}`);
+    return res.data;
+  },
 
-  var result2 = convert.xml2json(result.data, {compact: true, spaces: 4});
-  var data = JSON.parse(result2).dbs.db;
-  return data;
+  thisWeek : async (shcate, cpage) => {
+    let res = await axios.get(`/api/api?type=apiThisWeek&shcate=${shcate}&cpage=${cpage}`);
+    return res.data;
+  },
+
+  ing : async (shcate, cpage) => {
+    let res = await axios.get(`/api/api?type=apiIng&shcate=${shcate}&cpage=${cpage}`);
+    return res.data;
+  },
+
+  upcoming : async (shcate, cpage) => {
+    let res = await axios.get(`/api/api?type=apiUpcoming&shcate=${shcate}&cpage=${cpage}`);
+    return res.data;
+    //장르별로 하나씩 변환
+  },
+
+  search : async (searchWord,page) =>{
+    let res = await axios.get(`/api/api?type=apiSearch&searchWord=${searchWord}&cpage=${page}`);
+    return res.data;
+  },
+
+  detail : async (mt20id) => {
+    let res = await axios.get(`/api/api?type=apiDetail&mt20id=${mt20id}`);
+    return res.data;
+  }
 }
