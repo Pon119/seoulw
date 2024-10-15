@@ -5,7 +5,6 @@ import Card from '@/components/Card';
 import GenresTapBar from '@/components/GenresTapBar';
 import axios from 'axios';
 import { handler } from '../pages/api/api';
-import useCategoryStore from '@/store/category_store';
 import { fn } from '@/utils/apiFunc';
 
 function Category() {
@@ -83,29 +82,27 @@ function Category() {
   ]
   
 
-let count = 1;
+  let count = 1;
 
-useEffect(() => {
-  /** xml - json 변환 함수(axios get값, 카테고리만 장르 써주기*/
-  (async function(){
-    // let a=await fn.category('musical', count); 
-    let b=await fn.thisWeek('musical', count); 
-    let c=await fn.ing('play', count); 
-    // let d=await fn.upcoming('circus', count); 
-    // let c=await fn.category('musical', count); 
-    // setDataMusical(a);
-    count++;
-    // console.log(c);
-    // console.log(d);
-    // console.log(b);
-  }());
+  const handleGenre = async (selectedGenre) => {
+    const genreMapping = {
+      'GGGA': 1,
+      'AAAA': 2,
+      'CCCD': 3,
+      'BBB': 4,
+      'CCCA': 5,
+      'CCCC': 6,
+      'EEEB': 7,
+      'EEEA': 8,
+    };
 
-
-
-  }, []);
+    const shcateValue = genreMapping[selectedGenre];
+    const data = await fn.genre(shcateValue, 1); 
+    console.log(data);
+  };
 
   
-  if(!dataMusical.length) return<></>;
+  // if(!dataMusical.length) return<></>;
 
   return (
     <div className={`categoryCommon ${categoryStyle.category}`}>

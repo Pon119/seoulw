@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios'
+import { xmlTOjson } from '@/utils/apiFunc';
+var convert = require('xml-js');
 
 /** thisweek용 시작일, 종료일 구하기 */
 function getThisWeekDate() {
@@ -20,6 +22,7 @@ function getThisWeekDate() {
 }
 let {stdate, eddate} = getThisWeekDate();
 
+//api 관련 기본 변수
 const API_KEY = '7b1ab9ea464e4d70ad4c8bad7505f532';
 const defaultParams = {
   service: API_KEY,
@@ -99,7 +102,10 @@ async function apiMain(res){
     const typeLabel = ['genres', 'thisWeek', 'ing', 'upcoming'][requestTypeIndex]; // 요청 타입 라벨
 
     if (result.data !== null) {
-      response[typeLabel].push({ [genreLabel]: result.data }); // 성공 시 데이터 추가
+      const jsonGenre = convert.xml2json(result.data, {compact: true, spaces: 4});
+      let dataGenre = JSON.parse(jsonGenre).dbs.db;
+
+      response[typeLabel].push({ [genreLabel]: dataGenre }); // 성공 시 데이터 추가
     } else {
       response[typeLabel].push({ [genreLabel]: null }); // 실패 시 null 추가
     }
@@ -107,6 +113,8 @@ async function apiMain(res){
 
   // console.log(response.genres);
   
+  
+
   res.json(response);
 }
 // [↑] 메인(store) 종료=======================================================================================
@@ -115,27 +123,25 @@ async function apiMain(res){
 // [↓] 카테고리 시작===================================================================================
 // 장르별(1개)
 async function apiGenre(shcate, cpage, res){
-    const dataGenre = await axios.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
-    res.json(dataGenre);
+    const dataGenre = await instance.get('', {params: { cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
+    res.json(xmlTOjson(dataGenre.data) );
 } 
 
 // 이번주(장르 1개)
 async function apiThisWeek(shcate, cpage, res){
-    const dataThisWeek = await axios.get('', {params: {...thisWeekParams, cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
-    res.json(dataThisWeek);
+    const dataThisWeek = await instance.get('', {params: {cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
+    res.json(xmlTOjson(dataThisWeek.data) );
 }
 
 // 공연중(장르 1개)
 async function apiIng(shcate, cpage, res) {
-  const dataIng = await axios.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: `${shcate}`, prfstate: '02'} }); //뮤지컬 GGGA
-  res.json(dataIng);
-  
+  const dataIng = await instance.get('', {params: {cpage: `${cpage}`, shcate: `${shcate}`, prfstate: '02'} }); //뮤지컬 GGGA
+  res.json(xmlTOjson(dataIng.data) );
 }
 // 공연예정(장르 1개)
 async function apiUpcoming(shcate, cpage, res) {
-  const dataUpcoming = await axios.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: `${shcate}`, prfstate: '01'} }); //뮤지컬 GGGA
-  res.json(dataUpcoming);
-  
+  const dataUpcoming = await instance.get('', {params: {cpage: `${cpage}`, shcate: `${shcate}`, prfstate: '01'} }); //뮤지컬 GGGA
+  res.json(xmlTOjson(dataUpcoming.data) );
 }
 
 // [↑] 카테고리 종료=============================================================================
@@ -143,13 +149,13 @@ async function apiUpcoming(shcate, cpage, res) {
 
 // [↓] 서치 시작=====================================================================
 async function apiSearch(searchWord, cpage, res){
-  let encodedWord = encodeURIComponent('우주');
-  let page = 1  //나중에 주소page변수 cpage로 변경
-  let title = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&stdate=20240101&eddate=20241231&rows=20&cpage=${page}&signgucode=11&shprfnm=${encodedWord}`)
-  let venue = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&stdate=20240101&eddate=20241231&rows=20&cpage=${page}&signgucode=11&shprfnmfct=${encodedWord}`)
+  let encodedWord = encodeURIComponent(searchWord);
+  let title = await instance.get('', {params: {cpage: `${cpage}`, shprfnm:`${encodedWord}`}}) 
+  let venue = await instance.get('', {params: {cpage: `${cpage}`, shprfnmfct:`${encodedWord}`}}) 
   
-  res.json(title.data)
-  res.json(venue.data)
+  let titleData = xmlTOjson(title.data) ;
+  let venueData = xmlTOjson(venue.data) ;
+  res.json({titleData,venueData});
 }
 // [↑] 서치 종료=============================================================================
 
@@ -157,9 +163,14 @@ async function apiSearch(searchWord, cpage, res){
 // [↓] 디테일 시작=====================================================================================
 //디테일
 async function apiDetail(mt20id, res){
-  const detail = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${mt20id}`, {params: {service:API_KEY} });
+  const detailResult = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${mt20id}`, {params: {service:API_KEY} });
+  let detail = xmlTOjson(detailResult.data) ;
+  let placeId = detail.mt10id._text;
+  
+  const detailMapResult = await axios.get(`http://www.kopis.or.kr/openApi/restful/prfplc/${placeId}`, {params: {service:API_KEY} });
+  let detailMap = xmlTOjson(detailMapResult.data) ;
 
-  res.json(detail.data);
+  res.json({detail,detailMap});
 }
 
 //디테일-맵
@@ -188,8 +199,9 @@ export default async function handler(req, res){
     case 'apiUpcoming': await apiUpcoming(shcate, cpage, res); break;
 
     case 'apiSearch': await apiSearch(searchWord,cpage,res); break;
+
     case 'apiDetail': await apiDetail(mt20id, res); break;
-    case 'apiDetailMap': await apiDetailMap(mt10id, res); break;
+  
     default:break;
   }
 }

@@ -6,18 +6,26 @@ import "@/styles/reset.scss";
 import { Suspense, useEffect } from "react";
 import Head from 'next/head'
 import { SessionProvider } from "next-auth/react"
-import useCategoryStore from '@/store/category_store';
+import useMainStore from '@/store/main_store';
+import { fn } from "@/utils/apiFunc";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
   }) {
 
-  const {setCategory} = useCategoryStore();
+  const {setMainData, mainData} = useMainStore();
   
   useEffect(()=>{
-    setCategory();
+    // fn.search('예술',1)
+    // (res=>{
+    //   console.log(res)
+
+    // });
+
+    setMainData();
   },[])
+
 
 
   return (
