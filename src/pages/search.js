@@ -38,6 +38,8 @@ function Search() {
     router.push('/search2');
   };
   
+
+  
   return (
     <div className={`search ${searchStyle.search}`}>
       <h2>최근 검색어</h2>   

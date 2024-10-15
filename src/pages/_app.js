@@ -17,12 +17,6 @@ export default function App({
   const {setMainData, mainData} = useMainStore();
   
   useEffect(()=>{
-    // fn.search('예술',1)
-    // (res=>{
-    //   console.log(res)
-
-    // });
-
     setMainData();
   },[])
 

@@ -3,14 +3,12 @@ import genresTapBarStyle from '@/styles/genresTapBar.module.scss'
 
 // [↓] swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
-// Import Swiper styles
 import 'swiper/scss';
 import 'swiper/scss/free-mode';
-// import required modules
 import { FreeMode } from 'swiper/modules';
 
 
-const GenresTapBar = () => {
+const GenresTapBar = ({clickedGenre,setClickedGenre}) => {
   const genres = [
     '뮤지컬',
     '연극',
@@ -22,7 +20,7 @@ const GenresTapBar = () => {
     '기타',
   ];
 
-  const [clickedGenre, setClickedGenre] = useState(0);
+  
   const onActive = (idx) => {
     setClickedGenre(() => idx);
   }

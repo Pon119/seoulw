@@ -5,6 +5,7 @@ import Card from '@/components/Card';
 
 function Search2() {
   const {results} = useSearchStore();
+  const [functionData, setFunctionData] = useState([]);
 
   const dummyData = [
     {
@@ -71,6 +72,8 @@ function Search2() {
       poster:'/assets/images/poster_07.jpg'
     }
   ]
+
+
 
   return (
     <div className={`search ${searchStyle.search}`}>

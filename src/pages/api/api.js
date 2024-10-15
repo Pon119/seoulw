@@ -31,6 +31,13 @@ const defaultParams = {
   stdate: '20240101',
   eddate: '20241231'
 };
+const thisWeekParams = {
+  service: API_KEY,
+  rows: '20',
+  signgucode: '11',
+  stdate: stdate,
+  eddate: eddate
+}
 
 const instance = axios.create({
   baseURL: 'http://www.kopis.or.kr/openApi/restful/pblprfr',
@@ -59,7 +66,7 @@ async function apiMain(res){
       cpage: 1,
       shcate: shcate,
     };
-    const thisWeekParams = {
+    const mainThisWeekParams = {
       ...defaultParams,
       stdate: stdate,
       eddate: eddate,
@@ -67,7 +74,7 @@ async function apiMain(res){
       shcate: shcate
     }
     requests.genres.push(instance.get('', { params: { ...mainParams }})); //장르
-    requests.thisWeek.push(instance.get('', { params: { ...thisWeekParams } }));  //이번주
+    requests.thisWeek.push(instance.get('', { params: { ...mainThisWeekParams } }));  //이번주
     requests.ing.push(instance.get('', { params: { ...mainParams, prfstate: '02' } })); //공연중
     requests.upcoming.push(instance.get('', { params: { ...mainParams, prfstate: '01' } }));  //공연예정
   });
@@ -129,7 +136,9 @@ async function apiGenre(shcate, cpage, res){
 
 // 이번주(장르 1개)
 async function apiThisWeek(shcate, cpage, res){
-    const dataThisWeek = await instance.get('', {params: {cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
+    const dataThisWeek = await instance.get('', {params: {...thisWeekParams, cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
+    console.log('=======이번주========');
+    console.log(dataThisWeek);
     res.json(xmlTOjson(dataThisWeek.data) );
 }
 
