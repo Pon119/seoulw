@@ -35,6 +35,10 @@ function Header() {
         setHeader(() => <HeaderSearch />);
         break;
       case "/mypage":
+      case "/edit":
+      case "/review":
+      case "/bookmark":
+      case "/dropout":
         setHeader(() => <HeaderSub name={"마이페이지"} />);
         break;
       case "/login":
@@ -74,8 +78,6 @@ const GoBackBtn = () => {
 
 // 메인 헤더
 const HeaderMain = ({ movePage, hide }) => {
-  console.log(hide);
-
   return (
     <div
       className={`${headerStyle.mainHeaderWrap} ${
@@ -99,7 +101,7 @@ const HeaderMain = ({ movePage, hide }) => {
   );
 };
 
-// 서브 헤더
+// 서브(카테고리, MY) 헤더
 const HeaderSub = ({ name }) => {
   return (
     <div
@@ -265,15 +267,5 @@ const HeaderSearch3 = () => {
   );
 };
 
-// const HeaderMypage = () => {
-//   return (
-//     <div className={headerStyle.mypageHeaderWrap}>
-//       <button type="button">
-//         <img src="../../assets/icons/arrow_left.svg" />
-//       </button>
-//       <p>마이페이지</p>
-//     </div>
-//   );
-// };
 
 export default Header;
