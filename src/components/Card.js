@@ -12,7 +12,7 @@ function Card({item}) {
   }
 
   const movePage = (mt20id) =>{
-    router.push(`/detail?mt20id=${mt20id}`)
+    router.push(`/detail?mt20id=${mt20id._text}`)
   }
 
   return (

@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import searchStyle from '@/styles/search.module.scss'
 import useSearchStore from '../store/search_store';
 import Card from '@/components/Card';
+import { useRouter } from 'next/router';
+import { fn } from '@/utils/apiFunc';
+import { useSearchParams } from 'next/navigation';
+import Loading from '@/components/Loading';
 
 function Search2() {
   const {results} = useSearchStore();
-  const [functionData, setFunctionData] = useState([]);
+  const [functionData, setFunctionData] = useState();
+  const router = useRouter();
+  const { query } = router.query;
+  const searchWord = useSearchParams()
+  let b = searchWord.get('query')
 
   const dummyData = [
     {
@@ -72,25 +80,36 @@ function Search2() {
       poster:'/assets/images/poster_07.jpg'
     }
   ]
-
-
-
+  
+  const handleSearch = async () => {
+    const data = await fn.search(b, 1); 
+    setFunctionData(data);
+  };
+  
+  useEffect(()=>{
+    handleSearch();
+    console.log(1);
+  },[query])
+  
+  // if(!functionData)<></>;
+console.log(functionData);
   return (
+    !functionData ? <><Loading /></> :
     <div className={`search ${searchStyle.search}`}>
-      { results!== null && results.length > 0 ? (
+      { functionData ? (
         <>
-          <h2>검색 결과 <span>(1,000)</span></h2>
+          <h2>검색 결과</h2>
           <div className={searchStyle.thousand}>
-            {dummyData.map((item) => (
-              <figure key={item.id}>
-                  <Card key={item.id} item={item}/>
+            {functionData?.titleData.map((item,i) => (
+              <figure key={i}>
+                  <Card item={item}/>
               </figure>
             ))}
           </div>
         </>
       ) : (
         <>
-          <h2>검색 결과 <span>(0)</span></h2>
+          <h2>검색 결과</h2>
           <div className={searchStyle.none}>
             <p>검색 결과가 없습니다.</p>
           </div>

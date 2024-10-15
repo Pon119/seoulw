@@ -33,12 +33,12 @@ function Category() {
     const shcateValue = genreMapping[clickedGenre];
     const data = await fn.genre(shcateValue, 1); 
     console.log(data);
-    setFunctionData(data);
+    setFunctionData(data); //누적?
   };
 
   useEffect(()=>{
     handleGenre();
-    setAll(1);
+    setAll(1);  //탭초기화
   },[clickedGenre])
 
   // useEffect(() => {

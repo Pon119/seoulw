@@ -11,8 +11,6 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { FreeMode } from 'swiper/modules';
 
-import Card from '@/components/Card';
-
 function Search() {
   const {results, readCookie, setResults} = useSearchStore();
   const remove = useSearchStore((state) => state.deleteC);
@@ -37,9 +35,8 @@ function Search() {
 
     router.push('/search2');
   };
-  
 
-  
+
   return (
     <div className={`search ${searchStyle.search}`}>
       <h2>최근 검색어</h2>   
