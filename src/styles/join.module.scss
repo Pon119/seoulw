@@ -8,14 +8,42 @@
         border: 1px solid #cbcbcb;
         border-radius: 4px;
         padding-left: 40px;
-        margin-bottom: 12px;
         &::placeholder{font-size: 14px;}
         &.active{
             border-color: #FF4B77;
-        }  
+         }  
+      }
+    //   .errormsg{
+    //     position: absolute;
+    //     bottom: -10px;
+        
+    // }
+   }
+ // 인풋박스 내부 : 우측 [x, 눈] 아이콘
+ .inp_button{
+    // visibility: hidden;
+    position: absolute;
+    top: 28px;
+    right:5px;
+    transform: translate(-50%, -50%);
+    background-repeat: no-repeat;
+}
+.input_reset_btn{
+    width: 22px;
+    height: 22px;
+    background: url(../../public/assets/icons/input_xbtn.svg) center no-repeat;
+}
+.input_eye_btn{
+    width: 22px;
+    height: 22px;
+    right: 40px;
+    background:url(../../public/assets/icons/eye.svg) center 4px no-repeat;
+    &.hide{
+        background-image: url(../../public/assets/icons/icon_eye_closed.svg);
     }
 }
 
+//로그인에서만 쓰는
 .loginwrap{
     margin-top: 40px;
     width: 100%;
@@ -32,57 +60,24 @@
         display: flex;
         flex-wrap: wrap;
        
-        // 인풋박스 내부 : 우측 [x, 눈] 아이콘
-        .inp_button{
-            // visibility: hidden;
-            position: absolute;
-            top: 28px;
-            right:5px;
-            transform: translate(-50%, -50%);
-            background-repeat: no-repeat;
-        }
-        .input_reset_btn{
-            width: 22px;
-            height: 22px;
-            background: url(../../public/assets/icons/input_xbtn.svg) center no-repeat;
-        }
-        .input_eye_btn{
-            width: 22px;
-            height: 22px;
-            right: 40px;
-            background:url(../../public/assets/icons/eye.svg) center 4px no-repeat;
-            &.hide{
-                background-image: url(../../public/assets/icons/icon_eye_closed.svg);
-            }
-        }
+   
         input.hasValue ~ .input_reset_btn,
         input.hasValue ~ .input_eye_btn{
             visibility: visible;
         }
-        .loginemail{
-            display: flex;
-            justify-content: space-between;
-        }
-        .confirmbtn{
-            font-size: 0.9rem;
-            width: 20%;
-            border: 1px solid #cbcbcb;
-            background-color: #cbcbcb;
-            border-radius: 4px;
-            height: 60px;
-        }
-         .inputtext{
-            background: url("../../public/assets/icons/my_email.svg") 15px 21px no-repeat;   
-         }
-         .inputpass{
-             background: url("../../public/assets/icons/my_password.svg") 15px no-repeat;
-         }
-         .inputname{
-             background: url("../../public/assets/icons/my_name.svg") 15px 19px  no-repeat;   
-         }
-         .inputphone{
-             background: url("../../public/assets/icons/my_phone.svg") 15px no-repeat;
-         }
+        // .loginemail{
+        //     display: flex;
+        //     justify-content: space-between;
+        // }
+        // .confirmbtn{
+        //     font-size: 0.9rem;
+        //     width: 20%;
+        //     border: 1px solid #cbcbcb;
+        //     background-color: #cbcbcb;
+        //     border-radius: 4px;
+        //     height: 60px;
+        // }
+   
        
        .inputbtn{
            width:100%;
@@ -131,6 +126,27 @@
                   }
         }
 
+        }
+        .loginrow{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            .logininput{
+                width: 81%;
+                input{width: 100%;}
+            }
+
+            
+            button{
+                width: 17%;
+                height: 60px;
+                border-radius: 4px;
+                font-size: 0.8rem;
+                color: rgb(48, 48, 48);
+                font-weight: 500;
+                border: 1px solid #cbcbcb;
+                background-color: #dfdfdf;
+                }
         }
 
     }

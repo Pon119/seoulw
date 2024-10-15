@@ -4,7 +4,7 @@ import joinStyle from '@/styles/join.module.scss';
 import { useRouter } from 'next/router';
 import Logininput from '@/components/Logininput';
 import { addDoc, collection } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import db from '@/lib/firebase';
 
 function Join() {
     const [email, setEmail] = useState('');
@@ -14,22 +14,51 @@ function Join() {
 
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+   
     const router = useRouter();
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // console.log(e.target.info1.checked && e.target.info2.checked);
 
-        addDoc(collection(db, 'member'),obj)
-
-        if (joinname && email && password && phone) {
-            console.log('회원가입 정보:', { joinname, email, password, phone });
-            joinPop(); // 회원가입 완료 팝업 호출
-            router.push('/'); // 홈 페이지로 이동
-        } else {
-            setError('모든 필드를 입력해주세요.');
+        if (!(e.target.info1.checked && e.target.info2.checked)) {
+            setError("이용 약관에 동의해야 합니다.");
+            return;
         }
-    };
+
+        if (password !== confirmPassword) {
+            setError("패스워드가 일치하지 않습니다.");
+            return;
+        }
+        if (!(joinname && email && password && phone)) {
+            console.log('회원가입 정보:', { joinname, email, password, phone });
+            setError('모든 필드를 입력해주세요.');
+            return;
+        }
+
+        try {
+            console.log( {            
+                userId: email,
+                userPassword: password,
+                userName: joinname, 
+                userPhone: phone
+            })
+            await addDoc(collection(db, "member"), {            
+                userId: email,
+                userPassword: password,
+                userName: joinname, 
+                userPhone: phone
+            });
+           
+            console.log("success")
+            joinPop(); // 로그인 성공 팝업
+            router.push('/login'); // 로그인 완료시 홈 이동
+        } catch (error) {
+            setError(error.message);
+        }
+    } ;
+
 
     //회원가입 완료 팝업 창    
     function joinPop() {
@@ -46,22 +75,25 @@ function Join() {
         <div className={joinStyle.loginwrap}>
             <h2>회원가입</h2>
             <form onSubmit={handleSubmit}>
-                <Logininput type="email" msg="아이디" value={email} setValue={setEmail} />
+                <div className={joinStyle.loginrow}>
+                    <Logininput type="email" msg="아이디" value={email} setValue={setEmail} />
+                    <button>중복 체크</button>
+                </div>
                 <Logininput type="password" msg="비밀번호 (영문/숫자/특수문자 조합 8~15자)" value={password} setValue={setPassword} />
                 <Logininput type="password" msg="비밀번호 확인" value={confirmPassword} setValue={setConfirmPassword} />
                 <Logininput type="text" msg="성함" value={joinname} setValue={setJoinname} />
                 <Logininput type="tel" msg="휴대폰 번호 ( - 없이 )" value={phone} setValue={setPhone} />
      
                 <div className={joinStyle.inputcheck}>
-                    <input type='checkbox' className={joinStyle.checkbox} id="info1" name="info" />
+                    <input type='checkbox' className={joinStyle.checkbox} id="info1" name="info1" />
                     <label htmlFor="info1"><i></i>이용 약관 동의<span>(필수)</span></label>
                 </div>
                 <div className={joinStyle.inputcheck}>
-                    <input type='checkbox' className={joinStyle.checkbox} id="info2" name="info" /> 
+                    <input type='checkbox' className={joinStyle.checkbox} id="info2" name="info2" /> 
                     <label htmlFor="info2"><i></i>개인 정보 수집 및 이용 동의<span>(필수)</span></label>
                 </div>
                 <div className={joinStyle.inputcheck}>
-                    <input type='checkbox' className={joinStyle.checkbox} id="info3" name="info" />
+                    <input type='checkbox' className={joinStyle.checkbox} id="info3" name="info3" />
                     <label htmlFor="info3"><i></i>E-mail 및 SMS 광고성 정보 수신 동의<span>(선택)</span></label>
                 </div>
 
@@ -69,6 +101,6 @@ function Join() {
             </form>
         </div>
     );
-}
 
+}
 export default Join;

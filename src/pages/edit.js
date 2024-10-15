@@ -1,9 +1,12 @@
 import React from 'react'
 import editStyle from '@/styles/edit.module.scss'
+import Header from "@/components/Header";
 
 const edit = () => {
   const idName = 'parkwl***'
   return (
+  
+    <Header>
     <div className={editStyle.editwrap}>
     {/* <div className={mypageStyle.topwrap}>
     <button><img src="../../assets/icons/arrow_left.svg"/></button>
@@ -21,9 +24,8 @@ const edit = () => {
 
         <input type="submit" className={editStyle.inputbtn} value="수정 완료" />
       </form>
-      
       </div>
-
+   </Header>
   )
 }
 

@@ -4,7 +4,7 @@ import bookmarkStyle from "@/styles/bookmark.module.scss";
 function bookmark({ numberOfBookmarks }) {
   // 최대 50개까지 설정 가능
   const maxBookmarks = Math.min(numberOfBookmarks, 50);
-  
+
   const [activeIndexes, setActiveIndexes] = useState([]);
 
   const handleClick = (index) => {
@@ -27,7 +27,10 @@ function bookmark({ numberOfBookmarks }) {
         <div className={bookmarkStyle.listflex}>
           {Array.from({ length: maxBookmarks }).map((_, index) => (
             <div className={bookmarkStyle.listinfo} key={index}>
-              <img src="./assets/images/poster_01.jpg" alt={`뮤지컬 포스터 ${index + 1}`} />
+              <img
+                src="./assets/images/poster_01.jpg"
+                alt={`뮤지컬 포스터 ${index + 1}`}
+              />
               <button
                 onClick={() => handleClick(index)} // 인덱스를 전달
                 className={`${bookmarkStyle.like} ${

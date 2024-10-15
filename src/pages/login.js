@@ -10,29 +10,30 @@ import loginStyle from '@/styles/login.module.scss'
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState({id:'',pw:''});
   const router = useRouter();
-  async function handleSubmit(e){
-    
-    e.preventDefault(); 
 
-    let id=e.target.id.value,
-        password =e.target.pw.value;
-        console.log(id, password);
+  const handleLogin = async (e)=>{
+    e.preventDefault(); 
+ 
+        console.log(email, password);
 
     //signIn이 계속 새로고침을 함 -> redirect: false로 해야 새로고침 안됨
     let loginResult = await signIn('credentials',{
-                  redirect:false, id, password
+                  redirect:false, email, password
                  }); 
       console.log(loginResult);
-      if(loginResult.ok){
-       
+      if(loginResult.ok){       
         //홈 화면으로 페이지 이동시
-        const router = useRouter()
         router.push('/')
-
 
       }else{
         console.log("Error", loginResult.error);
+        if(loginResult.error.includes('아이디성공')){
+          setError({id:'', pw:'비밀번호가 틀렸습니다.'});
+        }else{
+          setError({id:'아이디가 틀렸습니다.', pw:'비밀번호가 틀렸습니다.'});
+        }
       }
    }
    const { data: session } = useSession()
@@ -47,11 +48,11 @@ function Login() {
 
     <div className={loginStyle.loginwrap}>
       <h2>로그인</h2>
-      <form onSubmit={handleSubmit}>
-       <Logininput  type="email" msg="아이디" value={email} setValue={setEmail}/>
-       <Logininput type="password" msg="비밀번호 (영문/숫자/특수문자 조합 8~15자)" value={password} setValue={setPassword} />
+      <form onSubmit={handleLogin}>
+       <Logininput  type="email" msg="아이디" value={email} setValue={setEmail} error={error.id}/>
+       <Logininput type="password" msg="비밀번호 (영문/숫자/특수문자 조합 8~15자)" value={password} setValue={setPassword} error={error.pw}/>
       
-        <input type="submit" value="로그인" onClick={() => signIn()} />
+        <input type="submit" value="로그인" />
         
         <input type='checkbox' className={loginStyle.checkbox} id="chk1" name="chk" defaultChecked/>
         <label htmlFor="chk1"><i></i>아이디 저장</label>
