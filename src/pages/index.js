@@ -12,24 +12,54 @@ import mainStyle from "@/styles/main.module.scss";
 import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from '@/components/Loading';
 import store from '../store/main_store';
 
 export default function Main() {
   const {mainData} = store();
   const [clickedGenre, setClickedGenre] = useState(0);
-  // console.log(mainData);
   const router = useRouter();
+  console.log(mainData);
+  
   let thisWeekRawData = (mainData.length === 0) ? [] : mainData.thisWeek  //이번주 데이터
   let upcomingRawData = (mainData.length === 0) ? [] : mainData.upcoming  //공연예정
   let genresRawData = (mainData.length === 0) ? [] : mainData.genres// 장르별
-  console.log(thisWeekRawData)
+  // console.log(thisWeekRawData)  // 0~8 짝1연극-홀5국악 반복
+  // console.log(upcomingRawData); // 0~8 짝3무용-홀7기타
+  // console.log(genresRawData); // 0~8 짝0뮤지컬-홀4클래식
+
+  /**비주얼용 데이터 추출 함수*/
+  const createVisualExtractData = () => {
+    let visualExtractData = [];
+    function getRandomNumbers() {
+      const randomNumbers = new Set(); // 중복 방지를 위해 Set 사용
+    
+      while (randomNumbers.size < 3) {
+        const randomNumber = Math.floor(Math.random() * 8); // 0부터 7까지의 랜덤 숫자 생성
+        randomNumbers.add(randomNumber); // Set에 추가 (중복이면 무시됨)
+      }
+    
+      return Array.from(randomNumbers); // Set을 배열로 변환하여 반환
+    }
+    const genre = getRandomNumbers();
+
+    genre.forEach((num) => {
+      let thisWeekVisualData = mainData.thisWeek[num].data;
+      let upcomingVisualData = mainData.upcoming[num].data;
+      let genresVisualData = mainData.genres[num].data;
+      visualExtractData.push(thisWeekVisualData[0])
+      visualExtractData.push(upcomingVisualData[1])
+      visualExtractData.push(genresVisualData[2])
+    })
+    return visualExtractData;
+  }
+
   
   let thisWeekExtractedData = Object.values(thisWeekRawData[clickedGenre])[0]
   let upcomingExtractedData = Object.values(upcomingRawData[clickedGenre])[0]
   let genresExtractedData = Object.values(genresRawData[clickedGenre])[0]
-  const visualData = (Object.values(thisWeekRawData[0])[0]).slice(0,5)
+  let visualExtractedData = (Object.values(thisWeekRawData[0])[0]).slice(0,5)
                                                   //ㄴ 0 연극 
                                                     // 1 한국음악(국악)
                                                     // 2 연극 
@@ -38,84 +68,18 @@ export default function Main() {
                                                     // 5 한국음악(국악) 
                                                     // 6 연극 
                                                     // 7 한국음악(국악)
-  visualData.forEach((obj) => {
+  visualExtractedData.forEach((obj) => {
     console.log(obj.genrenm._text)
   })
   
+  // let thisWeekExtractedData = thisWeekRawData[clickedGenre].data;
+  // let upcomingExtractedData = upcomingRawData[clickedGenre].data;
+  // let genresExtractedData = genresRawData[clickedGenre].data;
+  // let visualExtractData = [];
+  // useEffect(() => {
+  //   visualExtractData = createVisualExtractData();
+  // }, [])
   
-  
-  // console.log(visualData);
-  // console.log(thisWeekExtractedData);
-  // console.log(upcomingExtractedData);
-  // console.log(genresExtractedData);
-
-  
-  // // 공연목록 가짜 데이터는 7개입니다
-  // const dummyData = [
-  //   {
-  //     mt20id: 'PF000000',
-  //     prfnm: '뮤지컬 ( 베르사유의 장미 )',
-  //     prfstate: '공연중',
-  //     fcltynm: '서울 블루스퀘어 신한카드 홀 10420 1024',
-  //     prfpdfrom:'2024.11.29',
-  //     prfpdto:'2025.05.18',
-  //     poster:'/assets/images/poster_01.jpg'
-  //   },
-  //   {
-  //     mt20id: 'PF000001',
-  //     prfnm: '제20회 숙명여자대학교 문화예술대학원 전통예술학과 전통음악전공 정기연주회: 절차탁마',
-  //     prfstate: '공연 예정',
-  //     fcltynm: '대학로 자유 극장',
-  //     prfpdfrom:'2024.11.29',
-  //     prfpdto:'2025.05.18',
-  //     poster:'/assets/images/poster_02.jpg'
-  //   },
-  //   {
-  //     mt20id: 'PF000002',
-  //     prfnm: '국립심포니오케스트라 실내악 시리즈 Ⅱ, 정화된 밤',
-  //     prfstate: '공연 예정',
-  //     fcltynm: '홍익대 대학로 아트센터 대극장',
-  //     prfpdfrom:'2024.11.29',
-  //     prfpdto:'2025.05.18',
-  //     poster:'/assets/images/poster_03.jpg'
-  //   },
-  //   {
-  //     mt20id: 'PF000003',
-  //     prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
-  //     prfstate: '공연 예정',
-  //     fcltynm: '블루스퀘어 신한카드 홀',
-  //     prfpdfrom:'2024.11.29',
-  //     prfpdto:'2025.05.18',
-  //     poster:'/assets/images/poster_04.jpg'
-  //   },
-  //   {
-  //     mt20id: 'PF000004',
-  //     prfnm: '뮤지컬 ( 클로버 )',
-  //     prfstate: '공연 완료',
-  //     fcltynm: '블루스퀘어 신한카드 홀',
-  //     prfpdfrom:'2024.11.29',
-  //     prfpdto:'2025.05.18',
-  //     poster:'/assets/images/poster_05.jpg'
-  //   },
-  //   {
-  //     mt20id: 'PF000005',
-  //     prfnm: '뮤지컬 ( 부치하난 )',
-  //     prfstate: '공연 완료',
-  //     fcltynm: '블루스퀘어 신한카드 홀',
-  //     prfpdfrom:'2024.11.29',
-  //     prfpdto:'2025.05.18',
-  //     poster:'/assets/images/poster_06.jpg'
-  //   },
-  //   {
-  //     mt20id: 'PF000006',
-  //     prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
-  //     prfstate: '공연중',
-  //     fcltynm: '블루스퀘어 신한카드 홀',
-  //     prfpdfrom:'2024.01.09',
-  //     prfpdto:'2025.05.18',
-  //     poster:'/assets/images/poster_07.jpg'
-  //   }
-  // ]
 
   // 리뷰 가짜 데이터는 10개입니다
   const reviewDummyData = [
@@ -249,7 +213,7 @@ export default function Main() {
           className={mainStyle.visualSlide}
         >
           {
-            visualData.map((item, idx) => (
+            visualExtractedData.map((item, idx) => (
               <SwiperSlide key={idx} className={mainStyle.slidePage}>
                 <div onClick={() => moveToDetailPage(item.mt20id._text)} className={mainStyle.slideWrap}>
                   <img className={mainStyle.slideImg} src={item.poster._text} />
@@ -416,7 +380,7 @@ const ListSwiper = ({dataArr, clickedGenre, moveToDetailPage}) => {
     groupDataArr.push(group);
   }  
 
-  console.log(groupDataArr);
+  // console.log(groupDataArr);
   
 
 

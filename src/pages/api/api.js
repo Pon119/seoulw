@@ -64,7 +64,7 @@ async function apiMain(res){
   genreParams.forEach(({ shcate }) => {
     const mainParams = {
       service: API_KEY,
-      rows: '20',   //요청개수
+      rows: '5',   //요청개수
       signgucode: '11',
       stdate: '20240101',
       eddate: '20241231',
@@ -73,7 +73,7 @@ async function apiMain(res){
     };
     const mainThisWeekParams = {
       service: API_KEY,
-      rows: '20',   //요청개수
+      rows: '5',   //요청개수
       signgucode: '11',
       stdate: stdate,
       eddate: eddate,
@@ -82,27 +82,28 @@ async function apiMain(res){
     }
     // const detailResult = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${mt20id}`, {params: {service:API_KEY} });
 
-    requests.genres.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams }})); //장르
     requests.thisWeek.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainThisWeekParams } }));  //이번주
-    requests.ing.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams, prfstate: '02' } })); //공연중
     requests.upcoming.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams, prfstate: '01' } }));  //공연예정
+    requests.genres.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams }})); //장르
+    // requests.ing.push(axios.get('http://www.kopis.or.kr/openApi/restful/pblprfr', { params: { ...mainParams, prfstate: '02' } })); //공연중
 
     //예시
     // requests.upcoming.push(instance.get('', { params: { ...mainParams, prfstate: '01' } }));  //공연예정
   });
 
   const results = await Promise.all([
-    ...requests.genres,
     ...requests.thisWeek,
-    ...requests.ing,
+    // ...requests.ing,
     ...requests.upcoming,
+    ...requests.genres
   ]);
-  console.log('============================');
+  console.log('시작============================');
   
-  // console.log(results[4]); 
-  // 0뮤지컬 1연극 2대중음악 3무용 4클래식 여기서 오류남(섞여서 들어옴) 5국악 6서커스/마술 7기타
+  // console.log(results[i]); 
+  //i = 0뮤지컬 1연극 2대중음악 3무용 4클래식 여기서 오류남(섞여서 들어옴) 5국악 6서커스/마술 7기타
 
-  // results.forEach((result) => {
+  // results.forEach((result, idx) => {
+  //   console.log(`${idx}============================`);
   //   if(result.length !== 0){
   //     console.log(result.data);      
   //   }
@@ -110,23 +111,40 @@ async function apiMain(res){
 
   //results분류할 오브젝트
   const response = {
-    genres: [],
     thisWeek: [],
-    ing: [],
+    // ing: [],
     upcoming: [],
+    genres: []
   };
+  console.log(results.length);  
+  let twd = results.slice(0,7)
+  let twd2 = results.slice(8,15)
+  let twd3 = results.slice(16,23)
+  // console.log('=======1=======');
+  // console.log(twd);
+  // console.log('=======2=======');
+  // console.log(twd2);
+  // console.log('=======3=======');
+  // console.log(twd3);
   
-  //results를 각각의 배열에 맞게 분류
+  // [↓] 원래 코드 ==========================================================================
+  // results를 각각의 배열에 맞게 분류
   results.forEach((result, index) => { 
+    if (result && result.data) {
+      console.log(`Response ${index}: Success`);
+    } else {
+      console.log(`Response ${index}: Failed or No Data`);
+    }
+
     // 각 요청이 어떤 키에 해당하는지 계산
-    const genreIndex = Math.floor(index / 4); // 장르 요청의 인덱스
-    const requestTypeIndex = index % 4; // 요청 타입의 인덱스
-    // console.log(`${index}: 장르번호:${genreIndex}  | 넷중:${requestTypeIndex}`);
-    
+    const genreIndex = Math.floor(index / 3); // 장르 요청의 인덱스
+    const requestTypeIndex = index % 3; // 요청 타입의 인덱스
+    // console.log(`${index}: 장르번호:${genreIndex}  | 넷중:${requestTypeIndex}`);    
 
     const genreLabel = genreParams[genreIndex].label; // 장르 라벨
-    const typeLabel = ['genres', 'thisWeek', 'ing', 'upcoming'][requestTypeIndex]; // 요청 타입 라벨
+    const typeLabel = ['thisWeek', 'upcoming', 'genres'][requestTypeIndex]; // 요청 타입 라벨
 
+    
     if (result.data !== null) {
       let dataGenre = xmlTOjson(result.data)
       response[typeLabel].push({ [genreLabel]: dataGenre }); // 성공 시 데이터 추가
@@ -134,9 +152,63 @@ async function apiMain(res){
       response[typeLabel].push({ [genreLabel]: null }); // 실패 시 null 추가
     }
   });
+  // [↑] 원래 코드 끝 ========================================================================
 
+
+  // [↓] 수정 코드 ==========================================================================
+
+  // results를 장르별로 4개씩 묶어서 처리
+  // genreParams.forEach((genre, idx) => {
+  //   const genreLabel = genre.label; // 장르
+
+  //   // // 각 장르에 해당하는 4개의 결과를 추출 (0번째는 genres, 1번째는 thisWeek, ...)
+  //   const [thisWeekData, upcomingData, genreData] = results.slice(idx * 8, idx * 8 + 7); //0~4, 4~8, ...
+    
+  //   // 각각의 요청 결과가 존재하는지 확인 후 데이터 추가
+  //   if (genreData && genreData.data) {
+  //     let parsedData = xmlTOjson(genreData.data);
+  //     response.genres.push({ genreLabel, data: parsedData });
+  //   } else {
+  //     response.genres.push({ genreLabel, data: null });
+  //   }
+
+  //   if (thisWeekData && thisWeekData.data) {
+  //     let parsedData = xmlTOjson(thisWeekData.data);
+  //     response.thisWeek.push({ genreLabel, data: parsedData });
+  //   } else {
+  //     response.thisWeek.push({ genreLabel, data: null });
+  //   }
+
+  //   if (upcomingData && upcomingData.data) {
+  //     let parsedData = xmlTOjson(upcomingData.data);
+  //     response.upcoming.push({ genreLabel, data: parsedData });
+  //   } else {
+  //     response.upcoming.push({ genreLabel, data: null });
+  //   }
+  //   // // 각 요청 유형에 맞게 데이터를 할당
+  //   // genreResults.forEach((result, requestTypeIndex) => {
+  //   //   const typeLabel = ['genres', 'thisWeek', 'ing', 'upcoming'][requestTypeIndex];
+
+  //   //   if (result.data !== null) {
+  //   //     let dataGenre = xmlTOjson(result.data); // XML -> JSON 변환
+        
+  //   //     // 해당 유형에 데이터 추가
+  //   //     if (!response[typeLabel][idx]) {
+  //   //       response[typeLabel][idx] = { genreLabel, data: [] };
+  //   //     }
+  //   //     response[typeLabel][idx].data.push(dataGenre); // 데이터 추가
+  //   //   } else {
+  //   //     // 실패 시 null 처리
+  //   //     if (!response[typeLabel][idx]) {
+  //   //       response[typeLabel][idx] = { genreLabel, data: [] };
+  //   //     }
+  //   //     response[typeLabel][idx].data.push(null);
+  //   //   }
+  //   // });
+  // });
   // console.log(response.genres);
-  
+    // [↑] 수정 코드 끝 ========================================================================
+
   
 
   res.json(response);
