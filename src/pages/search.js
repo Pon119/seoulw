@@ -33,7 +33,7 @@ function Search() {
   console.log('New Results to Set:', newResults); // 디버깅 로그 추가
   setResults(newResults); // 새로운 결과 설정
 
-    router.push('/search2');
+    router.push(`/search2?query=${value}`);
   };
 
 
