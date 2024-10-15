@@ -1,6 +1,7 @@
-import axios from 'axios'
 import React from 'react'
+import axios from 'axios'
 
+/** thisweek용 시작일, 종료일 구하기 */
 function getThisWeekDate() {
   function dateFormat (date) {
     const yyyy = date.getFullYear();
@@ -17,25 +18,15 @@ function getThisWeekDate() {
   const eddate = dateFormat(endDate)
   return {stdate, eddate}   
 }
-
 let {stdate, eddate} = getThisWeekDate();
-console.log(stdate,eddate);
 
 const API_KEY = '7b1ab9ea464e4d70ad4c8bad7505f532';
 const defaultParams = {
   service: API_KEY,
+  rows: '20',   //요청개수
+  signgucode: '11',
   stdate: '20240101',
-  eddate: '20241231',
-  rows: '20',
-  signgucode: '11'
-};
-
-const defaultParams2 = {
-  service: API_KEY,
-  stdate: stdate,
-  eddate: eddate,
-  rows: '20',
-  signgucode: '11'
+  eddate: '20241231'
 };
 
 const instance = axios.create({
@@ -43,173 +34,162 @@ const instance = axios.create({
   params: defaultParams
 });
 
-var convert = require('xml-js');
 
-//메인 & 카테고리용
-async function apiGenre(cpage, res){
-// 프로미스 요청
-  let [musical, play, pop, dance, classic, gukak, circus, etc] = await Promise.allSettled([
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'GGGA'} }), //뮤지컬
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'AAAA'} }), //연극
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCD'} }), //대중음악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'BBB'} }), //무용
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCA'} }), //서양음악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCC'} }), //국악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'EEEB'} }), //서커스/마술
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'EEEA'} }), //기타
-  ])
 
-  res.status(200).json({ 
-    musical: musical.value.data,
-    play: play.value.data,
-    pop: pop.value.data,
-    dance: dance.value.data,
-    classic: classic.value.data,
-    gukak: gukak.value.data,
-    circus: circus.value.data,
-    etc: etc.value.data
+// [↓] 메인(store에 저장) 시작======================================================================
+async function apiMain(res){
+  const genreParams = [
+    { shcate: 'GGGA', label: 'musical' }, // 뮤지컬
+    { shcate: 'AAAA', label: 'play' }, // 연극
+    { shcate: 'CCCD', label: 'pop' }, // 대중음악
+    { shcate: 'BBB', label: 'dance' }, // 무용
+    { shcae: 'CCCA', label: 'classic' }, // 서양음악
+    { shcate: 'CCCC', label: 'gukak' }, // 국악
+    { shcate: 'EEEB', label: 'circus' }, // 서커스/마술
+    { shcate: 'EEEA', label: 'etc' } // 기타
+  ];
+
+  const requests = { genres: [], thisWeek: [], ing: [], upcoming: [] };
+  genreParams.forEach(({ shcate }) => {
+    const mainParams = {
+      ...defaultParams,
+      cpage: 1,
+      shcate: shcate,
+    };
+    const thisWeekParams = {
+      ...defaultParams,
+      stdate: stdate,
+      eddate: eddate,
+      cpage: 1,
+      shcate: shcate
+    }
+    requests.genres.push(instance.get('', { params: { ...mainParams }})); //장르
+    requests.thisWeek.push(instance.get('', { params: { ...thisWeekParams } }));  //이번주
+    requests.ing.push(instance.get('', { params: { ...mainParams, prfstate: '02' } })); //공연중
+    requests.upcoming.push(instance.get('', { params: { ...mainParams, prfstate: '01' } }));  //공연예정
   });
-  // console.log(musical.value.data);
+
+  const results = await Promise.all([
+    ...requests.genres,
+    ...requests.thisWeek,
+    ...requests.ing,
+    ...requests.upcoming,
+  ]);
+
+  // results.forEach((result) => {
+  //   if(result.length !== 0){
+  //     console.log(result.data);      
+  //   }
+  // })
+
+  //results분류할 오브젝트
+  const response = {
+    genres: [],
+    thisWeek: [],
+    ing: [],
+    upcoming: [],
+  };
+  //results를 각각의 배열에 맞게 분류
+  results.forEach((result, index) => {
+    // 각 요청이 어떤 키에 해당하는지 계산
+    const genreIndex = Math.floor(index / 4); // 장르 요청의 인덱스
+    const requestTypeIndex = index % 4; // 요청 타입의 인덱스
+
+    const genreLabel = genreParams[genreIndex].label; // 장르 라벨
+    const typeLabel = ['genres', 'thisWeek', 'ing', 'upcoming'][requestTypeIndex]; // 요청 타입 라벨
+
+    if (result.data !== null) {
+      response[typeLabel].push({ [genreLabel]: result.data }); // 성공 시 데이터 추가
+    } else {
+      response[typeLabel].push({ [genreLabel]: null }); // 실패 시 null 추가
+    }
+  });
+
+  // console.log(response.genres);
+  
+  res.json(response);
+}
+// [↑] 메인(store) 종료=======================================================================================
+
+
+// [↓] 카테고리 시작===================================================================================
+// 장르별(1개)
+async function apiGenre(shcate, cpage, res){
+    const dataGenre = await axios.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
+    res.json(dataGenre);
 } 
 
-//이번주,,, 데이터,,,
-async function apiThisWeek(cpage, res){
+// 이번주(장르 1개)
+async function apiThisWeek(shcate, cpage, res){
+    const dataThisWeek = await axios.get('', {params: {...thisWeekParams, cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
+    res.json(dataThisWeek);
+}
 
-// 프로미스 요청
-  let [musical, play, pop, dance, classic, gukak, circus, etc] = await Promise.allSettled([
-    instance.get('', {params: {...defaultParams2, cpage: `${cpage}`, shcate: 'GGGA'} }), //뮤지컬
-    instance.get('', {params: {...defaultParams2, cpage: `${cpage}`, shcate: 'AAAA'} }), //연극
-    instance.get('', {params: {...defaultParams2, cpage: `${cpage}`, shcate: 'CCCD'} }), //대중음악
-    instance.get('', {params: {...defaultParams2, cpage: `${cpage}`, shcate: 'BBB'} }), //무용
-    instance.get('', {params: {...defaultParams2, cpage: `${cpage}`, shcate: 'CCCA'} }), //서양음악
-    instance.get('', {params: {...defaultParams2, cpage: `${cpage}`, shcate: 'CCCC'} }), //국악
-    instance.get('', {params: {...defaultParams2, cpage: `${cpage}`, shcate: 'EEEB'} }), //서커스/마술
-    instance.get('', {params: {...defaultParams2, cpage: `${cpage}`, shcate: 'EEEA'} }), //기타
-  ])
-console.log(musical.value.data);
-  res.status(200).json({ 
-    musical: musical.value.data,
-    play: play.value.data,
-    pop: pop.value.data,
-    dance: dance.value.data,
-    classic: classic.value.data,
-    gukak: gukak.value.data,
-    circus: circus.value.data,
-    etc: etc.value.data
-  });
-  // console.log(musical.value.data);
-} 
+// 공연중(장르 1개)
+async function apiIng(shcate, cpage, res) {
+  const dataIng = await axios.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: `${shcate}`, prfstate: '02'} }); //뮤지컬 GGGA
+  res.json(dataIng);
+  
+}
+// 공연예정(장르 1개)
+async function apiUpcoming(shcate, cpage, res) {
+  const dataUpcoming = await axios.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: `${shcate}`, prfstate: '01'} }); //뮤지컬 GGGA
+  res.json(dataUpcoming);
+  
+}
 
-//공연중,,,
-async function apiIng(cpage, res){
-// 프로미스 요청
-  let [musical, play, pop, dance, classic, gukak, circus, etc] = await Promise.allSettled([
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'GGGA', prfstate: '02'} }), //뮤지컬
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'AAAA', prfstate: '02'} }), //연극
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCD', prfstate: '02'} }), //대중음악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'BBB', prfstate: '02'} }), //무용
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCA', prfstate: '02'} }), //서양음악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCC', prfstate: '02'} }), //국악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'EEEB', prfstate: '02'} }), //서커스/마술
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'EEEA', prfstate: '02'} }), //기타
-  ])
-
-  res.status(200).json({ 
-    musical: musical.value.data,
-    play: play.value.data,
-    pop: pop.value.data,
-    dance: dance.value.data,
-    classic: classic.value.data,
-    gukak: gukak.value.data,
-    circus: circus.value.data,
-    etc: etc.value.data
-  });
-  // console.log(musical.value.data);
-} 
-
-//공연예정,,,
-async function apiUpcoming(cpage, res){
-// 프로미스 요청
-  let [musical, play, pop, dance, classic, gukak, circus, etc] = await Promise.allSettled([
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'GGGA', prfstate: '01'} }), //뮤지컬
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'AAAA', prfstate: '01'} }), //연극
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCD', prfstate: '01'} }), //대중음악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'BBB', prfstate: '01'} }), //무용
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCA', prfstate: '01'} }), //서양음악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'CCCC', prfstate: '01'} }), //국악
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'EEEB', prfstate: '01'} }), //서커스/마술
-    instance.get('', {params: {...defaultParams, cpage: `${cpage}`, shcate: 'EEEA', prfstate: '01'} }), //기타
-  ])
-
-  res.status(200).json({ 
-    musical: musical.value.data,
-    play: play.value.data,
-    pop: pop.value.data,
-    dance: dance.value.data,
-    classic: classic.value.data,
-    gukak: gukak.value.data,
-    circus: circus.value.data,
-    etc: etc.value.data
-  });
-  // console.log(musical.value.data);
-} 
+// [↑] 카테고리 종료=============================================================================
 
 
-//서치
+// [↓] 서치 시작=====================================================================
 async function apiSearch(searchWord, cpage, res){
   let encodedWord = encodeURIComponent('우주');
-  let page = 1
-  let title = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&stdate=20240101&eddate=20241231&rows=20&cpage=1&signgucode=11&shprfnm=${encodedWord}`)
-  res.json(title.data)//xml민트색
-  // console.log(title.data);//문자열같아요 흰색
-
+  let page = 1  //나중에 주소page변수 cpage로 변경
+  let title = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&stdate=20240101&eddate=20241231&rows=20&cpage=${page}&signgucode=11&shprfnm=${encodedWord}`)
   let venue = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&stdate=20240101&eddate=20241231&rows=20&cpage=${page}&signgucode=11&shprfnmfct=${encodedWord}`)
+  
+  res.json(title.data)
   res.json(venue.data)
-  // console.log(venue.data);
-
-
-
-  // let [title, venue] = await Promise.all([
-  //   instance.get('', {params: {...defaultParams, shprfnm: encodedWord, cpage: 1} }), // 공연명
-  //   instance.get('', {params: {...defaultParams, shprfnmfct: encodedWord, cpage: 1}}), // 공연명
-  // ]);
-
-  // console.log(title.data);
-  // console.log(venue.data);
-
-  // res.json({ 
-  //   title: title.data, 
-  //   venue: venue.data 
-  // });
-  console.log('----------------------------------------------------------------------');
 }
+// [↑] 서치 종료=============================================================================
 
+
+// [↓] 디테일 시작=====================================================================================
 //디테일
 async function apiDetail(mt20id, res){
-  const detail = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${mt20id}`, {params: {service:API_KEY} }); // 공연명
+  const detail = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${mt20id}`, {params: {service:API_KEY} });
 
   res.json(detail.data);
-  // console.log(detail.data.mt10id._text);
 }
 
+//디테일-맵
 async function apiDetailMap (mt10id, res){
-  const detailMap = await axios.get(`http://www.kopis.or.kr/openApi/restful/prfplc/${mt10id}`, {params: {service:API_KEY} }); // 공연명
+  const detailMap = await axios.get(`http://www.kopis.or.kr/openApi/restful/prfplc/${mt10id}`, {params: {service:API_KEY} });
+  
   res.json(detailMap.data);
-  // console.log(detailMap.data);
 }
-
+// [↑] 디테일 종료=============================================================================
 
 export default async function handler(req, res){  
-  const {type,mt20id,mt10id,cpage,searchWord} = req.query;
+  const {type, shcate, cpage, searchWord, mt20id, mt10id} = req.query;
+  // type api함수종류
+  // shcate 장르
+  // cpage 페이지
+  // searchWord 검색어
+  // mt20id 작품id
+  // mt10id 장소id
   
   switch(type){
-    case 'apiCategory': await apiGenre(cpage, res); break;
-    case 'apiThisWeek': await apiThisWeek(cpage, res); break;
-    case 'apiIng': await apiIng(cpage, res); break;
-    case 'apiUpcoming': await apiUpcoming(cpage, res); break;
+    case 'apiMain': await apiMain(res); break;
+
+    case 'apiGenre': await apiGenre(shcate, cpage, res); break;
+    case 'apiThisWeek': await apiThisWeek(shcate, cpage, res); break;
+    case 'apiIng': await apiIng(shcate, cpage, res); break;
+    case 'apiUpcoming': await apiUpcoming(shcate, cpage, res); break;
+
+    case 'apiSearch': await apiSearch(searchWord,cpage,res); break;
     case 'apiDetail': await apiDetail(mt20id, res); break;
     case 'apiDetailMap': await apiDetailMap(mt10id, res); break;
-    case 'apiSearch': await apiSearch(searchWord,cpage,res); break;
-    default:;
+    default:break;
   }
 }
