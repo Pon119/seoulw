@@ -24,6 +24,7 @@
     "sweetalert2": "^11.14.2",
     "swiper": "^11.1.14",
     "xml-js": "^1.6.11",
+    "xml2js": "^0.6.2",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {

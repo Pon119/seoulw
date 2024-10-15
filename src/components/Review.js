@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import reviewStyle from "@/styles/review.module.scss";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import db from "../lib/firebase";
 
 function Review() {
+  let [reviewfire, setReviewfire] = useState([]);
+
+  console.log(reviewfire);
   // 더미 임시 데이터
   const reviewDummyData = [
     {
@@ -58,7 +61,7 @@ function Review() {
   // ▼리뷰 더미데이터 관리
   const [reviews, setReviews] = useState(reviewDummyData);
   const [moreButton, setMoreButton] = useState({}); // 각 리뷰의 "더 보기" 상태 관리
-  
+
   const handleMoreToggle = (index) => {
     setMoreButton((prev) => ({ ...prev, [index]: !prev[index] })); // 클릭한 리뷰의 상태 토글
   };
@@ -72,40 +75,42 @@ function Review() {
     }
   };
 
-  const handleSubmit = async () => {   
+  useEffect(() => {
+    // 파이어 베이스 가져오기
+    getDocs(collection(db, "review")).then((querySnapshot) => {
+      let reviewData = [];
+
+      querySnapshot.forEach((doc) => {
+        reviewData.push(doc.data());
+        // doc.data() is never undefined for query doc snapshots
+        // 와!!! 로그로 잘 찍힘 그러면 이제 이거를 어따가 뿌려줄 것이냐? 어떻게 할 것이냐?
+        // console.log(doc.id, " => ", doc.data());
+      });
+      setReviewfire(reviewData);
+    });
+
+    // 가져온 값을 배열로 지정하여 다시 뿌리기
+  }, []);
+
+  // 파이어 베이스에 값을 보내기
+  const handleSubmit = async () => {
     try {
       // 내용을 서버에 보내기 > 어찌어찌 성공함.
-      
+
       const docRef = await addDoc(collection(db, "review"), {
-        mt20id :"PF000001",
-        userid :"userid",
-        prfnm :prfrnmValue,
-        star :starValue,
-        review :reviewText,
-        postdate : new Date().toLocaleDateString(),
-        poster :"poster"
+        mt20id: "PF000001",
+        //이건 유나님한테 받아서 연결하기
+        userid: "userid",
+        //지연님한테 세션 작업 연결해서 하기
+        prfnm: "prfrnmValue",
+        star: starValue,
+        review: reviewText,
+        postdate: new Date().toLocaleDateString(),
+        poster: "poster",
       });
-      console.log(docRef);
-      console.log("Document written with ID: ", docRef.review);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-
-
-   
-    // if (starValue > 0 && reviewText) {
-    //   const newReview = {
-
-    //     index: reviews.length,
-    //     userid: "currentUser@example.com", // 현재 사용자 아이디
-    //     star: starValue,
-    //     review: reviewText,
-    //     postdate: new Date().toLocaleDateString(),
-    //   };
-    //   setReviews([...reviews, newReview]);
-    //   setReviewText("");
-    //   setStarValue(0);
-    // }
   };
 
   const handleInputClick = () => {
@@ -194,6 +199,12 @@ function Review() {
 
         {/* 리뷰 리스트 */}
         <div className={reviewStyle.list}>
+          {/* 아래는 유저가 직접 작성한 리뷰 데이터 출력 */}
+          {reviewfire.map((item) => (
+            <StyledRating value={item.star} readOnly />
+          ))}
+
+          {/* 근데 밑에 있는 이거는 기존에 있는 리뷰가 있을 경우에 이렇게 map을 돌리는 거고..? */}
           {reviews.map((review, index) => (
             <div key={`${review.userid}-${index}`}>
               <Box
@@ -229,7 +240,7 @@ function Review() {
                 {moreButton[index] || review.review.length <= 20
                   ? review.review
                   : `${review.review.substring(0, 20)}...`}
-             </p>
+              </p>
               {/* 더 보기 버튼 */}
               <div className={reviewStyle.moretext}>
                 <p>
