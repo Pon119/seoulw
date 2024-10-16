@@ -17,8 +17,6 @@ function Mypage() {
   console.log(session)
 
 
- 
-
   //로그아웃 POPUP
   function popUp() {
     Swal.fire({
@@ -31,15 +29,7 @@ function Mypage() {
       confirmButtonText: "Confirm",
     }).then((result) => {
       if (result.isConfirmed) {
-
         signOut();
-
-        // Swal.fire({
-        //   title: "로그아웃 완료",
-        //   text: "로그아웃이 완료되었습니다.",
-        //   confirmButtonColor: "#FF4B77",
-        //   icon: "success",
-        // });
       }
     });
   }

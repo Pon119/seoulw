@@ -14,11 +14,6 @@
             border-color: #FF4B77;
          }  
       }
-    //   .errormsg{
-    //     position: absolute;
-    //     bottom: -10px;
-        
-    // }
    }
  // 인풋박스 내부 : 우측 [x, 눈] 아이콘
  .inp_button{
@@ -138,7 +133,7 @@
             }
 
             
-            > button{
+           > button{
                 width: 17%;
                 height: 60px;
                 border-radius: 4px;
@@ -147,7 +142,13 @@
                 font-weight: 500;
                 border: 1px solid #cbcbcb;
                 background-color: #dfdfdf;
-                }
+            &.active{
+                background-color: #FF4B77;
+                border: 1px solid #FF4B77;
+                color: white;
+                font-weight: 400;
+            }    
+            }
         }
 
     }

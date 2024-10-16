@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import Logininput from '@/components/Logininput';
 import Link from 'next/link'
 import loginStyle from '@/styles/login.module.scss'
+import db from '@/lib/firebase';
+import { doc, setDoc } from "firebase/firestore";
 
 
 
@@ -36,13 +38,11 @@ function Login() {
         }
       }
    }
-   const { data: session } = useSession()
-  //  console.log(session);
- 
-   if (session) {
-    
-    router.push("mypage");
-   }
+  //  const { data: session } = useSession();
+
+  //  if (session) {
+  //   router.push("mypage");
+  //  }
  
   return (
 
