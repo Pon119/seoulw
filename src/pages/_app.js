@@ -7,7 +7,6 @@ import { Suspense, useEffect } from "react";
 import Head from 'next/head'
 import { SessionProvider } from "next-auth/react"
 import useMainStore from '@/store/main_store';
-import { fn } from "@/utils/apiFunc";
 import Loading from "@/components/Loading";
 
 export default function App({

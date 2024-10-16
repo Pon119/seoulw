@@ -200,8 +200,8 @@ function Review() {
         {/* 리뷰 리스트 */}
         <div className={reviewStyle.list}>
           {/* 아래는 유저가 직접 작성한 리뷰 데이터 출력 */}
-          {reviewfire.map((item) => (
-            <StyledRating value={item.star} readOnly />
+          {reviewfire.map((item, idx) => (
+            <StyledRating key={`${item.star}_${idx}`} value={item.star} readOnly />
           ))}
 
           {/* 근데 밑에 있는 이거는 기존에 있는 리뷰가 있을 경우에 이렇게 map을 돌리는 거고..? */}

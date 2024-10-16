@@ -6,7 +6,7 @@ import db from '@/lib/firebase';
 import { collection,getDocs, query, where, deleteDoc, doc  } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 
-const dropout = () => {
+const Dropout = () => {
   const { data: session } = useSession();
   const [isAgreed, setIsAgreed] = useState(false); // 탈퇴 동의 체크 상태 관리
   const router = useRouter();
@@ -111,4 +111,4 @@ const dropout = () => {
   )
 }
 
-export default dropout
+export default Dropout

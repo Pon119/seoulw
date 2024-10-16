@@ -13,74 +13,66 @@ import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Loading from '@/components/Loading';
-import store from '../store/main_store';
+import mainStore from '../store/main_store';
+import movePageStore from '../store/movePage_store';
+
+// [↓] 메인 관련 코드 시작================================================
+// import { useSearchParams } from 'next/navigation'
+
+  // const query = useSearchParams() //전역에 선언해 주세요
+  //useEffect 짧은 코드가 페이지 첫 진입할때 실행하는거 같아요
+  //그 안에 하단 코드 넣어주세요 
+  //if(!query) {
+  //   const queryGenre = query.get('genre') // GGGA
+  //   const queryAll = query.get('all') // 1, 2, 3, 4
+  // } else {
+  //   **원래 useEffect안에 있던 코드**
+  // }
+// [↑] 메인 관련 코드 종료=================================================
 
 export default function Main() {
-  const {mainData} = store();
-  const [clickedGenre, setClickedGenre] = useState(0);
+  const {mainData} = mainStore();
+  const {movePageData, setMovePageData} = movePageStore();
+  const [clickedGenre1, setClickedGenre1] = useState(0);
+  const [clickedGenre2, setClickedGenre2] = useState(0);
+  const [clickedGenre3, setClickedGenre3] = useState(0);
   const router = useRouter();
-  console.log(mainData);
   
   let thisWeekRawData = (mainData.length === 0) ? [] : mainData.thisWeek  //이번주 데이터
   let upcomingRawData = (mainData.length === 0) ? [] : mainData.upcoming  //공연예정
   let genresRawData = (mainData.length === 0) ? [] : mainData.genres// 장르별
-  // console.log(thisWeekRawData)  // 0~8 짝1연극-홀5국악 반복
-  // console.log(upcomingRawData); // 0~8 짝3무용-홀7기타
-  // console.log(genresRawData); // 0~8 짝0뮤지컬-홀4클래식
 
   /**비주얼용 데이터 추출 함수*/
-  const createVisualExtractData = () => {
-    let visualExtractData = [];
-    function getRandomNumbers() {
-      const randomNumbers = new Set(); // 중복 방지를 위해 Set 사용
-    
-      while (randomNumbers.size < 3) {
-        const randomNumber = Math.floor(Math.random() * 8); // 0부터 7까지의 랜덤 숫자 생성
-        randomNumbers.add(randomNumber); // Set에 추가 (중복이면 무시됨)
-      }
-    
-      return Array.from(randomNumbers); // Set을 배열로 변환하여 반환
+  const createVisualExtractedData = () => {
+    let visualExtractedData = [];
+    function getRandomNumber() {  
+      const randomNumber = Math.floor(Math.random() * 5 ) + 3; // 3부터 7사이의 랜덤 숫자 생성
+      return randomNumber; 
     }
-    const genre = getRandomNumbers();
+    const genreNum = getRandomNumber(); //1~7 중 랜덤으로 장르 1개 고르기
+    let thisWeekVisualData = mainData.thisWeek.length ? mainData.thisWeek : [];
+    let upcomingVisualData = mainData.upcoming.length ? mainData.upcoming : [];
+    
+    visualExtractedData.push(thisWeekVisualData[0][0])
+    visualExtractedData.push(thisWeekVisualData[0][1])
+    visualExtractedData.push(thisWeekVisualData[0][2])
+    visualExtractedData.push(thisWeekVisualData[1][0])
+    visualExtractedData.push(thisWeekVisualData[1][1])
+    visualExtractedData.push(thisWeekVisualData[1][2])
+    visualExtractedData.push(thisWeekVisualData[2][0])
+    visualExtractedData.push(thisWeekVisualData[2][1])
+    visualExtractedData.push(upcomingVisualData[genreNum][0])
+    visualExtractedData.push(upcomingVisualData[genreNum][1])
 
-    genre.forEach((num) => {
-      let thisWeekVisualData = mainData.thisWeek[num].data;
-      let upcomingVisualData = mainData.upcoming[num].data;
-      let genresVisualData = mainData.genres[num].data;
-      visualExtractData.push(thisWeekVisualData[0])
-      visualExtractData.push(upcomingVisualData[1])
-      visualExtractData.push(genresVisualData[2])
-    })
-    return visualExtractData;
+    return visualExtractedData;
   }
-
+  // 화면에 뿌릴 데이터(배열)
+  let thisWeekExtractedData = thisWeekRawData[clickedGenre1]
+  let upcomingExtractedData = upcomingRawData[clickedGenre2]
+  let genresExtractedData = genresRawData[clickedGenre3]
+  let visualExtractedData = (mainData.length === 0) ? [] : createVisualExtractedData();
   
-  let thisWeekExtractedData = Object.values(thisWeekRawData[clickedGenre])[0]
-  let upcomingExtractedData = Object.values(upcomingRawData[clickedGenre])[0]
-  let genresExtractedData = Object.values(genresRawData[clickedGenre])[0]
-  let visualExtractedData = (Object.values(thisWeekRawData[0])[0]).slice(0,5)
-                                                  //ㄴ 0 연극 
-                                                    // 1 한국음악(국악)
-                                                    // 2 연극 
-                                                    // 3 한국음악(국악) 
-                                                    // 4 연극 
-                                                    // 5 한국음악(국악) 
-                                                    // 6 연극 
-                                                    // 7 한국음악(국악)
-  visualExtractedData.forEach((obj) => {
-    console.log(obj.genrenm._text)
-  })
   
-  // let thisWeekExtractedData = thisWeekRawData[clickedGenre].data;
-  // let upcomingExtractedData = upcomingRawData[clickedGenre].data;
-  // let genresExtractedData = genresRawData[clickedGenre].data;
-  // let visualExtractData = [];
-  // useEffect(() => {
-  //   visualExtractData = createVisualExtractData();
-  // }, [])
-  
-
   // 리뷰 가짜 데이터는 10개입니다
   const reviewDummyData = [
     {
@@ -184,16 +176,25 @@ export default function Main() {
       poster:'/assets/images/poster_03.jpg'
     }
   ];
-
+  // 리뷰 인덱스
+  const [reviewIdx, setReviewIdx] = useState(0); // 0~6(마지막값+)
+  const getRandomReviewIdx = () => {  
+    const randomNumber = Math.floor(Math.random() * (reviewDummyData.length-3) )
+    return randomNumber;
+  }
   
   
   const moveToDetailPage = (mt20id) => {
-    // router.push(`/detail?mt20id=${mt20id}`)
+    router.push(`/detail?mt20id=${mt20id}`)
   }
 
-  const moveToCategoryPage = (genreIdx) => {
-    router.push(`/category?genre=${genreIdx}`)
+  const moveToCategoryPage = (genreIdx, allIdx) => {
+    setMovePageData(genreIdx, allIdx);  //store저장    
+    router.push(`/category`)
+    //all 1전체 2이번주 3공연중 4공연예정
   }
+  console.log(movePageData);
+  
 
   return (
     <div className={mainStyle.mainWrap}>
@@ -234,18 +235,18 @@ export default function Main() {
           <ul className={mainStyle.btnsWrap}>
             <li className={mainStyle.btnSubWrapTop}>
               <ul>
-                <li onClick={() => moveToCategoryPage('GGGA')}><button type='button'>뮤지컬</button></li>
-                <li onClick={() => moveToCategoryPage('AAAA')}><button type='button'>연극</button></li>
-                <li onClick={() => moveToCategoryPage('CCCD')}><button type='button'>대중음악</button></li>
-                <li onClick={() => moveToCategoryPage('BBB')}><button type='button'>무용</button></li>
+                <li onClick={() => moveToCategoryPage(0, 1)}><button type='button'>뮤지컬</button></li>
+                <li onClick={() => moveToCategoryPage(1, 1)}><button type='button'>연극</button></li>
+                <li onClick={() => moveToCategoryPage(2, 1)}><button type='button'>대중음악</button></li>
+                <li onClick={() => moveToCategoryPage(3, 1)}><button type='button'>무용</button></li>
               </ul>
             </li>
             <li className={mainStyle.btnSubWrapBottom}>
               <ul>
-                <li onClick={() => moveToCategoryPage('CCCA')}><button type='button'>클래식</button></li>
-                <li onClick={() => moveToCategoryPage('CCCC')}><button type='button'>국악</button></li>
-                <li onClick={() => moveToCategoryPage('EEEB')}><button type='button'>서커스/마술</button></li>
-                <li onClick={() => moveToCategoryPage('EEEA')}><button type='button'>기타</button></li>
+                <li onClick={() => moveToCategoryPage(4, 1)}><button type='button'>클래식</button></li>
+                <li onClick={() => moveToCategoryPage(5, 1)}><button type='button'>국악</button></li>
+                <li onClick={() => moveToCategoryPage(6, 1)}><button type='button'>서커스/마술</button></li>
+                <li onClick={() => moveToCategoryPage(7, 1)}><button type='button'>기타</button></li>
               </ul>
             </li>          
           </ul>
@@ -257,13 +258,13 @@ export default function Main() {
         <article className={mainStyle.thisWeek}>
           <div className={`${mainStyle.titleWrap}`}>
             <h2>이번주 공연</h2>
-            <ViewAll page = {'/'} />
+            <ViewAll moveToCategoryPage = {moveToCategoryPage} genreIdx = {clickedGenre1} allIdx={2} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
+            <GenresTapBar clickedGenre={clickedGenre1} setClickedGenre={setClickedGenre1} />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <BasicSwiper dataArr={thisWeekExtractedData} clickedGenre={clickedGenre} />
+            <BasicSwiper dataArr={thisWeekExtractedData} clickedGenre={clickedGenre1} />
           </div>
         </article>
 
@@ -271,13 +272,13 @@ export default function Main() {
         <article className={mainStyle.upcoming}>
           <div className={mainStyle.titleWrap}>
             <h2>공연 예정</h2>
-            <ViewAll page = {'/category'} />
+            <ViewAll moveToCategoryPage = {moveToCategoryPage} genreIdx = {clickedGenre2} allIdx={4}  />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
+            <GenresTapBar clickedGenre={clickedGenre2} setClickedGenre={setClickedGenre2} />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <ListSwiper dataArr={upcomingExtractedData} clickedGenre={clickedGenre} moveToDetailPage={moveToDetailPage} />
+            <ListSwiper dataArr={upcomingExtractedData} clickedGenre={clickedGenre2} moveToDetailPage={moveToDetailPage} />
           </div>
         </article>
 
@@ -285,13 +286,13 @@ export default function Main() {
         <article className={mainStyle.byGenres}>
           <div className={mainStyle.titleWrap}>
             <h2>장르별</h2>
-            <ViewAll page = {'/'} />
+            <ViewAll moveToCategoryPage = {moveToCategoryPage} genreIdx = {clickedGenre3} allIdx={1} />
           </div>
           <div className={mainStyle.genresTapBarWrap}>
-            <GenresTapBar clickedGenre={clickedGenre} setClickedGenre={setClickedGenre} />
+            <GenresTapBar clickedGenre={clickedGenre3} setClickedGenre={setClickedGenre3} />
           </div>
           <div className={mainStyle.swiperWrap}>
-            <BasicSwiper dataArr={genresExtractedData} clickedGenre = {clickedGenre} />
+            <BasicSwiper dataArr={genresExtractedData} clickedGenre = {clickedGenre3} />
           </div>
         </article>
 
@@ -299,17 +300,16 @@ export default function Main() {
         <article className={mainStyle.reviews}>
           <div className={mainStyle.titleWrap}>
             <h2>관람 후기</h2>
-            {/* <ViewAll page = {'/'} /> */}
           </div>
           <ul className={mainStyle.reviewWrap}>
-            {(reviewDummyData.slice(0,3)).map((item) => (
+            {(reviewDummyData.slice(reviewIdx, reviewIdx+3)).map((item) => (
               <li key={`${item.mt20id}_${item.userid}`} className={mainStyle.reviewItem}>
                 <MainReview item={item} />
               </li>
             ))}
           </ul>
           <div className={mainStyle.newReviewsBtnWrap}>
-            <button className={mainStyle.newReviewsBtn} type="button">관람 후기 새로 보기</button>
+            <button onClick={() => setReviewIdx(() => getRandomReviewIdx())} className={mainStyle.newReviewsBtn} type="button">관람 후기 새로 보기</button>
           </div>
         </article>
         
@@ -320,18 +320,13 @@ export default function Main() {
 
 
 // 전체 보기 버튼
-const ViewAll = ({page}) => {
-  const router = useRouter();
-  const movePage = () => {
-    if(page === ''){
-      router.push('/');
-    }else{
-      router.push(page)
-    }
-  }
+const ViewAll = ({moveToCategoryPage, genreIdx, allIdx}) => {
 
+  // console.log(genreIdx);
+  // console.log(`viewAll: ${allIdx}`);
+  
   return(
-    <button onClick={movePage} className={mainStyle.viewAllBtn}>전체보기</button>
+    <button onClick={() => moveToCategoryPage(genreIdx, allIdx)} className={mainStyle.viewAllBtn}>전체보기</button>
   )
 }
 

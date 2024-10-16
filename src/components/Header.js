@@ -1,32 +1,42 @@
 import React, { useEffect, useState } from "react";
 import headerStyle from "@/styles/header.module.scss";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import useSearchStore from "@/store/search_store";
-import Search from "@/pages/search";
+// import { useSearchParams } from 'next/navigation'
+import movePageStore from '../store/movePage_store';
+
 
 function Header() {
+  const {movePageData, moveDetailData} = movePageStore();  //movePageData=[장르인덱스, all인덱스]
   const [header, setHeader] = useState();
   const router = useRouter();
+  // const genresArr = ['뮤지컬', '연극', '대중음악', '무용', '클래식', '국악', '서커스/마술', '기타'];
+  
+  // setSubName(() => genresArr[movePageData[0]])
 
   const movePage = (page) => {
     router.push(page);
   };
 
-  // if(router.pathname === '/login' || router.pathname === '/join'){
-  //   return null;
-  // }
+  const onCategory = () => {
+    const genresArr = ['뮤지컬','연극','대중음악','무용','클래식','국악','서커스/마술','기타'];
+    setHeader(() => <HeaderSub name={genresArr[movePageData[0]]} />);
+  }
+
+  const onDetail = () => {
+    setHeader(() => <HeaderDetail name={moveDetailData} />);
+  }
 
   useEffect(() => {
     switch (router.pathname) {
       case "/":
         setHeader(() => <HeaderMain movePage={movePage} hide={false} />);
         break;
-      case "/category":
-        setHeader(() => <HeaderSub name={"뮤지컬"} />);
+      case "/category":     
+        onCategory();        
         break;
       case "/detail":
-        setHeader(() => <HeaderDetail name={"서울 숲 재즈 페스티벌"} />);
+        onDetail();
         break;
       case "/search":
         setHeader(() => <HeaderSearch />);

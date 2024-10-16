@@ -4,7 +4,7 @@ import editStyle from '@/styles/edit.module.scss';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import Logininput from '@/components/Logininput';
 
-const edit = () => {
+const Edit = () => {
   const idName = 'parkwl***'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -101,4 +101,4 @@ const edit = () => {
   )
 }
 
-export default edit
+export default Edit

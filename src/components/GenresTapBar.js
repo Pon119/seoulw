@@ -9,18 +9,8 @@ import { FreeMode } from 'swiper/modules';
 
 
 const GenresTapBar = ({clickedGenre, setClickedGenre}) => {
-  const genres = [
-    '뮤지컬',
-    '연극',
-    '대중음악',
-    '무용',
-    '클래식',
-    '국악',
-    '서커스/마술',
-    '기타',
-  ];
+  const genres = ['뮤지컬', '연극','대중음악', '무용', '클래식', '국악', '서커스/마술', '기타'];
 
-  
   const onActive = (idx) => {
     setClickedGenre(() => idx);
   }
@@ -44,32 +34,6 @@ const GenresTapBar = ({clickedGenre, setClickedGenre}) => {
             </SwiperSlide>
           ))
         }
-        {/* 
-        <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
-          <span className={genresTapBarStyle.genresBtn}>뮤지컬</span>
-        </SwiperSlide>
-        <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
-          <span className={genresTapBarStyle.genresBtn}>연극</span>
-        </SwiperSlide>
-        <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
-          <span className={genresTapBarStyle.genresBtn}>대중음악</span>
-        </SwiperSlide>
-        <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
-          <span className={genresTapBarStyle.genresBtn}>무용</span>
-        </SwiperSlide>
-        <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
-          <span className={genresTapBarStyle.genresBtn}>클래식</span>
-        </SwiperSlide>
-        <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
-          <span className={genresTapBarStyle.genresBtn}>국악</span>
-        </SwiperSlide>
-        <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
-          <span className={genresTapBarStyle.genresBtn}>서커스/마술</span>
-        </SwiperSlide>
-        <SwiperSlide className={genresTapBarStyle.genresBtnsSlide}>
-          <span className={genresTapBarStyle.genresBtn}>기타</span>
-        </SwiperSlide> 
-        */}
       </Swiper>
     </div>
   )
