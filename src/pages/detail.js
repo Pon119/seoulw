@@ -23,13 +23,12 @@ function Detail() {
   const id = params.get("mt20id");
 
   const { setMoveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
-  let a = {};
+
   // _text 분리 코드
   useEffect(() => {
     fn.detail(id).then((res) => {
       let d = { ...res };
-      console.log(d);
-      a = { ...res };
+    
       for (let key in d.detail) {
         if (d.detail[key]._text) d.detail[key] = d.detail[key]._text;
       }
@@ -38,11 +37,10 @@ function Detail() {
       }
       setInfo(d);
       setMoveDetailData(d.detail.prfnm);
-      console.log(d.detail.prfnm);
+    
     });
   }, []);
-  console.log(a);
-  console.log(info);
+  
   // console.log(info.prfnm);
 
   const tap = (i) => {

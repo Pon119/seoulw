@@ -79,7 +79,7 @@ function Review({ info, id }) {
           });
 
           reviewData.sort((a, b) => {
-            return new Date(a.postdate) - new Date(b.postdate);
+            return new Date(b.postdate) - new Date(a.postdate); // 최신 날짜가 먼저 오도록 정렬
           });
 
           setReviews(reviewData);
@@ -100,7 +100,7 @@ function Review({ info, id }) {
         mt20id: id,
         userid: sesseion.user.email,
         prfnm: info.prfnm,
-        star: starValue,
+        star: starValue * 2,
         review: reviewText,
         postdate: new Date().toLocaleDateString(),
         poster: info.poster,
@@ -227,13 +227,13 @@ function Review({ info, id }) {
                       width: "100%",
                     }}
                   >
-                    <StyledRating value={review.star} readOnly />
+                    <StyledRating value={review.star/2} readOnly />
                     <Typography
                       component="span"
                       sx={{ marginLeft: 1 }}
                       className={reviewStyle.starValue}
                     >
-                      {review.star / 2} {/* 별점 표시 */}
+                      {review.star} {/* 별점 표시 */}
                     </Typography>
 
                     {/* 수정 삭제 기능은 나중에 넣는 것으로 협의됨 */}
