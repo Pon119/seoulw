@@ -9,112 +9,106 @@ import Loading from '@/components/Loading';
 
 function Search2() {
   const {results} = useSearchStore();
-  const [functionData, setFunctionData] = useState();
+  const [functionData, setFunctionData] = useState({
+    titleData:[],
+    venueData:[]
+  });
   const router = useRouter();
   const { query } = router.query;
   const searchWord = useSearchParams()
   let b = searchWord.get('query')
+console.log(b);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const dummyData = [
-    {
-      mt20id: 'PF000000',
-      prfnm: '뮤지컬 ( 베르사유의 장미 )',
-      prfstate: '공연중',
-      fcltynm: '서울 블루스퀘어 신한카드 홀 10420 1024',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_01.jpg'
-    },
-    {
-      mt20id: 'PF000001',
-      prfnm: '제20회 숙명여자대학교 문화예술대학원 전통예술학과 전통음악전공 정기연주회: 절차탁마',
-      prfstate: '공연 예정',
-      fcltynm: '대학로 자유 극장',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_02.jpg'
-    },
-    {
-      mt20id: 'PF000002',
-      prfnm: '국립심포니오케스트라 실내악 시리즈 Ⅱ, 정화된 밤',
-      prfstate: '공연 예정',
-      fcltynm: '홍익대 대학로 아트센터 대극장',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_03.jpg'
-    },
-    {
-      mt20id: 'PF000003',
-      prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
-      prfstate: '공연 예정',
-      fcltynm: '블루스퀘어 신한카드 홀',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_04.jpg'
-    },
-    {
-      mt20id: 'PF000004',
-      prfnm: '뮤지컬 ( 클로버 )',
-      prfstate: '공연 완료',
-      fcltynm: '블루스퀘어 신한카드 홀',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_05.jpg'
-    },
-    {
-      mt20id: 'PF000005',
-      prfnm: '뮤지컬 ( 부치하난 )',
-      prfstate: '공연 완료',
-      fcltynm: '블루스퀘어 신한카드 홀',
-      prfpdfrom:'2024.11.29',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_06.jpg'
-    },
-    {
-      mt20id: 'PF000006',
-      prfnm: '뮤지컬 ( 지킬앤 하이드 ) jekyll & Hyde',
-      prfstate: '공연중',
-      fcltynm: '블루스퀘어 신한카드 홀',
-      prfpdfrom:'2024.01.09',
-      prfpdto:'2025.05.18',
-      poster:'/assets/images/poster_07.jpg'
+
+  useEffect(() => {
+    setFunctionData({ titleData: [], venueData: [] }); // 결과 초기화
+    setPage(1); // 페이지를 첫 번째로 초기화
+    setHasMore(true); // 더 가져올 데이터가 있다고 초기화
+    handleSearch(1); // 첫 페이지의 결과를 가져오기
+  }, [query]); // 쿼리 변화 감지
+
+  const handleSearch = async (pageNum) => {
+    setLoading(true);
+    const data = await fn.search(b, pageNum);
+
+    // if(data.titleData){
+    //   // setFunctionData((state)=>({...state, titleData:[...state.titleData, ...data.titleData]}))
+    //   setFunctionData((state)=>({...state, titleData: data.titleData}))
+    // }
+    // if(data.venueData){
+    //   // setFunctionData((state)=>({...state, venueData:[...state.venueData, ...data.venueData]}))
+    //   setFunctionData((state)=>({...state, venueData:data.venueData}))
+    // }
+
+    
+
+
+    if (data.length === 0) {
+      setHasMore(false);
+    } else {
+      setFunctionData((prevData) => ({
+        titleData: [...prevData.titleData, ...(data.titleData || [])],
+        venueData: [...prevData.venueData, ...(data.venueData || [])]
+      }));
     }
-  ]
-  
-  const handleSearch = async () => {
-    const data = await fn.search(b, 1); 
-    setFunctionData(data);
+
+    setLoading(false);
   };
+
   
-  useEffect(()=>{
-    handleSearch();
-    console.log(1);
-  },[query])
+
+  useEffect(() => {
+    handleSearch(page);
+  }, [page]);
+
   
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) return;
+      setPage((prevPage) => prevPage + 1);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasMore]);
+  
+  console.log(functionData)
+
+  // return<></>
+
   // if(!functionData)<></>;
-console.log(functionData);
+
+
   return (
-    !functionData ? <><Loading /></> :
+    
     <div className={`search ${searchStyle.search}`}>
-      { functionData ? (
-        <>
-          <h2>검색 결과</h2>
-          <div className={searchStyle.thousand}>
-            {functionData?.titleData.map((item,i) => (
-              <figure key={i}>
-                  <Card item={item}/>
-              </figure>
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <h2>검색 결과</h2>
-          <div className={searchStyle.none}>
-            <p>검색 결과가 없습니다.</p>
-          </div>
-        </>
-      )}
+      { functionData.titleData.length || functionData.venueData.length ? (
+      <>
+        <h2>검색 결과</h2>
+        <div className={searchStyle.thousand}>
+          {functionData?.titleData.map((item,i) => (
+            <figure key={i}>
+              <Card item={item}/>
+            </figure>
+          ))}
+        </div>
+      </>
+      ) : ''
+      }
+
+      {
+        loading ? '로딩중' :
+        functionData.titleData.length === 0 && functionData.venueData.length === 0 ? (
+          <>
+            <h2>검색 결과</h2>
+            <div className={searchStyle.none}>
+              <p>검색 결과가 없습니다.</p>
+            </div>
+          </> 
+        ) : ''
+      }
     </div>
   )
 }

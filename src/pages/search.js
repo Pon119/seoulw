@@ -49,8 +49,8 @@ function Search() {
         modules={[FreeMode]}
         className="mySwiper"
         >
-          {results.slice().reverse().map((result) => (
-            <SwiperSlide key={result.id}>
+          {results.slice().reverse().map((result,k) => (
+            <SwiperSlide key={k}>
             <li>
               <p onClick={() => pClick(result.value)}>{result.value}</p>
               <button onClick={() => remove(result.value)}><img src='./assets/icons/x_button.svg'/></button>

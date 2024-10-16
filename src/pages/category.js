@@ -13,7 +13,7 @@ function Category() {
   const [clickedGenre, setClickedGenre] = useState(0);
   const [functionData, setFunctionData] = useState([]);
 
-  let count = 1;
+  
   const genreMapping = [
     'GGGA',
     'AAAA',
@@ -63,7 +63,7 @@ function Category() {
         break;
       default:
         setIsLoading(false); // 로딩 상태 종료
-        return;
+        break;
     }
     
     if (data.length === 0) {
@@ -84,44 +84,12 @@ function Category() {
         setPage((prevPage) => prevPage + 1);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
-    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [hasMore]);
   
-
-  // const handleGenre = async () => {
-  //   const shcateValue = genreMapping[clickedGenre];
-  //   const data = await fn.genre(shcateValue, 1); 
-  //   console.log(data);
-  //   setFunctionData(data); //누적?
-  // };
-
-  // useEffect(()=>{
-  //   handleGenre();
-  //   setAll(1);  //탭초기화
-  // },[clickedGenre])
-
-  // const handleThisWeek = async () => {
-  //   const shcateValue = genreMapping[clickedGenre];
-  //   const data = await fn.thisWeek(shcateValue, 1); 
-  //   console.log(data);
-  //   setFunctionData(data);
-  // };
-  // const handleIng = async () => {
-  //   const shcateValue = genreMapping[clickedGenre];
-  //   const data = await fn.ing(shcateValue, 1); 
-  //   setFunctionData(data);
-  // };
-  // const handleUpcoming = async () => {
-  //   const shcateValue = genreMapping[clickedGenre];
-  //   const data = await fn.upcoming(shcateValue, 1); 
-  //   setFunctionData(data);
-  // };
-
   
   // if(!data.length) return<></>;
 
@@ -143,51 +111,55 @@ function Category() {
         </li>
         <li className={all === 3 ? categoryStyle.selected : ''} onClick={()=>tab(3)}>
           <button>공연중</button>
-          {/* <button onClick={handleIng}>공연중</button> */}
           <div></div>
         </li>
         <li className={all === 4 ? categoryStyle.selected : ''} onClick={()=>tab(4)}>
           <button>공연 예정</button>
-          {/* <button onClick={handleUpcoming}>공연 예정</button> */}
           <div></div>
         </li>
       </ul>
 
       <section>
-        {all === 1 && (
-          <>
-          {isLoading ? (
-            <></>
-          ) : functionData.length === 0 ? (
-            <p>공연이 없습니다.</p>
-          ) : (
-            functionData.map((item, i) => (
+        {
+          (all === 1 && functionData.length!==0) && 
+            <div className={categoryStyle.grid}>
+              {functionData.map((item, i) => (
+                <Card key={i} item={item} />
+              ))}
+            </div>
+        }
+        {
+          (all === 2 && functionData.length!==0) && 
+            <div className={categoryStyle.grid}>
+              {functionData.map((item, i) => (
+                <Card key={i} item={item} />
+              ))}
+            </div>
+        }
+        {
+          (all === 3 && functionData.length!==0) && 
+          <div className={categoryStyle.grid}>
+            {functionData.map((item, i) => (
               <Card key={i} item={item} />
-            ))
-          )}
-          </>
-        )}
-        {all === 2 && functionData.length > 0 && (
-          <>
-          {functionData.map((item,i) => (
-            <Card key={i} item={item}/>
-          ))}
-          </>
-        )}
-        {all === 3 && (
-          <>
-          {functionData.map((item,i) => (
-            <Card key={i} item={item}/>
-          ))}
-          </>
-        )}
-        {all === 4 && (
-          <>
-          {functionData.map((item,i) => (
-            <Card key={i} item={item}/>
-          ))}
-          </>
-        )}
+            ))}
+          </div>
+        }
+        {
+          (all === 4 && functionData.length!==0) && 
+          <div className={categoryStyle.grid}>
+            {functionData.map((item, i) => (
+              <Card key={i} item={item} />
+            ))}
+          </div>
+        }
+
+
+        <p className={categoryStyle.nogongyeon}>
+        {          
+          isLoading ? '로딩중...' : 
+          functionData.length==0 ? '공연이 없습니다.':''
+        }
+        </p>
 
       </section>
       
