@@ -137,8 +137,6 @@ async function apiGenre(shcate, cpage, res){
 // 이번주(장르 1개)
 async function apiThisWeek(shcate, cpage, res){
     const dataThisWeek = await instance.get('', {params: {...thisWeekParams, cpage: `${cpage}`, shcate: `${shcate}`} }); //뮤지컬 GGGA
-    console.log('=======이번주========');
-    console.log(dataThisWeek);
     res.json(xmlTOjson(dataThisWeek.data) );
 }
 
@@ -158,12 +156,13 @@ async function apiUpcoming(shcate, cpage, res) {
 
 // [↓] 서치 시작=====================================================================
 async function apiSearch(searchWord, cpage, res){
-  let encodedWord = encodeURIComponent(searchWord);
-  let title = await instance.get('', {params: {cpage: `${cpage}`, shprfnm:`${encodedWord}`}}) 
-  let venue = await instance.get('', {params: {cpage: `${cpage}`, shprfnmfct:`${encodedWord}`}}) 
+  let title = await instance.get('', {params: {cpage: `${cpage}`, shprfnm:`${searchWord}`}}) 
+  let venue = await instance.get('', {params: {cpage: `${cpage}`, shprfnmfct:`${searchWord}`}}) 
   
   let titleData = xmlTOjson(title.data) ;
   let venueData = xmlTOjson(venue.data) ;
+
+  console.log(title);
   res.json({titleData,venueData});
 }
 // [↑] 서치 종료=============================================================================

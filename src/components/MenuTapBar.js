@@ -46,6 +46,7 @@ const MenuTapBar = () => {
         setIsActive(() => 1);
         break;
       case '/search':
+      case '/search2':
         setIsActive(() => 2);
         break;
       case '/mypage':

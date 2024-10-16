@@ -11,8 +11,6 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { FreeMode } from 'swiper/modules';
 
-import Card from '@/components/Card';
-
 function Search() {
   const {results, readCookie, setResults} = useSearchStore();
   const remove = useSearchStore((state) => state.deleteC);
@@ -35,11 +33,10 @@ function Search() {
   console.log('New Results to Set:', newResults); // 디버깅 로그 추가
   setResults(newResults); // 새로운 결과 설정
 
-    router.push('/search2');
+    router.push(`/search2?query=${value}`);
   };
-  
 
-  
+
   return (
     <div className={`search ${searchStyle.search}`}>
       <h2>최근 검색어</h2>   
@@ -52,8 +49,8 @@ function Search() {
         modules={[FreeMode]}
         className="mySwiper"
         >
-          {results.slice().reverse().map((result) => (
-            <SwiperSlide key={result.id}>
+          {results.slice().reverse().map((result,k) => (
+            <SwiperSlide key={k}>
             <li>
               <p onClick={() => pClick(result.value)}>{result.value}</p>
               <button onClick={() => remove(result.value)}><img src='./assets/icons/x_button.svg'/></button>

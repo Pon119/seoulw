@@ -9,6 +9,8 @@ function Footer() {
   if(router.pathname === '/search' 
       || router.pathname === '/mypage' 
       || router.pathname === '/login' 
+      || router.pathname === '/category' 
+      || router.pathname === '/search2' 
       || router.pathname === '/join'){
     return null;
   }
@@ -30,7 +32,7 @@ function Footer() {
           <button onClick={onToggle} type='button' className={`${footerStyle.toggle} ${unfold ? footerStyle.unfold : ''}`}></button>
         </h3>
         <ul className={`${footerStyle.details} ${unfold ? footerStyle.unfold : ''}`}>
-          <li>대표 이사: 고유나</li>
+          <li>대표 이사: 김대표</li>
           <li>서울 강남구 테헤란로5길 24 장연빌딩 3~6층</li>
           <li>사업자 등록 번호: 123 45 67890</li>
           <li>통신 판매업 신고 번호: 제 2024 서울 강남 12345호</li>

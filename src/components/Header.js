@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import useSearchStore from "@/store/search_store";
 import Search from "@/pages/search";
+import { fn } from "@/utils/apiFunc";
 
 function Header() {
   const [header, setHeader] = useState();
@@ -32,7 +33,7 @@ function Header() {
         setHeader(() => <HeaderSearch />);
         break;
       case "/search2":
-        setHeader(() => <HeaderSearch />);
+        setHeader(() => <HeaderSearch2 />);
         break;
       case "/mypage":
       case "/edit":
@@ -129,16 +130,29 @@ const HeaderDetail = ({ name }) => {
 const HeaderSearch = () => {
   const router = useRouter();
   const { searchWord, setSearchWord, setResults } = useSearchStore();
+  const [functionData, setFunctionData] = useState([]);
 
   function goBack() {
     router.back();
   }
 
-  const togResult = (e) => {
+  // const togResult = (e) => {
+  //   e.preventDefault();
+  //   if (searchWord) {
+  //     setResults([searchWord]);
+  //     router.push("/search2");
+  //   }
+  // };
+
+  const handleSearch = async (e) => {
     e.preventDefault();
     if (searchWord) {
-      setResults([searchWord]);
-      router.push("/search2");
+      setResults([searchWord]);//쿠키용
+
+      // [↓] api호출용
+      // const data = await fn.search(searchWord, 1); 
+      // setFunctionData(data);
+      router.push(`/search2?query=${searchWord}`);
     }
   };
 
@@ -149,7 +163,8 @@ const HeaderSearch = () => {
         className={headerStyle.goBackBtn}
         onClick={goBack}
       ></button>
-      <form onSubmit={togResult}>
+      {/* <form onSubmit={togResult}> */}
+      <form onSubmit={handleSearch}>
         <input
           type="text"
           name="searchWord"
@@ -165,17 +180,32 @@ const HeaderSearch = () => {
 const HeaderSearch2 = () => {
   const router = useRouter();
   const { searchWord, setSearchWord, setResults } = useSearchStore();
+  const [functionData, setFunctionData] = useState([]);
 
   function goBack() {
     setSearchWord("");
     router.back();
   }
 
-  const togResult = (e) => {
+  // const togResult = (e) => {
+  //   e.preventDefault();
+  //   if (searchWord) {
+  //     setResults([searchWord]);
+  //     router.push("/search2");
+  //   }
+  // };
+
+  const handleSearch = async (e) => {
     e.preventDefault();
-    if (searchWord) {
+    if (searchWord!=='') {
       setResults([searchWord]);
-      router.push("/search2");
+
+      // const data = await fn.search(searchWord, 1); 
+      // console.log(data);
+      // setFunctionData(data);
+      // console.log(functionData);
+  
+      router.push(`/search2?query=${searchWord}`);
     }
   };
 
@@ -197,7 +227,7 @@ const HeaderSearch2 = () => {
         className={headerStyle.goBackBtn}
         onClick={goBack}
       ></button>
-      <form onSubmit={togResult}>
+      <form onSubmit={handleSearch}>
         <input
           type="text"
           name="searchWord"
