@@ -26,7 +26,7 @@ let { stdate, eddate } = getThisWeekDate();
 const API_KEY = "7b1ab9ea464e4d70ad4c8bad7505f532";
 const defaultParams = {
   service: API_KEY,
-  rows: "20", //요청개수
+  rows: "2", //요청개수
   signgucode: "11",
   stdate: "20240101",
   eddate: "20241231",
@@ -201,6 +201,11 @@ async function apiDetail(mt20id, res) {
     { params: { service: API_KEY } }
   );
   let detail = xmlTOjson(detailResult.data);
+  // console.log(detailResult.data);
+
+  console.log(detail);
+
+
   let placeId = detail.mt10id._text;
 
   const detailMapResult = await axios.get(
@@ -218,7 +223,6 @@ async function apiDetailMap(mt10id, res) {
     `http://www.kopis.or.kr/openApi/restful/prfplc/${mt10id}`,
     { params: { service: API_KEY } }
   );
-
   res.json(detailMap.data);
 }
 // [↑] 디테일 종료=============================================================================

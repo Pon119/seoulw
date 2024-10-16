@@ -62,6 +62,7 @@ export default function App({
               <Component {...pageProps} />
             </main>
           </Suspense>
+          <TopButton />
           <Footer />
           <MenuTapBar />
         </div>
