@@ -8,6 +8,7 @@ import Head from 'next/head'
 import { SessionProvider } from "next-auth/react"
 import useMainStore from '@/store/main_store';
 import { fn } from "@/utils/apiFunc";
+import TopButton from "@/components/TopButton";
 
 export default function App({
   Component,
@@ -40,6 +41,7 @@ export default function App({
           <Component {...pageProps} />
         </main>
       </Suspense>
+      <TopButton/>
       <Footer />
       <MenuTapBar />
     </div>

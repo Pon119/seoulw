@@ -3,7 +3,7 @@ import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 import NaverProvider from "next-auth/providers/naver";
 import CredentialsProvider from "next-auth/providers/credentials"
-import { collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import db from "@/lib/firebase";
 import { where } from "firebase/firestore";
 
@@ -85,6 +85,23 @@ export const authOptions = {
   callbacks: {
     async signIn({user}) { 
        //console.log(user); user 정보(DB)를 firebase에 쌓아주기
+      console.log(user)
+      
+      const userCheck = await getDocs(query(collection(db, 'member'), where('userId','==',user.email)));
+
+      if(userCheck.empty){
+        let name = user.name;
+        if(!user.name){ name='아무개' }
+        await addDoc(collection(db, 'member'), {
+          userId: user.email,
+          userName: name,
+          userPhone: '', // 필요한 경우 전화번호를 추가할 수 있음
+          userPassword: '', // SNS 로그인에서는 비밀번호가 필요 없음
+        });
+      }
+
+
+      
 
         //->return false; 로그인 거부
         return true;

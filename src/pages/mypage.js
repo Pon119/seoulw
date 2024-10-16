@@ -1,21 +1,13 @@
 // 4. MY
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import mypageStyle from "@/styles/mypage.module.scss";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-
-
 function Mypage() {
-  const [status, setStatus] = useState('');
-  const router = useRouter();
-  
-  const name = "박지연";
   const { data: session } = useSession();
   console.log(session)
-
 
   //로그아웃 POPUP
   function popUp() {
@@ -33,12 +25,9 @@ function Mypage() {
       }
     });
   }
-
-  if(!session) signIn();
-
+  if(!session) signIn(); //세션 정보가 없으면 로그인 페이지로
 
 
-  
   return (
     <div className={mypageStyle.mypagewrap}>
 

@@ -98,10 +98,10 @@ const edit = () => {
   return (
     <div className={editStyle.editwrap}>
       <form onSubmit={handleSubmit}>
-        <Logininput type="email" msg="아이디" readOnly={true} value={email} setValue={setEmail} className={editStyle.inputemail}/>
+        <Logininput type="email" msg="아이디" readOnly={true} value={email} setValue={setEmail}/>
         <Logininput type="password" msg="비밀번호 (영문/숫자/특수문자 조합 8~15자)" value={password} setValue={setPassword} />
         <Logininput type="password" msg="비밀번호 확인" value={confirmPassword} setValue={setConfirmPassword} />
-        <Logininput type="text" msg="성함" value={joinname} setValue={setJoinname} className={editStyle.inputname}/>
+        <Logininput type="text" msg="성함" readOnly={true}value={joinname} setValue={setJoinname} />
         <Logininput type="tel" msg="휴대폰 번호 ( - 없이 )" value={phone} setValue={setPhone} />
         
         <input type='checkbox' className={editStyle.checkbox} id="info1" name="info" checked={isAgreed}

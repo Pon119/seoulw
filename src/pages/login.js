@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn } from "next-auth/react"
 import { useRouter } from 'next/router';
 import Logininput from '@/components/Logininput';
 import Link from 'next/link'
 import loginStyle from '@/styles/login.module.scss'
 import db from '@/lib/firebase';
-import { doc, setDoc } from "firebase/firestore";
-
+import { doc, setDoc, addDocs } from "firebase/firestore";
 
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [joinname, setJoinname] = useState('');
   const [error, setError] = useState({id:'',pw:''});
   const router = useRouter();
 
@@ -38,11 +38,36 @@ function Login() {
         }
       }
    }
-  //  const { data: session } = useSession();
+   const handleSocialLogin = async (provider) => {
+   const result = await signIn(provider, { redirect: false, callbackUrl: '/' });
+   console.log('===========333333====',result)
 
-  //  if (session) {
-  //   router.push("mypage");
-  //  }
+    // if (result?.error) {
+    //   console.error(result.error);
+    // } else {
+    //   // 사용자 정보 가져오기
+    //   const userEmail = result?.user?.email; // SNS 로그인 시 이메일을 가져온다
+    //   const userName = result?.user?.name; // SNS 로그인 시 이름을 가져온다
+    //   const userId = result?.user?.id; // SNS 로그인 시 아이디를 가져온다 (사용하는 SNS에 따라 다를 수 있음)
+    //   console.log('-------====================',userEmail)
+
+    //   // Firestore에 사용자 정보 저장
+    //   if (userEmail) {
+    //     try {
+    //       await addDoc(doc(db, 'member', userId), {
+    //         userId: email,
+    //         userName: joinname,
+    //         userPhone: '', // 필요한 경우 전화번호를 추가할 수 있음
+    //         userPassword: '', // SNS 로그인에서는 비밀번호가 필요 없음
+    //       });
+    //       console.log(db,'=================aaaaa')
+    //       router.push('/'); // 회원가입 후 홈으로 이동
+    //     } catch (error) {
+    //       console.error("Error saving user to Firestore:", error);
+    //     }
+    //   }
+    // }
+  };
  
   return (
 
@@ -65,11 +90,13 @@ function Login() {
       <Link href="/join">회원가입</Link>
       </div>
       <div className={loginStyle.loginicon}>
-        <button onClick={()=>signIn('github',{callbackUrl:'/'})}><img src="../../assets/icons/github_icon1.svg"/></button>
+        <button onClick={()=>handleSocialLogin('github',{callbackUrl:'/'})}><img src="../../assets/icons/github_icon1.svg"/></button>
+        <button onClick={()=>handleSocialLogin('naver',{callbackUrl:'/'})}><img src="../../assets/icons/naver_icon.svg"/></button>
+        <button onClick={()=>handleSocialLogin('google',{callbackUrl:'/'})}><img src="../../assets/icons/google_icon.svg"/></button>
+        {/* <button onClick={()=>signIn('github',{callbackUrl:'/'})}><img src="../../assets/icons/github_icon1.svg"/></button>
         <button onClick={()=>signIn('naver',{callbackUrl:'/'})}><img src="../../assets/icons/naver_icon.svg"/></button>
-        <button onClick={()=>signIn('google',{callbackUrl:'/'})}><img src="../../assets/icons/google_icon.svg"/></button>
+        <button onClick={()=>signIn('google',{callbackUrl:'/'})}><img src="../../assets/icons/google_icon.svg"/></button> */}
         {/* 콜백,{callbackUrl:'/'}안넣으면 홈으로 안가고 마이페이지에 남음 */}
-        {/* <button onClick={()=>signIn('google')}><img src="../../assets/icons/google_icon.svg"/></button> */}
       </div>  
       </div>
   )
