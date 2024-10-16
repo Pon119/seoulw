@@ -10,6 +10,7 @@ import useMainStore from "@/store/main_store";
 import { fn } from "@/utils/apiFunc";
 import Loading from "@/components/Loading";
 import { fetchData } from "next-auth/client/_utils";
+import TopButton from "@/components/TopButton";
 
 export default function App({
   Component,
@@ -49,9 +50,7 @@ export default function App({
           <Suspense
             fallback={
               <main>
-                <div>
-                  <Loading />
-                </div>
+                <div>로딩중</div>
               </main>
             }
           >
@@ -59,6 +58,7 @@ export default function App({
               <Component {...pageProps} />
             </main>
           </Suspense>
+          <TopButton />
           <Footer />
           <MenuTapBar />
         </div>
