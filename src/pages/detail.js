@@ -16,6 +16,8 @@ function Detail() {
   const params = useSearchParams();
   const id = params.get("mt20id");
 
+  console.log(info);
+  // _text 분리 코드
   useEffect(() => {
     fn.detail(id).then((res) => {
       let d = { ...res };
@@ -142,20 +144,29 @@ function Detail() {
                   <li className={detailStyle.infotitle}>가격</li>
                   <li>{info.detail.pcseguidance}</li>
                 </ul>
-                {/* <img src={info.detail?.styurls[0]?.styurl[0]} /> */}
+                <img
+                  src={
+                    info.detail.styurl ? info.detail.styurl : info.detail.poster
+                  }
+                />
 
                 {/* 장소까지 info에 포함되어야 함.  */}
                 <hr />
                 <div className={detailStyle.map}>
                   <h2>장소</h2>
                   <div className={detailStyle.mapinfo}>
-                    <p>서울숲공원 (가족마당) </p>
-                    <p>서울특별시 성동구 뚝섬로 273(성수동1가)</p>
+                    <p>{info.detailMap.fcltynm}</p>
+                    <p>{info.detailMap.adres}</p>
                     <div className={detailStyle.mapnum}>
-                      <p>02-460-2905</p>
-                      <Link href="" style={{ marginTop: "5px" }}>
-                        홈페이지
-                      </Link>
+                      <p>{info.detailMap.telno}</p>
+                      {info.detailMap.relateurl && (
+                        <Link
+                          href={info.detailMap.relateurl}
+                          style={{ marginTop: "5px" }}
+                        >
+                          홈페이지
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -173,9 +184,9 @@ function Detail() {
           </div>
         )}
 
-        <div className={detailStyle.footer}>
+        {/* <div className={detailStyle.footer}>
           <button className={detailStyle.reserveButton}>예약하기</button>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -64,9 +64,8 @@ function Review({ info, id }) {
       (async function () {
         try {
           const q = query(
-            collection(db, "review"),
-          // where("mt20id", "==", userid)
-            
+            collection(db, "review")
+            // where("mt20id", "==", userid)
           );
           const querySnapshot = await getDocs(q);
 
@@ -77,6 +76,10 @@ function Review({ info, id }) {
             // doc.data() is never undefined for query doc snapshots
             // 와!!! 로그로 잘 찍힘 그러면 이제 이거를 어따가 뿌려줄 것이냐? 어떻게 할 것이냐?
             // console.log(doc.id, " => ", doc.data());
+          });
+
+          reviewData.sort((a, b) => {
+            return new Date(a.postdate) - new Date(b.postdate);
           });
 
           setReviews(reviewData);
@@ -95,9 +98,7 @@ function Review({ info, id }) {
 
       const docRef = await addDoc(collection(db, "review"), {
         mt20id: id,
-        //이건 유나님한테 받아서 연결하기
         userid: sesseion.user.email,
-        //지연님한테 세션 작업 연결해서 하기
         prfnm: info.prfnm,
         star: starValue,
         review: reviewText,
@@ -105,6 +106,12 @@ function Review({ info, id }) {
         poster: info.poster,
       });
       setReviewsState(!reviewsState);
+
+      // 리뷰 제출 후 입력 박스를 다시 보이게 설정
+      setInputVisible(true);
+      // 텍스트와 별점 초기화
+      setReviewText("");
+      setStarValue(0);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -171,7 +178,7 @@ function Review({ info, id }) {
                     별점을 선택해 주세요.
                   </Typography>
                   <StyledRating
-                    value={starValue}
+                    value={starValue} // 별점 표시를 위한 starValue 사용
                     onChange={(event, newValue) => setStarValue(newValue)}
                   />
                 </Box>
@@ -220,7 +227,7 @@ function Review({ info, id }) {
                     >
                       {review.star / 2} {/* 별점 표시 */}
                     </Typography>
-                    
+
                     {/* 수정 삭제 기능은 나중에 넣는 것으로 협의됨 */}
                     {/* <div className={reviewStyle.edit}>
                       <button>수정</button>
@@ -236,18 +243,20 @@ function Review({ info, id }) {
                         : "transparent",
                     }}
                   >
-                    {moreButton[index] || review.review.length <= 20
+                    {/* {moreButton[index] || review.review.length <= 20
                       ? review.review
-                      : `${review.review.substring(0, 20)}...`}
+                      : `${review.review.substring(0, 20)}...`} */}
+
+                    {review.review}
                   </p>
-                  {/* 더 보기 버튼 */}
+                  {/* 더 보기 버튼 */}l
                   <div className={reviewStyle.moretext}>
                     <p>
                       {review.userid.slice(0, 2) + "***"} {/* 아이디 표시 */}
                     </p>
-                    <button onClick={() => handleMoreToggle(index)}>
+                    {/* <button onClick={() => handleMoreToggle(index)}>
                       <img src="/assets/icons/arrow_more.svg" alt="더 보기" />
-                    </button>
+                    </button> */}
                   </div>
                   <hr />
                 </div>

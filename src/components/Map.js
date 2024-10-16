@@ -3,7 +3,7 @@ import MapStyle from "@/styles/map.module.scss";
 import Link from "next/link";
 
 const Map = ({ info }) => {
-  console.log(info, "=============map");
+  // console.log(info, "=============map");
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
@@ -42,7 +42,14 @@ const Map = ({ info }) => {
           <p>{info.adres}</p>
           <div className={MapStyle.mapnum}>
             <p>{info.telno}</p>
-            <Link href={info.relateurl}>홈페이지</Link>
+            {info.detailMap && info.detailMap.relateurl ? (
+              <Link
+                href={info.detailMap.relateurl}
+                style={{ marginTop: "5px" }}
+              >
+                홈페이지
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>
