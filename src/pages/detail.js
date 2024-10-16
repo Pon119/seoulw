@@ -7,6 +7,12 @@ import Review from "@/components/Review";
 import Map from "@/components/Map";
 import { useSearchParams } from "next/navigation";
 import { fn } from "@/utils/apiFunc";
+import movePageStore from "../store/movePage_store";
+
+// [↓] const Detail 내부
+// const {setMoveDetailData} = movePageStore();   //movePageData=[장르인덱스, all인덱스]
+// setMoveDetailData(() => item.mt20id)
+
 // var parseString = require("xml2js").parseString;
 
 function Detail() {
@@ -16,7 +22,8 @@ function Detail() {
   const params = useSearchParams();
   const id = params.get("mt20id");
 
-  console.log(info);
+  const { setMoveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
+
   // _text 분리 코드
   useEffect(() => {
     fn.detail(id).then((res) => {
@@ -28,8 +35,14 @@ function Detail() {
         d.detailMap[key] = d.detailMap[key]._text;
       }
       setInfo(d);
+      setMoveDetailData(d.detail.prfnm);
+      console.log(d.detail.prfnm);
+  
     });
   }, []);
+
+
+  // console.log(info.prfnm);
 
   const tap = (i) => {
     setAll(i);

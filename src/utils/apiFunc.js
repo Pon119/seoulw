@@ -51,7 +51,6 @@ export const fn = {
   },
 
   detail: async (mt20id) => {
-    console.log(mt20id, "=================");
     let res = await axios.get(`/api/api?type=apiDetail&mt20id=${mt20id}`);
     return res.data;
   },

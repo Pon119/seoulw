@@ -30,6 +30,8 @@ function Header() {
     ];
     setHeader(() => <HeaderSub name={genresArr[movePageData[0]]} />);
   };
+  console.log(movePageData);
+  console.log(moveDetailData);
 
   const onDetail = () => {
     setHeader(() => <HeaderDetail name={moveDetailData} />);
