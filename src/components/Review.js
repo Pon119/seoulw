@@ -4,38 +4,19 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { collection, addDoc, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+} from "firebase/firestore";
 import db from "../lib/firebase";
+import { useSession } from "next-auth/react";
 
-function Review() {
-  let [reviewfire, setReviewfire] = useState([]);
-
-  console.log(reviewfire);
-  // 더미 임시 데이터
-  const reviewDummyData = [
-    {
-      index: 0,
-      mt20id: "PF000000",
-      userid: "exid000@gmail.com",
-      prfnm: "국립심포니오케스트라 실내악 시리즈 Ⅱ, 정화된 밤",
-      star: 10,
-      review:
-        "스토리 보고 갔다가 배우에 반했어요!!! 냉전과 스파이에 끌려서 삼만년 만에 보러 간 뮤지컬이었는데 와우 스토리가 진짜 탄탄하네 시간이 어떻게 간지 모르게 즐겁게 봤습니다.",
-      postdate: "2024.10.07",
-      poster: "/assets/images/poster_01.jpg",
-    },
-    {
-      index: 1,
-      mt20id: "PF000001",
-      userid: "exid001@gmail.com",
-      prfnm: "비 오는 날의 인터뷰",
-      star: 2,
-      review:
-        "나만 기다린게 아니었구나.. 관객 모두가 미쳐버림 ㅋㅋ커튼콜때 관객들의 미친 환호에 배우들의 놀라면서 행복해 하는 모습 +뒤로 관객들 구경하는 재미가 쏠쏠.",
-      postdate: "2024.10.07",
-      poster: "/assets/images/poster_02.jpg",
-    },
-  ];
+function Review({ info, id }) {
+  const { data: sesseion } = useSession();
 
   // 별점 모양 커스텀
   const StyledRating = styled(Rating)({
@@ -59,7 +40,8 @@ function Review() {
   const [starValue, setStarValue] = useState(0);
 
   // ▼리뷰 더미데이터 관리
-  const [reviews, setReviews] = useState(reviewDummyData);
+  const [reviews, setReviews] = useState();
+  const [reviewsState, setReviewsState] = useState(false);
   const [moreButton, setMoreButton] = useState({}); // 각 리뷰의 "더 보기" 상태 관리
 
   const handleMoreToggle = (index) => {
@@ -77,37 +59,59 @@ function Review() {
 
   useEffect(() => {
     // 파이어 베이스 가져오기
-    getDocs(collection(db, "review")).then((querySnapshot) => {
-      let reviewData = [];
+    console.log("재실행=================", id);
+    if (id) {
+      (async function () {
+        try {
+          const q = query(
+            collection(db, "review")
+            // where("mt20id", "==", userid)
+          );
+          const querySnapshot = await getDocs(q);
 
-      querySnapshot.forEach((doc) => {
-        reviewData.push(doc.data());
-        // doc.data() is never undefined for query doc snapshots
-        // 와!!! 로그로 잘 찍힘 그러면 이제 이거를 어따가 뿌려줄 것이냐? 어떻게 할 것이냐?
-        // console.log(doc.id, " => ", doc.data());
-      });
-      setReviewfire(reviewData);
-    });
+          let reviewData = [];
+
+          querySnapshot.forEach((doc) => {
+            reviewData.push(doc.data());
+            // doc.data() is never undefined for query doc snapshots
+            // 와!!! 로그로 잘 찍힘 그러면 이제 이거를 어따가 뿌려줄 것이냐? 어떻게 할 것이냐?
+            // console.log(doc.id, " => ", doc.data());
+          });
+
+          reviewData.sort((a, b) => {
+            return new Date(a.postdate) - new Date(b.postdate);
+          });
+
+          setReviews(reviewData);
+        } catch {}
+      })();
+    }
 
     // 가져온 값을 배열로 지정하여 다시 뿌리기
-  }, []);
+  }, [reviewsState]);
 
   // 파이어 베이스에 값을 보내기
   const handleSubmit = async () => {
+    console.log(info, info.poster);
     try {
       // 내용을 서버에 보내기 > 어찌어찌 성공함.
 
       const docRef = await addDoc(collection(db, "review"), {
-        mt20id: "PF000001",
-        //이건 유나님한테 받아서 연결하기
-        userid: "userid",
-        //지연님한테 세션 작업 연결해서 하기
-        prfnm: "prfrnmValue",
+        mt20id: id,
+        userid: sesseion.user.email,
+        prfnm: info.prfnm,
         star: starValue,
         review: reviewText,
         postdate: new Date().toLocaleDateString(),
-        poster: "poster",
+        poster: info.poster,
       });
+      setReviewsState(!reviewsState);
+
+      // 리뷰 제출 후 입력 박스를 다시 보이게 설정
+      setInputVisible(true);
+      // 텍스트와 별점 초기화
+      setReviewText("");
+      setStarValue(0);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -137,13 +141,15 @@ function Review() {
     setReviews((prevReviews) => [...prevReviews, ...additionalReviews]);
   };
 
+  // if (!reviews) return <></>;
+
   return (
     <>
       <div className={reviewStyle.review}>
         <div className={reviewStyle.reviewinfo}>
           {isInputVisible ? (
             <div className={reviewStyle.input}>
-              <p>댓글 {reviews.length}개</p>
+              <p>댓글 {reviews && reviews.length}개</p>
               <div className={reviewStyle.inputtext}>
                 <input
                   type="text"
@@ -172,7 +178,7 @@ function Review() {
                     별점을 선택해 주세요.
                   </Typography>
                   <StyledRating
-                    value={starValue}
+                    value={starValue} // 별점 표시를 위한 starValue 사용
                     onChange={(event, newValue) => setStarValue(newValue)}
                   />
                 </Box>
@@ -200,59 +206,62 @@ function Review() {
         {/* 리뷰 리스트 */}
         <div className={reviewStyle.list}>
           {/* 아래는 유저가 직접 작성한 리뷰 데이터 출력 */}
-          {reviewfire.map((item) => (
-            <StyledRating value={item.star} readOnly />
-          ))}
 
           {/* 근데 밑에 있는 이거는 기존에 있는 리뷰가 있을 경우에 이렇게 map을 돌리는 거고..? */}
-          {reviews.map((review, index) => (
-            <div key={`${review.userid}-${index}`}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <StyledRating value={review.star} readOnly />
-                <Typography
-                  component="span"
-                  sx={{ marginLeft: 1 }}
-                  className={reviewStyle.starValue}
-                >
-                  {review.star / 2} {/* 별점 표시 */}
-                </Typography>
-                <div className={reviewStyle.edit}>
-                  <button>수정</button>
-                  <button>삭제</button>
-                </div>
-              </Box>
+          {reviews
+            ? reviews.map((review, index) => (
+                <div key={`${review.userid}-${index}`}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <StyledRating value={review.star} readOnly />
+                    <Typography
+                      component="span"
+                      sx={{ marginLeft: 1 }}
+                      className={reviewStyle.starValue}
+                    >
+                      {review.star / 2} {/* 별점 표시 */}
+                    </Typography>
 
-              {/* 제목 */}
-              <p
-                style={{
-                  backgroundColor: moreButton[index]
-                    ? "#cbcbcb"
-                    : "transparent",
-                }}
-              >
-                {moreButton[index] || review.review.length <= 20
-                  ? review.review
-                  : `${review.review.substring(0, 20)}...`}
-              </p>
-              {/* 더 보기 버튼 */}
-              <div className={reviewStyle.moretext}>
-                <p>
-                  {review.userid.slice(0, -3) + "***"} {/* 아이디 표시 */}
-                </p>
-                <button onClick={() => handleMoreToggle(index)}>
-                  <img src="/assets/icons/arrow_more.svg" alt="더 보기" />
-                </button>
-              </div>
-              <hr />
-            </div>
-          ))}
+                    {/* 수정 삭제 기능은 나중에 넣는 것으로 협의됨 */}
+                    {/* <div className={reviewStyle.edit}>
+                      <button>수정</button>
+                      <button>삭제</button>
+                    </div> */}
+                  </Box>
+
+                  {/* 제목 */}
+                  <p
+                    style={{
+                      backgroundColor: moreButton[index]
+                        ? "#cbcbcb"
+                        : "transparent",
+                    }}
+                  >
+                    {/* {moreButton[index] || review.review.length <= 20
+                      ? review.review
+                      : `${review.review.substring(0, 20)}...`} */}
+
+                    {review.review}
+                  </p>
+                  {/* 더 보기 버튼 */}l
+                  <div className={reviewStyle.moretext}>
+                    <p>
+                      {review.userid.slice(0, 2) + "***"} {/* 아이디 표시 */}
+                    </p>
+                    {/* <button onClick={() => handleMoreToggle(index)}>
+                      <img src="/assets/icons/arrow_more.svg" alt="더 보기" />
+                    </button> */}
+                  </div>
+                  <hr />
+                </div>
+              ))
+            : "리뷰 내용이 존재하지 않습니다."}
         </div>
         <button className={reviewStyle.buttonmore} onClick={loadMoreReviews}>
           리뷰 20개 더보기

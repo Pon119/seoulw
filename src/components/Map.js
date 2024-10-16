@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import MapStyle from "@/styles/map.module.scss";
 import Link from "next/link";
 
-const Map = () => {
+const Map = ({ info }) => {
+  // console.log(info, "=============map");
   useEffect(() => {
     const kakaoMapScript = document.createElement("script");
     kakaoMapScript.async = false;
@@ -14,7 +15,7 @@ const Map = () => {
         const container = document.getElementById("map");
         const options = {
           // 여기가 지도 좌표값
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+          center: new window.kakao.maps.LatLng(info.la, info.lo),
           level: 3,
         };
 
@@ -37,11 +38,18 @@ const Map = () => {
       <div className={MapStyle.map}>
         <h2>장소</h2>
         <div className={MapStyle.mapinfo}>
-          <p>서울숲공원 (가족마당) </p>
-          <p>서울특별시 성동구 뚝섬로 273(성수동1가)</p>
+          <p>{info.fcltynm}</p>
+          <p>{info.adres}</p>
           <div className={MapStyle.mapnum}>
-            <p>02-460-2905</p>
-            <Link href="">홈페이지</Link>
+            <p>{info.telno}</p>
+            {info.detailMap && info.detailMap.relateurl ? (
+              <Link
+                href={info.detailMap.relateurl}
+                style={{ marginTop: "5px" }}
+              >
+                홈페이지
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>
