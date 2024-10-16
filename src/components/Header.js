@@ -189,7 +189,7 @@ const HeaderSearch = () => {
           name="searchWord"
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
-          placeholder="공연명, 공연장소를 검색하세요."
+          placeholder="공연명을 검색하세요."
         ></input>
         <button type="submit"></button>
       </form>
@@ -253,7 +253,7 @@ const HeaderSearch2 = () => {
           value={searchWord}
           onChange={handle}
           // onChange={(e) => setSearchWord(e.target.value)}
-          placeholder="공연명, 공연장소를 검색하세요."
+          placeholder="공연명을 검색하세요."
         ></input>
         <button type="submit"></button>
       </form>

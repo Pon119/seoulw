@@ -8,6 +8,7 @@ import { handler } from "../pages/api/api";
 import { fn } from "@/utils/apiFunc";
 import Loading from "@/components/Loading";
 import movePageStore from "../store/movePage_store";
+import TopButton from "@/components/TopButton";
 
 function Category() {
   const [all, setAll] = useState(1);
@@ -189,6 +190,7 @@ function Category() {
             : ""}
         </p>
       </section>
+      <TopButton/>
     </div>
   );
 }
