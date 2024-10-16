@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import bookmarkStyle from "@/styles/bookmark.module.scss";
 
-function bookmark({ numberOfBookmarks }) {
+function Bookmark({ numberOfBookmarks }) {
   // 최대 50개까지 설정 가능
   const maxBookmarks = Math.min(numberOfBookmarks, 50);
 
@@ -52,4 +52,4 @@ bookmark.defaultProps = {
   numberOfBookmarks: 10, // 기본값을 10으로 설정
 };
 
-export default bookmark;
+export default Bookmark;

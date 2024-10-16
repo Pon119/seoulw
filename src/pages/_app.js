@@ -19,15 +19,17 @@ export default function App({
   const { mainData, setMainData } = useMainStore();
 
   useEffect(() => {
-    // fn.search('예술',1)
-    // (res=>{
-    //   console.log(res)
-    // });
-    const fetchMainData = async () => {
-      await setMainData();
-    };
-    fetchMainData();
+    setMainData();
   }, []);
+
+  console.log(`mainData: `);
+  console.log(mainData);
+  console.log("=================================");
+
+  //genres 짝수는 뮤지컬, 홀수는 제멋대로같음?????(클래식같음 api.js에서도 섞여서 들어옴)
+  //ing 짝수 대중음악, 홀수 서커스/마술
+  //thisWeek 짝수 연극, 홀수 국악
+  //upcoming 짝수 무용, 홀수 복합
 
   return mainData.length === 0 ? (
     <Loading />
@@ -50,7 +52,9 @@ export default function App({
           <Suspense
             fallback={
               <main>
-                <div>로딩중</div>
+                <div>
+                  <Loading />
+                </div>
               </main>
             }
           >
@@ -58,7 +62,6 @@ export default function App({
               <Component {...pageProps} />
             </main>
           </Suspense>
-          <TopButton />
           <Footer />
           <MenuTapBar />
         </div>

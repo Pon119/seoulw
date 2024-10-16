@@ -4,8 +4,6 @@ import React from "react";
 var convert = require("xml-js");
 
 export function xmlTOjson(axiosResult) {
-  // const xmlData = (genre === '') ? axiosResult.data : axiosResult.data[genre];
-
   const jsonGenre = convert.xml2json(axiosResult, { compact: true, spaces: 4 });
   let dataGenre = JSON.parse(jsonGenre).dbs.db;
   return dataGenre;
@@ -43,7 +41,6 @@ export const fn = {
       `/api/api?type=apiUpcoming&shcate=${shcate}&cpage=${cpage}`
     );
     return res.data;
-    //장르별로 하나씩 변환
   },
 
   search: async (searchWord, page) => {

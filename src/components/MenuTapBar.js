@@ -16,7 +16,7 @@ const MenuTapBar = () => {
 
   const checkStatus = (status) => {
     switch (status) {
-      case 'reserved':
+      case 'reserve':
         setButtonText('예약하기');
         break;
       case 'completed':
@@ -54,7 +54,7 @@ const MenuTapBar = () => {
         break;
       case '/detail':
         setIsDetail(() => true)   
-        const status = 'reserved' //하드코딩
+        const status = 'reserve' //하드코딩
         checkStatus(status);
         break;
       case '/login':
