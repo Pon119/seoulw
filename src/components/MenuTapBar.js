@@ -2,8 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import menuTapBarStyle from '@/styles/menuTapBar.module.scss'
 import { useRouter } from 'next/router'
+import movePageStore from "../store/movePage_store";
 
 const MenuTapBar = () => {
+  const { movePageData, moveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
   const [isActive, setIsActive] = useState(0);
   const [isDetail, setIsDetail] = useState(false);
   const [buttonText, setButtonText] = useState('예약하기');
@@ -16,13 +18,13 @@ const MenuTapBar = () => {
 
   const checkStatus = (status) => {
     switch (status) {
-      case 'reserve':
+      case '공연중':
         setButtonText('예약하기');
         break;
-      case 'completed':
+      case '공연완료':
         setButtonText('공연완료');
         break;
-      case 'upcoming':
+      case '공연예정':
         setButtonText('공연예정');
         break;
       default:
@@ -54,7 +56,7 @@ const MenuTapBar = () => {
         break;
       case '/detail':
         setIsDetail(() => true)   
-        const status = 'reserve' //하드코딩
+        const status = '공연중' //하드코딩
         checkStatus(status);
         break;
       case '/login':

@@ -9,9 +9,9 @@ const useMovePageStore = create((set) => ({
   },
 
   //디테일 페이지
-  moveDetailData: "",
+  moveDetailData: "", //오브젝트로 변경
   setMoveDetailData: (title) => {
-    set({ moveDetailData: title });
+    set({ moveDetailData: title });   //제목 외 공연state정보, 예매주소 쓰게
   },
 }));
 
