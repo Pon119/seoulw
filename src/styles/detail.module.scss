@@ -3,6 +3,7 @@
 .container {
   // 위에 헤더 부분
   .header {
+    padding-top: 80px;
     .headerposter {
       margin-bottom: 46.6px;
       width: 480px;
@@ -83,27 +84,27 @@
 
         ul {
           list-style: none;
-          padding: 0;    
+          padding: 0;
           display: flex;
           margin: 0px 20px;
 
-          .infotitle{
+          .infotitle {
             width: 20%;
           }
 
           li {
             margin-bottom: 10px;
-            font-size: 16px;  
+            font-size: 16px;
             width: 80%;
 
             &:first-child {
               font-weight: bold;
               font-size: 18px;
-              
+
               white-space: nowrap;
             }
 
-            &:last-child{
+            &:last-child {
               margin-bottom: 30px;
             }
           }
@@ -130,10 +131,10 @@
 
   //map 장소 표시
   hr {
-    display: block; 
-    height: 2px; 
+    display: block;
+    height: 2px;
     background-color: #cbcbcb;
-    border: none; 
+    border: none;
     margin: 30px 0px 30px;
   }
   .map {
@@ -178,7 +179,7 @@
       color: #fff; // 글자 색상
       background-color: #ff4b77; // 버튼 배경색
       border: none; // 테두리 제거
-      border-radius: 5px; 
+      border-radius: 5px;
       cursor: pointer; // 커서 포인터로 변경
       transition: background-color 0.3s; // 배경색 전환 효과
       margin-bottom: 30px;

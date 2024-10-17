@@ -181,7 +181,7 @@ function Detail() {
                 </ul>
                 <img
                   src={
-                    info.detail.styurls.styurl._text
+                    info.detail.styurls.styurl?._text || info.detail.styurl || info.detail.poster
                     // info.detail.styurls.styurl ? info.detail.styurls.styurl : (info.detail.styurl ? info.detail.styurl : info.detail.poster)
                   }
                 />
