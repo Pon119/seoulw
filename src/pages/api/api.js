@@ -61,7 +61,7 @@ async function apiMain(res) {
   genreParams.forEach(({ shcate }) => {
     const mainParams = {
       service: API_KEY,
-      rows: "5", //요청개수
+      rows: "20", //요청개수
       signgucode: "11",
       stdate: "20240101",
       eddate: "20241231",
@@ -70,7 +70,7 @@ async function apiMain(res) {
     };
     const mainThisWeekParams = {
       service: API_KEY,
-      rows: "5", //요청개수
+      rows: "20", //요청개수
       signgucode: "11",
       stdate: stdate,
       eddate: eddate,
