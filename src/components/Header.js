@@ -53,11 +53,19 @@ function Header() {
         setHeader(() => <HeaderSearch2 />);
         break;
       case "/mypage":
-      case "/edit":
-      case "/review":
-      case "/bookmark":
-      case "/dropout":
         setHeader(() => <HeaderSub name={"마이페이지"} />);
+        break;
+      case "/edit":
+        setHeader(() => <HeaderSub name={"회원 정보 수정"} />);
+        break;
+      case "/review":
+        setHeader(() => <HeaderSub name={"나의 리뷰"} />);
+        break;
+      case "/bookmark":
+        setHeader(() => <HeaderSub name={"북마크"} />);
+        break;
+      case "/dropout":
+        setHeader(() => <HeaderSub name={"회원 탈퇴"} />);
         break;
       case "/login":
       case "/join":

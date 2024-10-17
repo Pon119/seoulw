@@ -9,7 +9,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 const Edit = () => {
-  const idName = "parkwl***";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [joinname, setJoinname] = useState("");
@@ -21,7 +20,6 @@ const Edit = () => {
 
   //로그인시 session 정보를 연결해줄 수 있는 중요한 부분
   const { data: session } = useSession();
-
   const [loading, setLoading] = useState(true); // 데이터 로딩 상태
 
   useEffect(() => {
@@ -34,11 +32,9 @@ const Edit = () => {
         const querySnapshot = await getDocs(q);
 
         // console.log(querySnapshot.empty);
-
         if (!querySnapshot.empty) {
           const userDoc = querySnapshot.docs[0].data();
           setComautoid(querySnapshot.docs[0].id);
-
           // userData 상태 업데이트
           setEmail(userDoc.userId);
           setPassword(userDoc.userPassword);
@@ -91,6 +87,7 @@ const Edit = () => {
     } catch (error) {
       console.error("Error updating user data:", error);
       alert("수정 실패");
+      setLoading(false);
     }
   };
 
