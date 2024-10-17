@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import db from "@/lib/firebase";
 import editStyle from "@/styles/edit.module.scss";
-import {
-  doc,
-  getDocs,
-  updateDoc,
-  collection,
-  query,
-  setDoc,
+import {doc,getDocs,updateDoc,collection,query,setDoc,
 } from "firebase/firestore";
 import Logininput from "@/components/Logininput";
 import { where } from "firebase/firestore";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Edit = () => {
   const idName = "parkwl***";
@@ -22,6 +17,7 @@ const Edit = () => {
   const [comautoid, setComautoid] = useState("");
   const [isAgreed, setIsAgreed] = useState(false); // 동의 체크 상태 추가
   const [confirmPassword, setConfirmPassword] = useState("");
+  const router = useRouter();
 
   //로그인시 session 정보를 연결해줄 수 있는 중요한 부분
   const { data: session } = useSession();
@@ -91,6 +87,7 @@ const Edit = () => {
 
       alert("수정이 완료되었습니다.");
       setLoading(false);
+      router.push('/');
     } catch (error) {
       console.error("Error updating user data:", error);
       alert("수정 실패");
