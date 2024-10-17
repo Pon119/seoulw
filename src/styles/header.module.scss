@@ -17,6 +17,16 @@
     }
   }
 }
+.goBackBtn1{
+  &::before {
+    width: 24px;
+    height: 24px;
+    display: block;
+    content: "";
+    background: url("../../public/assets/icons/arrow_left.svg");
+  }
+}
+
 
 // 메인 헤더
 .mainHeaderWrap {

@@ -177,7 +177,7 @@ const HeaderSearch = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       {/* <form onSubmit={togResult}> */}
@@ -241,7 +241,7 @@ const HeaderSearch2 = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       <form onSubmit={handleSearch}>
@@ -297,7 +297,7 @@ const HeaderSearch3 = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       <form onSubmit={togResult}>
