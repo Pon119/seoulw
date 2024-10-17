@@ -9,6 +9,9 @@ import { useSearchParams } from "next/navigation";
 import { fn } from "@/utils/apiFunc";
 import movePageStore from "../store/movePage_store";
 
+import useSearchStore from "@/store/search_store";
+import { useRouter } from "next/router";
+
 // [↓] const Detail 내부
 // const {setMoveDetailData} = movePageStore();   //movePageData=[장르인덱스, all인덱스]
 // setMoveDetailData(() => item.mt20id)
@@ -40,6 +43,25 @@ function Detail() {
   
     });
   }, []);
+
+//--------------------------------------
+const router = useRouter();
+const { mt20id } = router.query;
+const setRecentPerformance = useSearchStore((state) => state.setRecentPerformance);
+
+useEffect(() => {
+  if (mt20id && info) {
+    const performanceDetails = {
+      mt20id,
+      genrem: info.detail.genrenm,
+      poster: info.detail.poster,
+      prfnm: info.detail.prfnm,
+    };
+
+      setRecentPerformance(performanceDetails);
+    };  
+}, [mt20id, info, setRecentPerformance]);
+//------------------------------------------
 
 
   // console.log(info.prfnm);
