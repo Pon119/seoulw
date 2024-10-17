@@ -72,11 +72,11 @@ function Search() {
             )
           )}
         </Swiper>
-      ) : (
-      <div>
-        <p>최근 검색어가 없습니다.</p>
-      </div>
-      )}
+        ) : (
+        <div>
+          <p>최근 검색어가 없습니다.</p>
+        </div>
+        )}
       </ul>
 
       <h2>최근 본 공연</h2>
@@ -84,7 +84,7 @@ function Search() {
       { recentPerformances!== null && recentPerformances.length > 0 ? (
         <Swiper
         slidesPerView={3}
-        spaceBetween={30}
+        spaceBetween={24}
         freeMode={true}
         modules={[FreeMode]}
         className="mySwiper"

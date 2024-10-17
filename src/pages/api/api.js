@@ -26,7 +26,7 @@ let { stdate, eddate } = getThisWeekDate();
 const API_KEY = "7b1ab9ea464e4d70ad4c8bad7505f532";
 const defaultParams = {
   service: API_KEY,
-  rows: "2", //요청개수
+  rows: "20", //요청개수
   signgucode: "11",
   stdate: "20240101",
   eddate: "20241231",
