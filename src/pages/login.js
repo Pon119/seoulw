@@ -42,36 +42,13 @@ function Login() {
    const result = await signIn(provider, { redirect: false, callbackUrl: '/' });
    console.log('===========333333====',result)
 
-    // if (result?.error) {
-    //   console.error(result.error);
-    // } else {
-    //   // 사용자 정보 가져오기
-    //   const userEmail = result?.user?.email; // SNS 로그인 시 이메일을 가져온다
-    //   const userName = result?.user?.name; // SNS 로그인 시 이름을 가져온다
-    //   const userId = result?.user?.id; // SNS 로그인 시 아이디를 가져온다 (사용하는 SNS에 따라 다를 수 있음)
-    //   console.log('-------====================',userEmail)
-
-    //   // Firestore에 사용자 정보 저장
-    //   if (userEmail) {
-    //     try {
-    //       await addDoc(doc(db, 'member', userId), {
-    //         userId: email,
-    //         userName: joinname,
-    //         userPhone: '', // 필요한 경우 전화번호를 추가할 수 있음
-    //         userPassword: '', // SNS 로그인에서는 비밀번호가 필요 없음
-    //       });
-    //       console.log(db,'=================aaaaa')
-    //       router.push('/'); // 회원가입 후 홈으로 이동
-    //     } catch (error) {
-    //       console.error("Error saving user to Firestore:", error);
-    //     }
-    //   }
-    // }
   };
  
   return (
 
     <div className={loginStyle.loginwrap}>
+      <button className={loginStyle.closeButton} onClick={() => router.push('/')}>
+      </button>
       <h2>로그인</h2>
       <form onSubmit={handleLogin}>
        <Logininput  type="email" msg="아이디" value={email} setValue={setEmail} error={error.id}/>
@@ -79,7 +56,7 @@ function Login() {
       
         <input type="submit" value="로그인" />
         
-        <input type='checkbox' className={loginStyle.checkbox} id="chk1" name="chk" defaultChecked/>
+        <input type='checkbox' className={loginStyle.checkbox} id="chk1" name="chk"/>
         <label htmlFor="chk1"><i></i>아이디 저장</label>
         <input type='checkbox' className={loginStyle.checkbox} id="chk2" name="chk"/>
         <label htmlFor="chk2"><i></i>자동 로그인</label>
