@@ -6,7 +6,7 @@ import useSearchStore from "@/store/search_store";
 import movePageStore from "../store/movePage_store";
 
 function Header() {
-  const { movePageData, moveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
+  const { categoryStoreData, detailStoreData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
   const [header, setHeader] = useState();
   const router = useRouter();
 
@@ -26,14 +26,12 @@ function Header() {
       "서커스/마술",
       "기타",
     ];
-    setHeader(() => <HeaderSub name={genresArr[movePageData[0]]} />);
+    setHeader(() => <HeaderSub name={genresArr[categoryStoreData[0]]} />);
   };
 
   // 디테일 페이지 헤더
-  const onDetail = () => {
-    console.log(moveDetailData.title);
-    
-    setHeader(() => <HeaderDetail name={moveDetailData.title} />);
+  const onDetail = () => {    
+    setHeader(() => <HeaderDetail name={detailStoreData.title} />);
   };
 
   // 페이지에 맞는 헤더로 변경
@@ -77,7 +75,7 @@ function Header() {
         setHeader(() => <HeaderMain movePage={movePage} hide={false} />);
         break;
     }
-  }, [router.pathname]);
+  }, [router.pathname, categoryStoreData, detailStoreData]);
 
   return <header>{header}</header>;
 }

@@ -20,26 +20,40 @@ function Detail() {
   const params = useSearchParams();
   const id = params.get("mt20id");
 
-  const { setMoveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
+  const { setDetailStoreData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
 
   // _text 분리 코드
   useEffect(() => {
     fn.detail(id).then((res) => {
       let d = { ...res };
 
+      // [↓] 여기변경 =============
+      //***캐스팅 빈값이면 {}로 오류남 ''추가...?
+      console.log(d.detail)
       for (let key in d.detail) {
         if (d.detail[key]._text) d.detail[key] = d.detail[key]._text;
+      // [↑] 여기변경 =============
       }
       for (let key in d.detailMap) {
         if (d.detailMap[key]._text) d.detailMap[key] = d.detailMap[key]._text;
       }
-      //store에 공연 관련 정보 저장
-      let reservationUrl = d.detail.relates.relate.relateurl._text
-      console.log(reservationUrl);
+
       setInfo(d);
-      setMoveDetailData(d.detail.prfnm, d.detail.prfstate, reservationUrl);
+
+      // [↓] 여기변경 =============
+      console.log(d.detail.prfcast._text);
+      // console.log(d.detail.prfcast);
+      //예약 url 추출
+      let reservationUrl = d.detail.relates.relate.relateurl ? d.detail.relates.relate.relateurl._text
+      : (Array.isArray(d.detail.relates.relate)) ? //url 여러개일때
+      d.detail.relates.relate[0].relateurl._text //첫번째 값만 사용
+      : '#';
+      //store에 공연 정보 저장
+      setDetailStoreData(d.detail.prfnm, d.detail.prfstate, reservationUrl);
+      // [↑] 여기변경 =============
     });
   }, []);
+  
 
   //--------------------------------------
   const router = useRouter();
@@ -169,7 +183,8 @@ function Detail() {
                 {/* 캐스팅 리스트 */}
                 <ul className={detailStyle.cast}>
                   <li className={detailStyle.infotitle}>캐스팅</li>
-                  <li>{info.detail.prfcast}</li>
+                  
+                  <li>{Object.keys(info.detail.prfcast).length && info.detail.prfcast}</li>
                 </ul>
                 {/* 가격 */}
                 <ul className={detailStyle.place}>

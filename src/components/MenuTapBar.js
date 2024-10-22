@@ -1,39 +1,39 @@
 "use client"
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import menuTapBarStyle from '@/styles/menuTapBar.module.scss'
 import { useRouter } from 'next/router'
 import movePageStore from "../store/movePage_store";
 import Link from 'next/link';
 
 const MenuTapBar = () => {
-  const { moveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
+  const { detailStoreData } = movePageStore(); //moveDetailData={title:, prfstate:, link:}
   const [isActive, setIsActive] = useState(0);
   const [isDetail, setIsDetail] = useState(false);
   const [buttonText, setButtonText] = useState('예약하기');
   const [hide, setHide] = useState(false);
   const router = useRouter();
 
-  console.log(moveDetailData.title);
-  console.log(moveDetailData.prfstate);
-  console.log(moveDetailData.link);
-
   const movePage = (page) => {
     router.push(page)
   }
 
-  const checkStatus = (status) => {
-    switch (status) {
-      case '공연중':
-        setButtonText('예약하기');
-        break;
-      case '공연완료':
-        setButtonText('공연완료');
-        break;
-      case '공연예정':
-        setButtonText('공연예정');
-        break;
-      default:
-        setButtonText('예약하기'); // 기본값
+  const checkStatus = (link, status) => {
+    if(link !== '#'){
+      switch (status) {
+        case '공연중':
+          setButtonText('예약하기');
+          break;
+        case '공연완료':
+          setButtonText('공연완료');
+          break;
+        case '공연예정':
+          setButtonText('공연예정');
+          break;
+        default:
+          setButtonText('준비중'); // 기본값
+      }
+    }else{
+      setButtonText('준비중')
     }
   }
 
@@ -57,8 +57,9 @@ const MenuTapBar = () => {
         break;
       case '/detail':
         setIsDetail(() => true)   
-        const status = moveDetailData.prfstate
-        checkStatus(status);
+        const status = detailStoreData.prfstate;
+        const link = detailStoreData.link;
+        checkStatus(link, status);
         break;
       case '/login':
       case '/join':
@@ -67,14 +68,14 @@ const MenuTapBar = () => {
         setIsActive(() => 0);
         break;
     }
-  }, [router.pathname])
+  }, [router.pathname, detailStoreData])
 
   return (     
       <nav className={`${menuTapBarStyle.menuTapBar} ${hide ? menuTapBarStyle.hide : ''}`}>
         {
           isDetail ? (
             <div className={menuTapBarStyle.reserveButtonWrap}>
-              <Link href={moveDetailData.link ? moveDetailData.link : '#'}>
+              <Link href={detailStoreData.link ? detailStoreData.link : '#'} target="_blank">
                 <button className={`${menuTapBarStyle.reserveButton} ${buttonText === '예약하기' ? '' : (buttonText === '공연예정' ? menuTapBarStyle.upcoming : menuTapBarStyle.completed)}`}>{buttonText}</button>
               </Link>
             </div>

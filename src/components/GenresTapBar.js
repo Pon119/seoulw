@@ -13,7 +13,7 @@ const GenresTapBar = ({clickedGenre, setClickedGenre}) => {
   const genres = ['뮤지컬', '연극','대중음악', '무용', '클래식', '국악', '서커스/마술', '기타'];
   
   const onActive = (idx) => {
-    setClickedGenre(() => idx);
+    setClickedGenre(idx);
   }
 
 

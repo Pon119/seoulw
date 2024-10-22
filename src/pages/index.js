@@ -20,7 +20,7 @@ import movePageStore from "../store/movePage_store";
 
 export default function Main() {
   const { mainData } = mainStore();
-  const { setMovePageData } = movePageStore();
+  const { setCategoryStoreData } = movePageStore();
   const [clickedGenre1, setClickedGenre1] = useState(0);
   const [clickedGenre2, setClickedGenre2] = useState(0);
   const [clickedGenre3, setClickedGenre3] = useState(0);
@@ -194,7 +194,7 @@ export default function Main() {
 
 // 카테고리 페이지로 이동하는 함수
   const moveToCategoryPage = (genreIdx, allIdx) => {
-    setMovePageData(genreIdx, allIdx); //store에 [선택한 장르, all] 저장
+    setCategoryStoreData(genreIdx, allIdx); //store에 [선택한 장르, all] 저장
     router.push(`/category`);
     //all 1전체 2이번주 3공연중 4공연예정
   };

@@ -13,7 +13,7 @@ function Category() {
   const [functionData, setFunctionData] = useState([]);
 
   // [↓] 여기변경 =============
-  const { movePageData, setMovePageData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
+  const { categoryStoreData, setCategoryStoreData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
 
   // [↑] 여기변경 =============
 
@@ -38,14 +38,16 @@ function Category() {
     setFunctionData([]); // 데이터를 초기화
     setHasMore(true); // 더 가져올 데이터가 있다고 설정
   };
+
   const handleGenreClick = (genreIndex) => {
     setClickedGenre(genreIndex);
-    setMovePageData(() => genreMapping[genreIndex]); //여기변경 =============
+    setCategoryStoreData(genreIndex, 1); //여기변경 =============
     setAll(1); // 전체 탭으로 설정
     setPage(1); // 페이지 초기화
     setFunctionData([]); // 데이터 초기화
     setHasMore(true); // 더 가져올 데이터가 있다고 설정
   };
+
 
   const loadMoreData = async (pageNumber) => {
     setIsLoading(true); // 데이터 로드 시작
@@ -77,18 +79,19 @@ function Category() {
     }
     setIsLoading(false); // 로딩 상태 종료
   };
+
   
   useEffect(() => {
-    //[↓] 여기변경 =============
-    if (!movePageData.length) {
-      loadMoreData(page);
-    } else {
-      setMovePageData(movePageData[0], all)
-      setClickedGenre(() => movePageData[0]);
-      loadMoreData(page); //원래 있던 코드
-    }
-    //[↑] 여기변경 =============
+    setCategoryStoreData(clickedGenre, all) //store저장
+    loadMoreData(page); //원래 있던 코드
   }, [page, clickedGenre, all]); // all 상태도 의존성에 추가
+
+  //메인에서 카테고리 진입 시 장르, all 변경
+  useEffect(() => {
+    setClickedGenre(categoryStoreData[0])
+    setAll(categoryStoreData[1])
+  },[])
+
 
   useEffect(() => {
     const handleScroll = () => {
