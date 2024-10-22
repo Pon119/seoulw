@@ -12,11 +12,6 @@ import movePageStore from "../store/movePage_store";
 import useSearchStore from "@/store/search_store";
 import { useRouter } from "next/router";
 
-// [↓] const Detail 내부
-// const {setMoveDetailData} = movePageStore();   //movePageData=[장르인덱스, all인덱스]
-// setMoveDetailData(() => item.mt20id)
-
-// var parseString = require("xml2js").parseString;
 
 function Detail() {
   // 탭 메뉴
@@ -38,8 +33,11 @@ function Detail() {
       for (let key in d.detailMap) {
         if (d.detailMap[key]._text) d.detailMap[key] = d.detailMap[key]._text;
       }
+      //store에 공연 관련 정보 저장
+      let reservationUrl = d.detail.relates.relate.relateurl._text
+      console.log(reservationUrl);
       setInfo(d);
-      setMoveDetailData(d.detail.prfnm);
+      setMoveDetailData(d.detail.prfnm, d.detail.prfstate, reservationUrl);
     });
   }, []);
 
@@ -64,7 +62,6 @@ function Detail() {
   }, [mt20id, info, setRecentPerformance]);
   //------------------------------------------
 
-  // console.log(info.prfnm);
 
   const tap = (i) => {
     setAll(i);

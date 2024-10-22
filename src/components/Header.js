@@ -9,14 +9,12 @@ function Header() {
   const { movePageData, moveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
   const [header, setHeader] = useState();
   const router = useRouter();
-  // const genresArr = ['뮤지컬', '연극', '대중음악', '무용', '클래식', '국악', '서커스/마술', '기타'];
 
-  // setSubName(() => genresArr[movePageData[0]])
-
-  const movePage = (page) => {
+  const movePage = (page) => {    
     router.push(page);
   };
 
+  // 카테고리 페이지 헤더
   const onCategory = () => {
     const genresArr = [
       "뮤지컬",
@@ -31,10 +29,14 @@ function Header() {
     setHeader(() => <HeaderSub name={genresArr[movePageData[0]]} />);
   };
 
+  // 디테일 페이지 헤더
   const onDetail = () => {
-    setHeader(() => <HeaderDetail name={moveDetailData} />);
+    console.log(moveDetailData.title);
+    
+    setHeader(() => <HeaderDetail name={moveDetailData.title} />);
   };
 
+  // 페이지에 맞는 헤더로 변경
   useEffect(() => {
     switch (router.pathname) {
       case "/":
@@ -61,7 +63,7 @@ function Header() {
       case "/review":
         setHeader(() => <HeaderSub name={"나의 리뷰"} />);
         break;
-      case "/bookmark":
+      case "/bookpage":
         setHeader(() => <HeaderSub name={"북마크"} />);
         break;
       case "/dropout":
@@ -140,7 +142,7 @@ const HeaderSub = ({ name }) => {
 };
 
 // 디테일 헤더
-const HeaderDetail = ({ name }) => {
+const HeaderDetail = ({name}) => {
   return (
     <div
       className={`${headerStyle.detailHeaderWrap} ${headerStyle.btnWrapCommon}`}
@@ -185,7 +187,7 @@ const HeaderSearch = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn1}
+        className={headerStyle.goBackBtn}
         onClick={goBack}
       ></button>
       {/* <form onSubmit={togResult}> */}
@@ -249,7 +251,7 @@ const HeaderSearch2 = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn1}
+        className={headerStyle.goBackBtn}
         onClick={goBack}
       ></button>
       <form onSubmit={handleSearch}>
@@ -305,7 +307,7 @@ const HeaderSearch3 = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn1}
+        className={headerStyle.goBackBtn}
         onClick={goBack}
       ></button>
       <form onSubmit={togResult}>

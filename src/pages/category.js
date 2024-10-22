@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import categoryStyle from "@/styles/category.module.scss";
 import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
-import axios from "axios";
-import { handler } from "../pages/api/api";
 import { fn } from "@/utils/apiFunc";
-import Loading from "@/components/Loading";
 import movePageStore from "../store/movePage_store";
 import TopButton from "@/components/TopButton";
 
@@ -80,14 +77,14 @@ function Category() {
     }
     setIsLoading(false); // 로딩 상태 종료
   };
-
+  
   useEffect(() => {
     //[↓] 여기변경 =============
     if (!movePageData.length) {
-      setClickedGenre(() => movePageData[0]);
-      setAll(() => movePageData[1]);
       loadMoreData(page);
     } else {
+      setMovePageData(movePageData[0], all)
+      setClickedGenre(() => movePageData[0]);
       loadMoreData(page); //원래 있던 코드
     }
     //[↑] 여기변경 =============
@@ -109,7 +106,6 @@ function Category() {
     };
   }, [hasMore]);
 
-  // if(!data.length) return<></>;
 
   return (
     <div className={`categoryCommon ${categoryStyle.category}`}>

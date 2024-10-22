@@ -3,14 +3,19 @@ import React, { useEffect, useRef, useState } from 'react'
 import menuTapBarStyle from '@/styles/menuTapBar.module.scss'
 import { useRouter } from 'next/router'
 import movePageStore from "../store/movePage_store";
+import Link from 'next/link';
 
 const MenuTapBar = () => {
-  const { movePageData, moveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
+  const { moveDetailData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
   const [isActive, setIsActive] = useState(0);
   const [isDetail, setIsDetail] = useState(false);
   const [buttonText, setButtonText] = useState('예약하기');
   const [hide, setHide] = useState(false);
   const router = useRouter();
+
+  console.log(moveDetailData.title);
+  console.log(moveDetailData.prfstate);
+  console.log(moveDetailData.link);
 
   const movePage = (page) => {
     router.push(page)
@@ -32,10 +37,6 @@ const MenuTapBar = () => {
     }
   }
 
-  // if(router.pathname === '/login' || router.pathname === '/join'){
-  //   return null;
-  // }
-
   useEffect(() => {
     setIsDetail(() => false);
     setHide(() => false);
@@ -56,7 +57,7 @@ const MenuTapBar = () => {
         break;
       case '/detail':
         setIsDetail(() => true)   
-        const status = '공연중' //하드코딩
+        const status = moveDetailData.prfstate
         checkStatus(status);
         break;
       case '/login':
@@ -73,7 +74,9 @@ const MenuTapBar = () => {
         {
           isDetail ? (
             <div className={menuTapBarStyle.reserveButtonWrap}>
-              <button className={`${menuTapBarStyle.reserveButton} ${buttonText === '예약하기' ? '' : (buttonText === '공연예정' ? menuTapBarStyle.upcoming : menuTapBarStyle.completed)}`}>{buttonText}</button>
+              <Link href={moveDetailData.link ? moveDetailData.link : '#'}>
+                <button className={`${menuTapBarStyle.reserveButton} ${buttonText === '예약하기' ? '' : (buttonText === '공연예정' ? menuTapBarStyle.upcoming : menuTapBarStyle.completed)}`}>{buttonText}</button>
+              </Link>
             </div>
           )
           : 
