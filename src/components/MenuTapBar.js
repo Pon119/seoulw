@@ -132,7 +132,8 @@ const MenuTapBar = () => {
             </button>
           </li>
 
-          <li onClick={() => movePage("/login")}>
+          <li onClick={() => movePage(session ? '/mypage' : '/login')  }>
+          {/* <li onClick={() => movePage("/login")}> */}
             <button type="button">
               <div
                 className={`${isActive === 3 ? menuTapBarStyle.active : ""}`}
