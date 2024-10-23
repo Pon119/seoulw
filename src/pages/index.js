@@ -396,7 +396,6 @@ const ViewAll = ({ moveToCategoryPage, genreIdx, allIdx }) => {
 
 // 기본 스와이퍼
 const BasicSwiper = ({ dataArr, clickedGenre }) => {
-  // let realDataArr = Object.values(dataArr[clickedGenre])[0]
   return (
     <Swiper
       slidesPerView={"auto"}
@@ -413,9 +412,7 @@ const BasicSwiper = ({ dataArr, clickedGenre }) => {
 };
 
 // 리스트 스와이퍼 (공연 예정)
-const ListSwiper = ({ dataArr, clickedGenre, moveToDetailPage }) => {
-  // let realDataArr = Object.values(dataArr[clickedGenre])[0]
-
+const ListSwiper = ({ dataArr, moveToDetailPage }) => {
   let groupDataArr = [];
 
   for (let i = 0; i < dataArr.length; i += 3) {
@@ -432,14 +429,12 @@ const ListSwiper = ({ dataArr, clickedGenre, moveToDetailPage }) => {
     const group = dataArr.slice(i, i + 3);
 
     if (group.length < 3) {
-      while (group.length === 3) {
+      while (group.length < 3) {
         group.push(emptyItem);
       }
     }
     groupDataArr.push(group);
   }
-
-  // console.log(groupDataArr);
 
   return (
     <Swiper
@@ -466,7 +461,6 @@ const ListSwiper = ({ dataArr, clickedGenre, moveToDetailPage }) => {
 
 // 작은 카드 (공연 예정)
 const SmallCard = ({ item, moveToDetailPage }) => {
-  // const [isVisible, setIsVisible] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const likeToggle = () => {
     setIsActive((prev) => !prev);

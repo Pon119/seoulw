@@ -7,8 +7,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 function Mypage() {
   const { data: session } = useSession();
-  console.log(session)
-
   //로그아웃 POPUP
   function popUp() {
     Swal.fire({
@@ -21,11 +19,12 @@ function Mypage() {
       confirmButtonText: "Confirm",
     }).then((result) => {
       if (result.isConfirmed) {
-        signOut();
+        signOut({callbackUrl:'/'});
+        
       }
     });
   }
-  if(!session) signIn(); //세션 정보가 없으면 로그인 페이지로
+  // if(!session) signIn(); //세션 정보가 없으면 로그인 페이지로
 
 
   return (
@@ -47,3 +46,6 @@ function Mypage() {
 }
 
 export default Mypage;
+
+
+

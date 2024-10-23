@@ -4,20 +4,23 @@ import menuTapBarStyle from '@/styles/menuTapBar.module.scss'
 import { useRouter } from 'next/router'
 import movePageStore from "../store/movePage_store";
 import Link from 'next/link';
+import { useSession } from "next-auth/react";
+
 
 const MenuTapBar = () => {
-  const { detailStoreData } = movePageStore(); //moveDetailData={title:, prfstate:, link:}
-  const [isActive, setIsActive] = useState(0);
-  const [isDetail, setIsDetail] = useState(false);
-  const [buttonText, setButtonText] = useState('예약하기');
-  const [hide, setHide] = useState(false);
+  const { detailStoreData } = movePageStore(); //detailStoreData={title:, prfstate:, link:} 형식
+  const [isActive, setIsActive] = useState(0);  // 버튼 분홍색으로 불켜지게 해주는 용
+  const [isDetail, setIsDetail] = useState(false);  //디테일 페이지인지 확인용
+  const [buttonText, setButtonText] = useState('예약하기'); //디테일 페이지용 예약 버튼
+  const [hide, setHide] = useState(false);  //탭바 숨기기용(로그인, 회원가입 페이지)
   const router = useRouter();
+  const { data: session } = useSession(); //로그인 유무 체크용
 
   const movePage = (page) => {
     router.push(page)
   }
 
-  const checkStatus = (link, status) => {
+  const checkPerformingStatus = (link, status) => {
     if(link !== '#'){
       switch (status) {
         case '공연중':
@@ -53,22 +56,25 @@ const MenuTapBar = () => {
         setIsActive(() => 2);
         break;
       case '/mypage':
-        setIsActive(() => 3);
+        setIsActive(() => 3);        
         break;
       case '/detail':
         setIsDetail(() => true)   
         const status = detailStoreData.prfstate;
         const link = detailStoreData.link;
-        checkStatus(link, status);
+        checkPerformingStatus(link, status);
         break;
       case '/login':
       case '/join':
         setHide(() => true)
+        if(session) {
+          movePage('/mypage')
+        }
       default:
         setIsActive(() => 0);
         break;
     }
-  }, [router.pathname, detailStoreData])
+  }, [router.pathname, detailStoreData, session])
 
   return (     
       <nav className={`${menuTapBarStyle.menuTapBar} ${hide ? menuTapBarStyle.hide : ''}`}>
@@ -107,7 +113,7 @@ const MenuTapBar = () => {
                 </button>
               </li>
       
-              <li onClick={() => movePage('/mypage')}>
+              <li onClick={() => movePage('/login')}>
                 <button type='button'>
                   <div className={ `${isActive === 3 ? menuTapBarStyle.active : ''}` }>
                     <p className={menuTapBarStyle.my}>MY</p>
