@@ -6,14 +6,13 @@ import useSearchStore from "@/store/search_store";
 import movePageStore from "../store/movePage_store";
 import { useSession } from "next-auth/react";
 
-
 function Header() {
   const { categoryStoreData, detailStoreData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
   const [header, setHeader] = useState();
   const router = useRouter();
   const { data: session } = useSession(); //로그인 유무 체크용
 
-  const movePage = (page) => {    
+  const movePage = (page) => {
     router.push(page);
   };
 
@@ -33,7 +32,7 @@ function Header() {
   };
 
   // 디테일 페이지 헤더
-  const onDetail = () => {    
+  const onDetail = () => {
     setHeader(() => <HeaderDetail name={detailStoreData.title} />);
   };
 
@@ -41,7 +40,9 @@ function Header() {
   useEffect(() => {
     switch (router.pathname) {
       case "/":
-        setHeader(() => <HeaderMain movePage={movePage} hide={false} session={session} />);
+        setHeader(() => (
+          <HeaderMain movePage={movePage} hide={false} session={session} />
+        ));
         break;
       case "/category":
         onCategory();
@@ -64,7 +65,7 @@ function Header() {
       case "/review":
         setHeader(() => <HeaderSub name={"나의 리뷰"} />);
         break;
-      case "/bookpage":
+      case "/bookmark":
         setHeader(() => <HeaderSub name={"북마크"} />);
         break;
       case "/dropout":
@@ -72,13 +73,17 @@ function Header() {
         break;
       case "/login":
       case "/join":
-        if(session) {
-          movePage('/mypage')
+        if (session) {
+          movePage("/mypage");
         }
-        setHeader(() => <HeaderMain movePage={movePage} hide={true} session={session} />);
+        setHeader(() => (
+          <HeaderMain movePage={movePage} hide={true} session={session} />
+        ));
         break;
       default:
-        setHeader(() => <HeaderMain movePage={movePage} hide={false} session={session} />);
+        setHeader(() => (
+          <HeaderMain movePage={movePage} hide={false} session={session} />
+        ));
         break;
     }
   }, [router.pathname, categoryStoreData, detailStoreData, session]);
@@ -126,7 +131,9 @@ const HeaderMain = ({ movePage, hide, session }) => {
         <button
           onClick={() => movePage("/login")}
           type="button"
-          className={`${headerStyle.myPage} ${session ? headerStyle.login : ''}`}
+          className={`${headerStyle.myPage} ${
+            session ? headerStyle.login : ""
+          }`}
         ></button>
       </div>
     </div>
@@ -146,7 +153,7 @@ const HeaderSub = ({ name }) => {
 };
 
 // 디테일 헤더
-const HeaderDetail = ({name}) => {
+const HeaderDetail = ({ name }) => {
   return (
     <div
       className={`${headerStyle.detailHeaderWrap} ${headerStyle.btnWrapCommon}`}
@@ -191,7 +198,7 @@ const HeaderSearch = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       {/* <form onSubmit={togResult}> */}
@@ -255,7 +262,7 @@ const HeaderSearch2 = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       <form onSubmit={handleSearch}>
@@ -311,7 +318,7 @@ const HeaderSearch3 = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       <form onSubmit={togResult}>

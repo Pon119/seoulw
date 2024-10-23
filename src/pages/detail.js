@@ -12,7 +12,6 @@ import movePageStore from "../store/movePage_store";
 import useSearchStore from "@/store/search_store";
 import { useRouter } from "next/router";
 
-
 function Detail() {
   // 탭 메뉴
   const [all, setAll] = useState(1);
@@ -37,16 +36,16 @@ function Detail() {
       setInfo(d);
 
       //예약링크 추출
-      let reservationUrl = d.detail.relates.relate.relateurl ? d.detail.relates.relate.relateurl._text
-      : (Array.isArray(d.detail.relates.relate)) ? //url 여러개일때
-      d.detail.relates.relate[0].relateurl._text //첫번째 값만 사용
-      : '#';
-      
+      let reservationUrl = d.detail.relates.relate.relateurl
+        ? d.detail.relates.relate.relateurl._text
+        : Array.isArray(d.detail.relates.relate) //url 여러개일때
+        ? d.detail.relates.relate[0].relateurl._text //첫번째 값만 사용
+        : "#";
+
       //store에 공연 정보 저장
       setDetailStoreData(d.detail.prfnm, d.detail.prfstate, reservationUrl);
     });
   }, []);
-  
 
   //--------------------------------------
   const router = useRouter();
@@ -68,7 +67,6 @@ function Detail() {
     }
   }, [mt20id, info, setRecentPerformance]);
   //------------------------------------------
-
 
   const tap = (i) => {
     setAll(i);
@@ -136,13 +134,15 @@ function Detail() {
               <img src="/assets/icons/watch.svg" />
               {/* {info.detail.dtguidance} */}
               <div className={detailStyle.dtguidanceText}>
-                {Object.keys(info.detail.dtguidance).length > 0 && info.detail.dtguidance}
+                {Object.keys(info.detail.dtguidance).length > 0 &&
+                  info.detail.dtguidance}
               </div>
             </li>
             <li>
               <img src="/assets/icons/runnigtime.svg" />
               {/* {info.detail.prfruntime} */}
-              {Object.keys(info.detail.prfruntime).length > 0 && info.detail.prfruntime}
+              {Object.keys(info.detail.prfruntime).length > 0 &&
+                info.detail.prfruntime}
             </li>
           </ul>
         </div>
@@ -179,22 +179,33 @@ function Detail() {
                 <ul>
                   <li className={detailStyle.infotitle}>공연정보</li>
                   {/* <li>{info.detail.genrenm}</li> */}
-                  <li>{Object.keys(info.detail.genrenm).length > 0 && info.detail.genrenm}</li>
+                  <li>
+                    {Object.keys(info.detail.genrenm).length > 0 &&
+                      info.detail.genrenm}
+                  </li>
                 </ul>
                 {/* 캐스팅 리스트 */}
                 <ul className={detailStyle.cast}>
                   <li className={detailStyle.infotitle}>캐스팅</li>
-                  <li>{Object.keys(info.detail.prfcast).length > 0 && info.detail.prfcast}</li>
+                  <li>
+                    {Object.keys(info.detail.prfcast).length > 0 &&
+                      info.detail.prfcast}
+                  </li>
                 </ul>
                 {/* 가격 */}
                 <ul className={detailStyle.place}>
                   <li className={detailStyle.infotitle}>가격</li>
                   {/* <li>{info.detail.pcseguidance}</li> */}
-                  <li>{Object.keys(info.detail.pcseguidance).length > 0 && info.detail.pcseguidance}</li>
+                  <li>
+                    {Object.keys(info.detail.pcseguidance).length > 0 &&
+                      info.detail.pcseguidance}
+                  </li>
                 </ul>
                 <img
                   src={
-                    info.detail.styurls.styurl?._text || info.detail.styurl || info.detail.poster
+                    info.detail.styurls.styurl?._text ||
+                    info.detail.styurl ||
+                    info.detail.poster
                     // info.detail.styurls.styurl ? info.detail.styurls.styurl : (info.detail.styurl ? info.detail.styurl : info.detail.poster)
                   }
                 />
@@ -207,7 +218,10 @@ function Detail() {
                     <p>{info.detailMap.fcltynm}</p>
                     <p>{info.detailMap.adres}</p>
                     <div className={detailStyle.mapnum}>
-                      <p>{Object.keys(info.detailMap.telno).length > 0 && info.detailMap.telno}</p>
+                      <p>
+                        {Object.keys(info.detailMap.telno).length > 0 &&
+                          info.detailMap.telno}
+                      </p>
                       {/* <p>{info.detailMap.telno}</p> */}
                       {info.detailMap.relateurl && (
                         <Link
