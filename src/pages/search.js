@@ -1,7 +1,6 @@
 // 3. 검색
 import React, { useEffect, useState } from 'react'
 import searchStyle from '@/styles/search.module.scss'
-import Link from 'next/link';
 import useSearchStore from '../store/search_store';
 import { useRouter } from 'next/router';
 
@@ -36,11 +35,10 @@ function Search() {
   const pClick = (value) => {
     setSearchWord(value);
 
-     // 현재 results에서 value를 가져오는 과정
-  const newResults = results.map(result => result.value); // 현재 결과의 value 배열
+  
+  const newResults = results.map(result => result.value);
   newResults.push(value); // 클릭한 검색어 추가
 
-  console.log('New Results to Set:', newResults); // 디버깅 로그 추가
   setResults(newResults); // 새로운 결과 설정
 
     router.push(`/search2?query=${value}`);
@@ -83,11 +81,9 @@ function Search() {
       <section>
       { recentPerformances!== null && recentPerformances.length > 0 ? (
         <Swiper
-        slidesPerView={3}
+        slidesPerView={'auto'}
         spaceBetween={24}
-        freeMode={true}
-        modules={[FreeMode]}
-        className="mySwiper"
+        className={`performSlide`}
         >
           {recentPerformances.slice().reverse().map((performance,i) => (
             <SwiperSlide key={i}>
@@ -97,11 +93,7 @@ function Search() {
                   <p>{performance.genrem}</p>
                   <figcaption>({performance.prfnm})</figcaption>
                 </div>
-                <button onClick={() => 
-                  {
-                    console.log('Performance object:', performance);
-                    console.log('Removing performance with mt20id:', performance.mt20id);
-                    remove2(performance.mt20id)}}>
+                <button onClick={() => {remove2(performance.mt20id)}}>
                     <img src='./assets/icons/x_button.svg'/></button>
               </figure>
             </SwiperSlide>

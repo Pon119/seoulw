@@ -1,5 +1,5 @@
 // 2. 카테고리
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import categoryStyle from "@/styles/category.module.scss";
 import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
@@ -32,11 +32,13 @@ function Category() {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
+  const loadMoreRef = useRef(null);
+
   const tab = (i) => {
     setAll(i);
     setPage(1); // 탭을 변경할 때 페이지를 초기화
-    setFunctionData([]); // 데이터를 초기화
-    setHasMore(true); // 더 가져올 데이터가 있다고 설정
+    setFunctionData([]);
+    setHasMore(true);
   };
 
   const handleGenreClick = (genreIndex) => {
@@ -47,7 +49,6 @@ function Category() {
     setFunctionData([]); // 데이터 초기화
     setHasMore(true); // 더 가져올 데이터가 있다고 설정
   };
-
 
   const loadMoreData = async (pageNumber) => {
     setIsLoading(true); // 데이터 로드 시작
@@ -77,38 +78,39 @@ function Category() {
     } else {
       setFunctionData((prevData) => [...prevData, ...data]);
     }
-    setIsLoading(false); // 로딩 상태 종료
+    setIsLoading(false);
   };
 
-  
   useEffect(() => {
-    setCategoryStoreData(clickedGenre, all) //store저장
+    setCategoryStoreData(clickedGenre, all); //store저장
     loadMoreData(page); //원래 있던 코드
   }, [page, clickedGenre, all]); // all 상태도 의존성에 추가
 
   //메인에서 카테고리 진입 시 장르, all 변경
   useEffect(() => {
-    setClickedGenre(categoryStoreData[0])
-    setAll(categoryStoreData[1])
-  },[])
-
+    setClickedGenre(categoryStoreData[0]);
+    setAll(categoryStoreData[1]);
+  }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-          document.documentElement.offsetHeight &&
-        hasMore
-      ) {
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+
+      if (entry.isIntersecting && hasMore && !isLoading) {
         setPage((prevPage) => prevPage + 1);
       }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [hasMore]);
+    });
 
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [hasMore, isLoading]);
 
   return (
     <div className={`categoryCommon ${categoryStyle.category}`}>
@@ -132,7 +134,6 @@ function Category() {
           onClick={() => tab(2)}
         >
           <button>이번주</button>
-          {/* <button onClick={handleThisWeek}>이번주</button> */}
           <div></div>
         </li>
         <li
@@ -188,8 +189,10 @@ function Category() {
             ? "공연이 없습니다."
             : ""}
         </p>
+        <div ref={loadMoreRef} style={{ height: "30px" }} />
       </section>
-      <TopButton/>
+
+      <TopButton />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import searchStyle from '@/styles/search.module.scss'
 import useSearchStore from '../store/search_store';
 import Card from '@/components/Card';
@@ -21,71 +21,86 @@ function Search2() {
 console.log(b);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  const loadMoreRef = useRef(null);
 
   useEffect(() => {
-    setPage(1); // 페이지를 첫 번째로 초기화
-    setFunctionData({ titleData: [], venueData: [] }); // 결과 초기화
-    setHasMore(true); // 더 가져올 데이터가 있다고 초기화
-    // handleSearch(1); // 첫 페이지의 결과를 가져오기
-  }, [query]); // 쿼리 변화 감지
+    setPage(1);
+    setFunctionData({ titleData: [], venueData: [] });
+    setHasMore(true);
+  }, [query]);
 
   const handleSearch = async (pageNum) => {
     setLoading(true);
-    const data = await fn.search(b, pageNum);
+    let data = await fn.search(b, pageNum);
 
-    // if(data.titleData){
-    //   // setFunctionData((state)=>({...state, titleData:[...state.titleData, ...data.titleData]}))
-    //   setFunctionData((state)=>({...state, titleData: data.titleData}))
-    // }
-    // if(data.venueData){
-    //   // setFunctionData((state)=>({...state, venueData:[...state.venueData, ...data.venueData]}))
-    //   setFunctionData((state)=>({...state, venueData:data.venueData}))
-    // }
+    console.log(data);
 
-    
-
-
-    if (data.length === 0) {
+    if (data.titleData.length === 0) {
       setHasMore(false);
     } else {
       setFunctionData((prevData) => ({
         titleData: [...prevData.titleData, ...(data.titleData || [])],
-        venueData: [...prevData.venueData, ...(data.venueData || [])]
+        // venueData: [...prevData.venueData, ...(data.venueData || [])]
       }));
     }
 
     setLoading(false);
   };
-
   
 
   useEffect(() => {
     handleSearch(page);
-  }, [page]);
+  }, [page,query]);
 
+  
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     // if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) return;
+  //     // setPage((prevPage) => prevPage + 1);
+  //     if (
+  //       window.innerHeight + document.documentElement.scrollTop >=
+  //         document.documentElement.offsetHeight &&
+  //       hasMore
+  //     ) {
+  //       setPage((prevPage) => prevPage + 1);
+  //     }
+  //   };
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, [hasMore]);
   
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) return;
-      setPage((prevPage) => prevPage + 1);
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+
+      if (entry.isIntersecting && hasMore && !loading && functionData.titleData.length > 0) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    });
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasMore]);
-  
+  }, [hasMore, loading, functionData.titleData]);
+
   console.log(functionData)
-
-  // return<></>
-
-  // if(!functionData)<></>;
 
 
   return (
     
     <div className={`search ${searchStyle.search}`}>
-      { functionData.titleData.length || functionData.venueData.length ? (
+      {/* { functionData.titleData.length || functionData.venueData.length ? ( */}
+      { functionData.titleData.length ? (
       <>
         <h2>검색 결과</h2>
         <div className={searchStyle.thousand}>
@@ -101,7 +116,8 @@ console.log(b);
 
       {
         loading ? <Loading/> :
-        functionData.titleData.length === 0 && functionData.venueData.length === 0 ? (
+        functionData.titleData.length === 0 ? (
+        // functionData.titleData.length === 0 && functionData.venueData.length === 0 ? (
           <>
             <h2>검색 결과</h2>
             <div className={searchStyle.none}>
@@ -110,6 +126,10 @@ console.log(b);
           </> 
         ) : ''
       }
+
+      {/* <div ref={loadMoreRef} style={{ height: '30px' }} /> */}
+      {hasMore && <div ref={loadMoreRef} style={{ height: '20px' }} />}
+
       <TopButton/>
     </div>
   )

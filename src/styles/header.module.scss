@@ -125,7 +125,7 @@
 .searchWrap {
   max-width: 480px;
   height: 100%;
-  padding: 0 20px;
+  padding: 0 20px 0 17px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -133,7 +133,7 @@
   background-color: #ffffff;
   form {
     display: flex;
-    width: 400px;
+    width: 90%;
     height: 50px;
     padding: 0 18px;
     background-color: #e8e8e8;
@@ -141,7 +141,7 @@
     justify-content: space-between;
     align-items: center;
     input {
-      width: 320px;
+      width: 90%;
       height: 30px;
       background-color: transparent;
       &::placeholder {
