@@ -21,7 +21,7 @@ function Mypage() {
       confirmButtonText: "Confirm",
     }).then((result) => {
       if (result.isConfirmed) {
-        signOut();
+        signOut({callbackUrl:'/'});
       }
     });
   }
