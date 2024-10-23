@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { fn } from '@/utils/apiFunc';
 import { useSearchParams } from 'next/navigation';
 import Loading from '@/components/Loading';
+import TopButton from '@/components/TopButton';
 
 function Search2() {
   const {results} = useSearchStore();
@@ -24,10 +25,10 @@ console.log(b);
 
 
   useEffect(() => {
-    setFunctionData({ titleData: [], venueData: [] }); // 결과 초기화
     setPage(1); // 페이지를 첫 번째로 초기화
+    setFunctionData({ titleData: [], venueData: [] }); // 결과 초기화
     setHasMore(true); // 더 가져올 데이터가 있다고 초기화
-    handleSearch(1); // 첫 페이지의 결과를 가져오기
+    // handleSearch(1); // 첫 페이지의 결과를 가져오기
   }, [query]); // 쿼리 변화 감지
 
   const handleSearch = async (pageNum) => {
@@ -99,7 +100,7 @@ console.log(b);
       }
 
       {
-        loading ? '로딩중' :
+        loading ? <Loading/> :
         functionData.titleData.length === 0 && functionData.venueData.length === 0 ? (
           <>
             <h2>검색 결과</h2>
@@ -109,6 +110,7 @@ console.log(b);
           </> 
         ) : ''
       }
+      <TopButton/>
     </div>
   )
 }

@@ -28,6 +28,7 @@ function Mypage() {
   if(!session) signIn(); //세션 정보가 없으면 로그인 페이지로
 
 
+
   return (
     <div className={mypageStyle.mypagewrap}>
 

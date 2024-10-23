@@ -9,12 +9,11 @@
 } */
 
 .search{
-   margin-top: 30px;
-   
+   margin-top: 110px;
+   padding-left: 20px;
    h2{
       font-size: 24px;
       font-weight: bold;
-      padding-left: 20px;
       padding-bottom: 20px;
       span{
          color: #FF4B77;
@@ -61,11 +60,12 @@
          flex-direction: column;
          align-items: center;
          text-align: center;
+         cursor: pointer;
          
          padding-top: 15px;
          position: relative;
          img{
-            width: 100%;
+            width: 130px;
             height: 160px;
             border-radius: 10px;
          }
@@ -89,6 +89,15 @@
                top: 2%;
                right: -10%;
             }
+         }
+      }
+      >div{
+         display: flex;
+         justify-content: center;
+         >p{
+            padding-top: 45px;
+            font-size: 18px;
+            color: #A4A4A4;
          }
       }
    }

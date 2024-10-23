@@ -15,12 +15,22 @@ function Search() {
   const {results, readCookie, setResults} = useSearchStore();
   const remove = useSearchStore((state) => state.deleteC);
   const router = useRouter();
+  
+  const { readCookie2, recentPerformances } = useSearchStore();
+  const remove2 = useSearchStore((state) => state.deleteX);
 
   console.log(results);
+  console.log(recentPerformances);
   
   useEffect(()=>{
     readCookie();
   },[])
+  
+  useEffect(()=>{
+    readCookie2();
+  },[readCookie2])
+
+  console.log('Recent Performances:', recentPerformances);
   
   const { setSearchWord } = useSearchStore();
   const pClick = (value) => {
@@ -36,6 +46,9 @@ function Search() {
     router.push(`/search2?query=${value}`);
   };
 
+  const moveToDetailPage = (mt20id) => {
+    router.push(`/detail?mt20id=${mt20id}`);
+  };
 
   return (
     <div className={`search ${searchStyle.search}`}>
@@ -59,66 +72,48 @@ function Search() {
             )
           )}
         </Swiper>
-      ) : (
-      <div>
-        <p>최근 검색어가 없습니다.</p>
-      </div>
-      )}
+        ) : (
+        <div>
+          <p>최근 검색어가 없습니다.</p>
+        </div>
+        )}
       </ul>
 
-      <h2>최근 본 상품</h2>
+      <h2>최근 본 공연</h2>
       <section>
+      { recentPerformances!== null && recentPerformances.length > 0 ? (
         <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          freeMode={true}
-          modules={[FreeMode]}
-          className="mySwiper"
+        slidesPerView={3}
+        spaceBetween={24}
+        freeMode={true}
+        modules={[FreeMode]}
+        className="mySwiper"
         >
-        <SwiperSlide>
-        <figure>
-          <img src='./assets/images/poster_07.jpg'/>
-          <p>뮤지컬</p>
-          <figcaption>(지킬앤 하이드)</figcaption>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </figure>
-        </SwiperSlide>
-        <SwiperSlide>
-        <figure>
-          <img src='./assets/images/poster_06.jpg'/>
-          <p>연극</p>
-          <figcaption>(더보이즈 인 더밴드)</figcaption>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </figure>
-        </SwiperSlide>
-        <SwiperSlide>
-        <figure>
-          <img src='./assets/images/poster_04.jpg'/>
-          <p>뮤지컬</p>
-          <figcaption>(클로버)</figcaption>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </figure>
-        </SwiperSlide>
-        <SwiperSlide>
-        <figure>
-          <img src='./assets/images/poster_06.jpg'/>
-          <p>연극</p>
-          <figcaption>(더보이즈 인 더밴드)</figcaption>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </figure>
-        </SwiperSlide>
-        <SwiperSlide>
-        <figure>
-          <img src='./assets/images/poster_04.jpg'/>
-          <p>뮤지컬</p>
-          <figcaption>(클로버)</figcaption>
-          <button><img src='./assets/icons/x_button.svg'/></button>
-        </figure>
-        </SwiperSlide>
+          {recentPerformances.slice().reverse().map((performance,i) => (
+            <SwiperSlide key={i}>
+              <figure>
+                <div onClick={() => moveToDetailPage(performance.mt20id)}>
+                  <img src={performance.poster}/>
+                  <p>{performance.genrem}</p>
+                  <figcaption>({performance.prfnm})</figcaption>
+                </div>
+                <button onClick={() => 
+                  {
+                    console.log('Performance object:', performance);
+                    console.log('Removing performance with mt20id:', performance.mt20id);
+                    remove2(performance.mt20id)}}>
+                    <img src='./assets/icons/x_button.svg'/></button>
+              </figure>
+            </SwiperSlide>
+            )
+          )}
         </Swiper>
+      ) : (
+      <div>
+        <p>최근 본 공연이 없습니다.</p>
+      </div>
+      )}
       </section>
-
-      <Link href='/bookpage'>b</Link>
     </div>
   )
 }

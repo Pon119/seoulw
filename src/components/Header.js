@@ -30,8 +30,6 @@ function Header() {
     ];
     setHeader(() => <HeaderSub name={genresArr[movePageData[0]]} />);
   };
-  console.log(movePageData);
-  console.log(moveDetailData);
 
   const onDetail = () => {
     setHeader(() => <HeaderDetail name={moveDetailData} />);
@@ -55,11 +53,19 @@ function Header() {
         setHeader(() => <HeaderSearch2 />);
         break;
       case "/mypage":
-      case "/edit":
-      case "/review":
-      case "/bookmark":
-      case "/dropout":
         setHeader(() => <HeaderSub name={"마이페이지"} />);
+        break;
+      case "/edit":
+        setHeader(() => <HeaderSub name={"회원 정보 수정"} />);
+        break;
+      case "/review":
+        setHeader(() => <HeaderSub name={"나의 리뷰"} />);
+        break;
+      case "/bookmark":
+        setHeader(() => <HeaderSub name={"북마크"} />);
+        break;
+      case "/dropout":
+        setHeader(() => <HeaderSub name={"회원 탈퇴"} />);
         break;
       case "/login":
       case "/join":
@@ -179,7 +185,7 @@ const HeaderSearch = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       {/* <form onSubmit={togResult}> */}
@@ -189,7 +195,7 @@ const HeaderSearch = () => {
           name="searchWord"
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
-          placeholder="공연명, 공연장소를 검색하세요."
+          placeholder="공연명을 검색하세요."
         ></input>
         <button type="submit"></button>
       </form>
@@ -243,7 +249,7 @@ const HeaderSearch2 = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       <form onSubmit={handleSearch}>
@@ -253,7 +259,7 @@ const HeaderSearch2 = () => {
           value={searchWord}
           onChange={handle}
           // onChange={(e) => setSearchWord(e.target.value)}
-          placeholder="공연명, 공연장소를 검색하세요."
+          placeholder="공연명을 검색하세요."
         ></input>
         <button type="submit"></button>
       </form>
@@ -299,7 +305,7 @@ const HeaderSearch3 = () => {
     <div className={headerStyle.searchWrap}>
       <button
         type="button"
-        className={headerStyle.goBackBtn}
+        className={headerStyle.goBackBtn1}
         onClick={goBack}
       ></button>
       <form onSubmit={togResult}>
