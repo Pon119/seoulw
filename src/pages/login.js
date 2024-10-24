@@ -70,6 +70,7 @@ function Login() {
 
     <div className={loginStyle.loginwrap}> 
       <button className={loginStyle.closeButton} onClick={() => router.push('/')}/>
+      <Link href='/'><h1 className={`logo ${loginStyle.goToMainLogo}`}></h1></Link>
       <h2>로그인</h2>
       <form onSubmit={handleLogin} name="mm">
        <Logininput  type="email" msg="아이디" value={email} setValue={setEmail} error={error.id}/>

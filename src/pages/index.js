@@ -461,10 +461,10 @@ const ListSwiper = ({ dataArr, moveToDetailPage }) => {
 
 // 작은 카드 (공연 예정)
 const SmallCard = ({ item, moveToDetailPage }) => {
-  const [isActive, setIsActive] = useState(false);
-  const likeToggle = () => {
-    setIsActive((prev) => !prev);
-  };
+  // const [isActive, setIsActive] = useState(false);
+  // const likeToggle = () => {
+  //   setIsActive((prev) => !prev);
+  // };
 
   const getDay = (prfpdfrom) => {
     const week = ["일", "월", "화", "수", "목", "금", "토"];
@@ -489,13 +489,13 @@ const SmallCard = ({ item, moveToDetailPage }) => {
         >
           <div className={mainStyle.smallImgWrap}>
             <img src={item.poster._text} alt={item.prfnm._text} />
-            <button
+            {/* <button
               onClick={likeToggle}
               className={`${mainStyle.like} ${
                 isActive ? mainStyle.active : ""
               }`}
               type="button"
-            ></button>
+            ></button> */}
           </div>
           <figcaption className={mainStyle.smallImgDescription}>
             <ul>
