@@ -8,25 +8,18 @@ function Bookmark({ numberOfBookmarks }) {
   const maxBookmarks = Math.min(numberOfBookmarks, 50);
   const [activeIndexes, setActiveIndexes] = useState([]);
 
-  // 파이어 베이스 가져오기
+  // 하트에서 저장된 데이터(값)들을 다시 북마크 (파이어 베이스) 가져오기
+  // 해당 값들을 다시 리스트로 뿌려주기
 
-  useEffect(()=>{
+  useEffect(() => {});
 
-    
-
-  })
-
-  const bookmarkImport = async ( ) => {
-
+  const bookmarkImport = async () => {
     const querySnapshot = await getDocs(collection(db, "bookmark"));
-     querySnapshot.forEach((doc) => {
-   // doc.data() is never undefined for query doc snapshots
-   console.log(doc.id, " => ", doc.data());
-  });
-
-  }
-
-
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+  };
 
   const handleClick = async (index) => {
     setActiveIndexes((prev) => {
@@ -37,22 +30,20 @@ function Bookmark({ numberOfBookmarks }) {
       }
     });
 
-
-
     // // Firestore에 데이터 추가
     // const dataToAdd = await addDoc {collection(db,"bookmark")
     // {
-    //   mt20id: id, 
-    //   postdate: sesseion.user.email, 
-    //   poster: info.poster, 
-    //   prfnm: , 
-    //   userId: , 
-    //   userName: , 
+    //   mt20id: id,
+    //   postdate: sesseion.user.email,
+    //   poster: info.poster,
+    //   prfnm: ,
+    //   userId: ,
+    //   userName: ,
     // }
     // };
 
     try {
-      const docRef = await addDoc(collection(db, "bookmarks"), dataToAdd);
+      const docRef = await addDoc(collection(db, "bookmark"), dataToAdd);
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
