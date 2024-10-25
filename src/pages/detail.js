@@ -121,6 +121,7 @@ function Detail() {
                   poster: info.detail.poster,
                   prfnm: info.detail.prfnm,
                 }}
+                isBookmarked={()=>{}}
               />
             </div>
           </ul>

@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import db from "../lib/firebase";
 
-function Heart({ performanceDetails }) {
+function Heart({ performanceDetails,  isBookmarked}) {
   const [isActive, setIsActive] = useState(false); // 하트 상태 관리
   const { data: session } = useSession();
   // 순서
@@ -53,6 +53,7 @@ function Heart({ performanceDetails }) {
   const handleClick = async () => {
     const newActiveState = !isActive;
     setIsActive(newActiveState);
+    isBookmarked(false)
 
     console.log(performanceDetails); // 디테일에서 전달받은 공연정보
     console.log(session);
@@ -84,6 +85,8 @@ function Heart({ performanceDetails }) {
       console.error("Error adding document: ", e);
     }
   };
+
+
 
   return (
     <button

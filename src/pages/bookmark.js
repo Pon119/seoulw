@@ -1,79 +1,48 @@
 import React, { useEffect, useState } from "react";
 import bookmarkStyle from "@/styles/bookmark.module.scss";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import db from "../lib/firebase";
-import { useSession } from "next-auth/react";
+import Heart from '../components/Heart';
 
 function Bookmark({ numberOfBookmarks }) {
-  //북마크는 최대 50개 -> 20개 저장으로 하향 조정
-  //사유: 파이어베이스 용량 제한으로 인한 조정.
-  const maxBookmarks = Math.min(numberOfBookmarks, 20); 
-  const [activeIndexes, setActiveIndexes] = useState([]);
+  const maxBookmarks = Math.min(numberOfBookmarks, 20);
+  const [bookmarks, setBookmarks] = useState([]);
+  const [isbookmarks, setIsBookmarks] = useState(true);
 
-  // 하트에서 저장된 데이터(값)들을 다시 북마크 (파이어 베이스) 가져오기
-  // 해당 값들을 다시 리스트로 뿌려주기
-
-  useEffect(() => {});
-
-  const bookmarkImport = async () => {
+  // 북마크 데이터를 가져오는 함수
+  const fetchBookmarks = async () => {
     const querySnapshot = await getDocs(collection(db, "bookmark"));
+    const bookmarksData = [];
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
+      bookmarksData.push({ id: doc.id, ...doc.data() });
     });
+    setBookmarks(bookmarksData);
+
   };
 
-  const handleClick = async (index) => {
-    setActiveIndexes((prev) => {
-      if (prev.includes(index)) {
-        return prev.filter((i) => i !== index);
-      } else {
-        return [...prev, index];
-      }
-    });
+  useEffect(() => {
+    fetchBookmarks();
+  }, [isbookmarks]);
 
-    // // Firestore에 데이터 추가
-    // const dataToAdd = await addDoc {collection(db,"bookmark")
-    // {
-    //   mt20id: id,
-    //   postdate: sesseion.user.email,
-    //   poster: info.poster,
-    //   prfnm: ,
-    //   userId: ,
-    //   userName: ,
-    // }
-    // };
-
-    try {
-      const docRef = await addDoc(collection(db, "bookmark"), dataToAdd);
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
+  
 
   return (
     <>
       <div className={bookmarkStyle.all}>
         <div className={bookmarkStyle.list}>
-          <h1>{maxBookmarks}/50</h1>
-          <button>전체 삭제</button>
+          <h1>{bookmarks.length}/{maxBookmarks}</h1>
         </div>
         <div className={bookmarkStyle.listflex}>
-          {Array.from({ length: maxBookmarks }).map((_, index) => (
-            <div className={bookmarkStyle.listinfo} key={index}>
-              <img
-                src="./assets/images/poster_01.jpg"
-                alt={`뮤지컬 포스터 ${index + 1}`}
-              />
-              <button
-                onClick={() => handleClick(index)} // 인덱스를 전달
-                className={`${bookmarkStyle.like} ${
-                  activeIndexes.includes(index) ? bookmarkStyle.active : ""
-                }`}
-                type="button"
-              ></button>
-              <p>뮤지컬 (지킬앤 하이드)</p>
+          {bookmarks.slice(0, maxBookmarks).map((bookmark) => (
+            <div className={bookmarkStyle.listinfo} key={bookmark.id}>
+              <img src={bookmark.poster} alt={bookmark.prfnm} />
+              <span>
+                <Heart
+                  performanceDetails={bookmark}
+                  isBookmarked={setIsBookmarks}              
+                />
+              </span>
+              <p>{bookmark.prfnm}</p>
             </div>
           ))}
         </div>
@@ -84,7 +53,7 @@ function Bookmark({ numberOfBookmarks }) {
 
 // 기본 값을 설정
 Bookmark.defaultProps = {
-  numberOfBookmarks: 10, // 기본값을 10으로 설정
+  numberOfBookmarks: 10,
 };
 
 export default Bookmark;
