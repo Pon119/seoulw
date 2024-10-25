@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { fn } from '@/utils/apiFunc';
 import { useSearchParams } from 'next/navigation';
 import Loading from '@/components/Loading';
-import TopButton from '@/components/TopButton';
 
 function Search2() {
   const {results} = useSearchStore();
@@ -18,11 +17,10 @@ function Search2() {
   const { query } = router.query;
   const searchWord = useSearchParams()
   let b = searchWord.get('query')
-console.log(b);
+
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(true);
-
   const loadMoreRef = useRef(null);
 
   useEffect(() => {
@@ -35,9 +33,7 @@ console.log(b);
     setLoading(true);
     let data = await fn.search(b, pageNum);
 
-    console.log(data);
-
-    if (data.titleData.length === 0) {
+    if (!data.titleData) {
       setHasMore(false);
     } else {
       setFunctionData((prevData) => ({
@@ -45,7 +41,6 @@ console.log(b);
         // venueData: [...prevData.venueData, ...(data.venueData || [])]
       }));
     }
-
     setLoading(false);
   };
   
@@ -53,25 +48,7 @@ console.log(b);
   useEffect(() => {
     handleSearch(page);
   }, [page,query]);
-
   
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     // if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) return;
-  //     // setPage((prevPage) => prevPage + 1);
-  //     if (
-  //       window.innerHeight + document.documentElement.scrollTop >=
-  //         document.documentElement.offsetHeight &&
-  //       hasMore
-  //     ) {
-  //       setPage((prevPage) => prevPage + 1);
-  //     }
-  //   };
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, [hasMore]);
   
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -129,8 +106,6 @@ console.log(b);
 
       {/* <div ref={loadMoreRef} style={{ height: '30px' }} /> */}
       {hasMore && <div ref={loadMoreRef} style={{ height: '20px' }} />}
-
-      <TopButton/>
     </div>
   )
 }

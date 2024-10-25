@@ -20,7 +20,7 @@ import movePageStore from "../store/movePage_store";
 
 export default function Main() {
   const { mainData } = mainStore();
-  const { setCategoryStoreData } = movePageStore();
+  const { categoryStoreData, setCategoryStoreData } = movePageStore();
   const [clickedGenre1, setClickedGenre1] = useState(0);
   const [clickedGenre2, setClickedGenre2] = useState(0);
   const [clickedGenre3, setClickedGenre3] = useState(0);
@@ -198,6 +198,7 @@ export default function Main() {
     router.push(`/category`);
     //all 1전체 2이번주 3공연중 4공연예정
   };
+  
 
 
 
