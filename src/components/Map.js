@@ -56,7 +56,7 @@ const Map = ({ info }) => {
           </div>
         </div>
       </div>
-      <div id="map" style={{ width: "100%", height: "350px", paddingBottom:"50px" }}></div>
+      <div id="map" style={{ width: "100%", height: "350px", paddingBottom:"50px", marginBottom:"80px" }}></div>
     </>
   );
 };
