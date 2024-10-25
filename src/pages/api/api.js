@@ -31,6 +31,7 @@ const defaultParams = {
   stdate: "20240101",
   eddate: "20241231",
 };
+
 const thisWeekParams = {
   service: API_KEY,
   rows: "20",
