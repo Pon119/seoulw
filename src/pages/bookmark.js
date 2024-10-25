@@ -5,7 +5,9 @@ import db from "../lib/firebase";
 import { useSession } from "next-auth/react";
 
 function Bookmark({ numberOfBookmarks }) {
-  const maxBookmarks = Math.min(numberOfBookmarks, 50); //북마크는 최대 50개만 저장할 수 있습니다.
+  //북마크는 최대 50개 -> 20개 저장으로 하향 조정
+  //사유: 파이어베이스 용량 제한으로 인한 조정.
+  const maxBookmarks = Math.min(numberOfBookmarks, 20); 
   const [activeIndexes, setActiveIndexes] = useState([]);
 
   // 하트에서 저장된 데이터(값)들을 다시 북마크 (파이어 베이스) 가져오기
