@@ -59,6 +59,7 @@ const defaultParams = {
   stdate: yesterday,
   eddate: aYearDate,
 };
+
 const thisWeekParams = {
   service: API_KEY,
   rows: "20",
