@@ -24,7 +24,8 @@
       }
       li {
         margin-bottom: 16px;
-        &:nth-of-type(1) {
+        // &:nth-of-type(1) {
+        &.age{
           font-size: 14px;
         }
         &.dtguidance {
