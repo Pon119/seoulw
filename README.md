@@ -27,14 +27,6 @@
 - 허다영 ([Pon119](https://github.com/Pon119)) : 서버관리, 배포
 
 
-## 📱 스크린샷
-![m1](https://github.com/user-attachments/assets/956cce3e-b1eb-40bf-b9de-ecd4c20f1bc5)
-![category1](https://github.com/user-attachments/assets/9f1efe2e-6033-42cb-acc2-154511850a27)
-![search1](https://github.com/user-attachments/assets/8b17a003-fb1e-4d3b-a700-14407b2c9e99)
-![login1](https://github.com/user-attachments/assets/588463a2-8645-4871-a2af-d030eed1421a)
-![login2](https://github.com/user-attachments/assets/68dfd6fc-ebea-4ed3-9c9d-5b073b7a9954)
-
-
 ## 📚 참고 URL
 - 기획서 : 
 [SeoulW Google Docs](<https://docs.google.com/document/d/1Ieh-tqHfDDQsXYfCo3cP_YHhUgt8ATDOMHSVXXcL5fs/edit?tab=t.0>)
@@ -73,11 +65,19 @@
      ┗ 📜README.md
 
 
+## 📱 스크린샷
+![m1](https://github.com/user-attachments/assets/956cce3e-b1eb-40bf-b9de-ecd4c20f1bc5)
+![category1](https://github.com/user-attachments/assets/9f1efe2e-6033-42cb-acc2-154511850a27)
+![search1](https://github.com/user-attachments/assets/8b17a003-fb1e-4d3b-a700-14407b2c9e99)
+![login1](https://github.com/user-attachments/assets/588463a2-8645-4871-a2af-d030eed1421a)
+![login2](https://github.com/user-attachments/assets/68dfd6fc-ebea-4ed3-9c9d-5b073b7a9954)
+
+
 ## 🙋‍♀️ 개발 상세
-- [고유나](개인 레포지토리로 가는 링크) ([tolix-a](https://github.com/tolix-a))
+- [고유나](https://github.com/tolix-a/next-seoulw) ([tolix-a](https://github.com/tolix-a))
 
-- [박지연](개인 레포지토리로 가는 링크) ([pjiyeon90](https://github.com/pjiyeon90))
+- [박지연](개인 레포지토리 링크) ([pjiyeon90](https://github.com/pjiyeon90))
 
-- [성주영](개인 레포지토리로 가는 링크) ([0011git](https://github.com/0011git))
+- [성주영](개인 레포지토리 링크) ([0011git](https://github.com/0011git))
 
-- [허다영](개인 레포지토리로 가는 링크) ([Pon119](https://github.com/Pon119))
+- [허다영](https://github.com/Pon119/seoulw-dy) ([Pon119](https://github.com/Pon119))
