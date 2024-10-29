@@ -72,28 +72,16 @@
      ┗ 📜README.md
 
 
-## 📱 스크린샷
-![m1](https://github.com/user-attachments/assets/956cce3e-b1eb-40bf-b9de-ecd4c20f1bc5)
-![m2](https://github.com/user-attachments/assets/8bc107b8-8a12-4606-859b-872b2938e101)
------
-![category1](https://github.com/user-attachments/assets/9f1efe2e-6033-42cb-acc2-154511850a27)
-![d1](https://github.com/user-attachments/assets/191fc9ff-c65e-404c-9e9b-480b175aa100)
------
-![d2](https://github.com/user-attachments/assets/46e95e9a-3566-46ce-9f4b-0f5d01d198e3)
-![d3](https://github.com/user-attachments/assets/462de894-6190-4622-834f-7824fe3dc2b9)
------
-![search1](https://github.com/user-attachments/assets/f0c0d637-ee2b-407d-92a2-364f4ccb0e8a)
-![search2](https://github.com/user-attachments/assets/50069559-da9f-4a45-866b-eb94f241b379)
------
-![login1](https://github.com/user-attachments/assets/588463a2-8645-4871-a2af-d030eed1421a)
-![login2](https://github.com/user-attachments/assets/68dfd6fc-ebea-4ed3-9c9d-5b073b7a9954)
-
-
 ## 🙋‍♀️ 개발 상세
-- [고유나](https://github.com/tolix-a/next-seoulw) ([tolix-a](https://github.com/tolix-a))
+| 이름   | Seoul,W GitHub                        |
+|--------|---------------------------------------|
+| 고유나 | [next-seoulw](https://github.com/tolix-a/next-seoulw) |
+| 박지연 | [pjiyeon90]() |
+| 성주영 | [0011git]() |
+| 허다영 | [seoulw-dy](https://github.com/Pon119/seoulw-dy) |
 
-- [박지연](개인 레포지토리 링크) ([pjiyeon90](https://github.com/pjiyeon90))
 
-- [성주영](개인 레포지토리 링크) ([0011git](https://github.com/0011git))
+## 📱 스크린샷
+![t](https://github.com/user-attachments/assets/dd46735e-4f07-4ab9-9eb6-7377388ddaa3)
 
-- [허다영](https://github.com/Pon119/seoulw-dy) ([Pon119](https://github.com/Pon119))
+
