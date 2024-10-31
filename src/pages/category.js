@@ -5,16 +5,14 @@ import Card from "@/components/Card";
 import GenresTapBar from "@/components/GenresTapBar";
 import { fn } from "@/utils/apiFunc";
 import movePageStore from "../store/movePage_store";
-import TopButton from "@/components/TopButton";
 
 function Category() {
   const [all, setAll] = useState(1);
-  const [clickedGenre, setClickedGenre] = useState(0);
+  const [clickedGenre, setClickedGenre] = useState();
   const [functionData, setFunctionData] = useState([]);
 
   // [↓] 여기변경 =============
   const { categoryStoreData, setCategoryStoreData } = movePageStore(); //movePageData=[장르인덱스, all인덱스]
-
   // [↑] 여기변경 =============
 
   const genreMapping = [
@@ -82,15 +80,22 @@ function Category() {
   };
 
   useEffect(() => {
-    setCategoryStoreData(clickedGenre, all); //store저장
-    loadMoreData(page); //원래 있던 코드
+    if(clickedGenre==0 || clickedGenre){
+      setCategoryStoreData(clickedGenre, all); //store저장
+      loadMoreData(page); //원래 있던 코드
+    }
   }, [page, clickedGenre, all]); // all 상태도 의존성에 추가
 
-  //메인에서 카테고리 진입 시 장르, all 변경
+  // 메인에서 카테고리 진입 시 장르, all 변경
   useEffect(() => {
     setClickedGenre(categoryStoreData[0]);
     setAll(categoryStoreData[1]);
+  
+    return () => {
+      setCategoryStoreData(0, 1); // 기본값으로 초기화
+    };
   }, []);
+
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -191,8 +196,6 @@ function Category() {
         </p>
         <div ref={loadMoreRef} style={{ height: "30px" }} />
       </section>
-
-      <TopButton />
     </div>
   );
 }

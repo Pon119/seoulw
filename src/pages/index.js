@@ -20,7 +20,7 @@ import movePageStore from "../store/movePage_store";
 
 export default function Main() {
   const { mainData } = mainStore();
-  const { setCategoryStoreData } = movePageStore();
+  const { categoryStoreData, setCategoryStoreData } = movePageStore();
   const [clickedGenre1, setClickedGenre1] = useState(0);
   const [clickedGenre2, setClickedGenre2] = useState(0);
   const [clickedGenre3, setClickedGenre3] = useState(0);
@@ -198,6 +198,7 @@ export default function Main() {
     router.push(`/category`);
     //all 1전체 2이번주 3공연중 4공연예정
   };
+  
 
 
 
@@ -461,10 +462,10 @@ const ListSwiper = ({ dataArr, moveToDetailPage }) => {
 
 // 작은 카드 (공연 예정)
 const SmallCard = ({ item, moveToDetailPage }) => {
-  const [isActive, setIsActive] = useState(false);
-  const likeToggle = () => {
-    setIsActive((prev) => !prev);
-  };
+  // const [isActive, setIsActive] = useState(false);
+  // const likeToggle = () => {
+  //   setIsActive((prev) => !prev);
+  // };
 
   const getDay = (prfpdfrom) => {
     const week = ["일", "월", "화", "수", "목", "금", "토"];
@@ -489,13 +490,13 @@ const SmallCard = ({ item, moveToDetailPage }) => {
         >
           <div className={mainStyle.smallImgWrap}>
             <img src={item.poster._text} alt={item.prfnm._text} />
-            <button
+            {/* <button
               onClick={likeToggle}
               className={`${mainStyle.like} ${
                 isActive ? mainStyle.active : ""
               }`}
               type="button"
-            ></button>
+            ></button> */}
           </div>
           <figcaption className={mainStyle.smallImgDescription}>
             <ul>

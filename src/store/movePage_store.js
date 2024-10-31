@@ -3,11 +3,11 @@ import { create } from "zustand";
 
 const useMovePageStore = create((set) => ({
   //카테고리 페이지
-  categoryStoreData: [0, 1],
+  categoryStoreData: [],
   setCategoryStoreData: (genre, all) => {
     set({ categoryStoreData: [genre, all] });
   },
-
+  
   //디테일 페이지
   detailStoreData: {}, //오브젝트로 변경
   setDetailStoreData: (title, prfstate, link) => {
