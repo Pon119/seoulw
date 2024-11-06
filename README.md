@@ -58,21 +58,18 @@
 ### 1. 공연예술통합전산망(KOPIS) API 활용
    - [KOPIS API](https://www.kopis.or.kr/por/cs/openapi/openApiList.do?menuId=MNU_00074)를 활용해 메인 컨텐츠를 제공
 
-
 ### 2. 카카오맵 API 지도
-   - [카카오맵 API](https://apis.map.kakao.com/web/)를 사용해 공연장 지도 출력
-
+   - [카카오맵 API](https://apis.map.kakao.com/web/)를 사용해 디테일 페이지에서 공연장 지도 출력
 
 ### 3. 회원가입 및 로그인
    - sns 로그인 (Github, 네이버, 구글) 지원
    - Next Auth 사용
-   - 이메일, 비밀번호 등의 입력값 유효성 검사
-   - Google Firebase를 DB로 사용
-   
+   - 이메일 등의 입력값 유효성 검사
+   - DB로 Google Firebase 사용
 
 ### 4. 리뷰 작성 및 북마크 기능
    - 회원 전용으로 리뷰 작성 및 북마크 등록/삭제 기능 제공
-   - Google Firebase를 DB로 사용
+   - DB로 Google Firebase를 사용
 
 
 
