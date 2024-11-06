@@ -1,6 +1,7 @@
 [![seoulw_logo](https://github.com/user-attachments/assets/345224b4-4917-4c46-84f2-7eec5f876b4a)](https://seoulw.vercel.app/)
 
-<img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black"/>  <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=Vercel&logoColor=white"/>  <img src="https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=Postman&logoColor=white"/>  <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>  <img src="https://img.shields.io/badge/Sass-CC6699?style=flat-square&logo=Sass&logoColor=white"/>
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white) ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black) ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=Vercel&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=Postman&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white) ![Zustand](https://img.shields.io/badge/Zustand-181717?style=flat-square&logo=redux&logoColor=white) ![MUI](https://img.shields.io/badge/Material_UI-0078D4?style=flat-square&logo=mui&logoColor=white) ![SASS](https://img.shields.io/badge/SASS-CC6699?style=flat-square&logo=sass&logoColor=white) ![PWA](https://img.shields.io/badge/PWA-1A73E8?style=flat-square&logo=pwa&logoColor=white) ![Swiper](https://img.shields.io/badge/Swiper-6332F6?style=flat-square&logo=swiper&logoColor=white) ![Axios](https://img.shields.io/badge/Axios-5A29E6?style=flat-square&logo=axios&logoColor=white) ![xml-js](https://img.shields.io/badge/xml--js-F9A826?style=flat-square&logo=javascript&logoColor=white) ![SweetAlert2](https://img.shields.io/badge/SweetAlert2-892B56?style=flat-square&logo=sweetalert2&logoColor=white) ![NextAuth](https://img.shields.io/badge/NextAuth.js-000000?style=flat-square&logo=next.js&logoColor=white)
+
 
 ## 🌱 소개
 서울 문화 공연 정보 PWA 사이트 **Seoul, W**입니다.
@@ -36,12 +37,22 @@
 
 
 ## 🛠️ 개발 환경
-- <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/> 프레임워크 : **Next.js**
-- <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black"/> 데이터베이스: **Google Firebase** 
-- <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=Vercel&logoColor=white"/> 배포: **Vercel**
-- <img src="https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=Postman&logoColor=white"/> API 테스트: **Postman**
-- <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/> 버전 관리: **GitHub**
-
+| 기술            | 기술명                                                 | Badge                                                           |
+|:-----------------:|:-----------------------------------------------------:|:-------------------------------------------------------------:|
+| **프레임워크**    | Next.js                                               | ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white) |
+| **데이터베이스**  | Google Firebase                                      | ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black) |
+| **배포**          | Vercel                                               | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=Vercel&logoColor=white) |
+| **API 테스트**    | Postman                                              | ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=Postman&logoColor=white) |
+| **버전 관리**     | GitHub                                               | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white) |
+| **상태 관리**     | Zustand                                              | ![Zustand](https://img.shields.io/badge/Zustand-181717?style=flat-square&logo=redux&logoColor=white) |
+| **UI 라이브러리** | Material UI (MUI)                                    | ![MUI](https://img.shields.io/badge/Material_UI-0078D4?style=flat-square&logo=mui&logoColor=white) |
+| **스타일링**      | SASS                                                 | ![SASS](https://img.shields.io/badge/SASS-CC6699?style=flat-square&logo=sass&logoColor=white) |
+| **PWA**          | Progressive Web App                                  | ![PWA](https://img.shields.io/badge/PWA-1A73E8?style=flat-square&logo=pwa&logoColor=white) |
+| **슬라이더**      | Swiper                                               | ![Swiper](https://img.shields.io/badge/Swiper-6332F6?style=flat-square&logo=swiper&logoColor=white) |
+| **HTTP 요청**     | Axios                                                | ![Axios](https://img.shields.io/badge/Axios-5A29E6?style=flat-square&logo=axios&logoColor=white) |
+| **XML 파싱**      | xml-js                                               | ![xml-js](https://img.shields.io/badge/xml--js-F9A826?style=flat-square&logo=javascript&logoColor=white) |
+| **알림**          | SweetAlert2                                           | ![SweetAlert2](https://img.shields.io/badge/SweetAlert2-892B56?style=flat-square&logo=sweetalert2&logoColor=white) |
+| **인증**          | NextAuth.js                                           | ![NextAuth](https://img.shields.io/badge/NextAuth.js-000000?style=flat-square&logo=next.js&logoColor=white) |
 
 
 ## 🙌 담당 직무
