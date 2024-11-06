@@ -17,12 +17,18 @@ function Footer() {
   const onToggle = () => {
     setUnfold((prev) => !prev);
   }
+
+  const goToPolicy = () => {
+    router.push(`/policy`);
+  };
+
+
   return (
     <footer className={footerStyle.footer}>
       <div>
         <ul className={footerStyle.policy}>
-          <li><Link href='/policy'>이용약관</Link></li>
-          <li><Link href='/policy'>개인정보처리방침</Link></li>
+          <li onClick={() => goToPolicy()}>이용약관</li>
+          <li onClick={() => goToPolicy()}>개인정보처리방침</li>
         </ul>
       </div>
 

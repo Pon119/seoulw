@@ -13,6 +13,7 @@
             li{
                 color: inherit;
                 font-size: 12px;
+                cursor: pointer;
                 &:not(:last-of-type){
                     &::after{
                         color: #6F6F6F;

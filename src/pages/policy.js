@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import policyStyle from "@/styles/policy.module.scss";
-
+import { useRouter } from 'next/router';
 
 const Policy = () => {
+  const router = useRouter();
+  // const { type } = router.query;
   const [tab, setTab] = useState(0);
 
 
@@ -10,14 +12,14 @@ const Policy = () => {
     <div className={policyStyle.policyWrap}>
       <ul className={policyStyle.tabBtnWrap}>
         <li
-          className={tab === 0 ? policyStyle.selected : ""}
-          onClick={() => setTab(0)}
+          className={tab == 0 ? policyStyle.selected : ""}
+          onClick={() => {setTab(0);}}
         >
           이용약관
         </li>
         <li
-          className={tab === 1 ? policyStyle.selected : ""}
-          onClick={() => setTab(1)}
+          className={tab == 1 ? policyStyle.selected : ""}
+          onClick={() => {setTab(1);}}
         >
           개인정보처리방침
         </li>
