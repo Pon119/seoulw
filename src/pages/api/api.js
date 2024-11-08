@@ -120,6 +120,7 @@ async function apiMain(res) {
       cpage: 1,
       shcate: shcate,
     };
+
     const mainUpcomingParams = {
       service: API_KEY,
       rows: "20", //요청개수
@@ -152,6 +153,8 @@ async function apiMain(res) {
   results.upcoming = await Promise.all([...requests.upcoming]);
   results.genres = await Promise.all([...requests.genres]);
 
+  
+
   //results분류할 오브젝트
   const response = { thisWeek: [], upcoming: [], genres: [] };
 
@@ -164,6 +167,8 @@ async function apiMain(res) {
   results.genres.forEach((result) => {
     response.genres.push(xmlTOjson(result.data));
   });
+  
+  
 
   res.json(response);
 }

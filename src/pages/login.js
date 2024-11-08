@@ -8,26 +8,37 @@ import loginStyle from '@/styles/login.module.scss'
 
 
 function Login() {
-  const storedEmail = localStorage.getItem('rememberedEmail');
-  const pw = localStorage.getItem('password');
+  // const storedEmail = localStorage.getItem('rememberedEmail') || null;
+  // const pw = localStorage.getItem('password');
   
 
-  const [email, setEmail] = useState(storedEmail);
-  const [password, setPassword] = useState(pw);
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   const [error, setError] = useState({id:'',pw:''});
-  const [rememberMe, setRememberMe] = useState(storedEmail && true);
-  const [auto, setAuto] = useState(Boolean(storedEmail && pw));
+  const [rememberMe, setRememberMe] = useState();
+  const [auto, setAuto] = useState();
   const router = useRouter();
   const { data: session } = useSession();
 
   const loginBtn  = useRef();
 
-  //아이디 저장
+  // 클라이언트에서만 localStorage 접근, 아이디 저장
   useEffect(() => {
-    if (storedEmail && pw) {
-      loginBtn.current.click();
+    if (typeof window !== "undefined") {
+      const storedEmail = localStorage.getItem('rememberedEmail') || null;
+      const storedPassword = localStorage.getItem('password')  || null;
+
+      if (storedEmail) {
+        setEmail(storedEmail);
+        setRememberMe(true);
+      }
+      if (storedPassword) {
+        setPassword(storedPassword);
+        setAuto(true);
+      }
     }
   }, []);
+
 
 
   const handleLogin = async (e)=>{
@@ -64,6 +75,13 @@ function Login() {
       }
    }
 
+   //소셜 로그인
+   const handleSocialLogin = (provider, options) => {
+    signIn(provider, {
+      callbackUrl: options.callbackUrl,
+    });
+  }
+
 
  
   return (
@@ -76,7 +94,7 @@ function Login() {
       </Link> */}
       <h2>로그인</h2>
       <form onSubmit={handleLogin} name="mm">
-       <Logininput  type="email" msg="아이디" value={email} setValue={setEmail} error={error.id}/>
+       <Logininput  type="email" msg="아이디 (이메일)" value={email} setValue={setEmail} error={error.id}/>
        <Logininput type="password" msg="비밀번호 (영문/숫자/특수문자 조합 8~15자)" value={password} setValue={setPassword} error={error.pw}/>
       
         <input type="submit" value="로그인" ref={loginBtn}/>
