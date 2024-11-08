@@ -121,7 +121,7 @@
 |--------|---------------------------------------|
 | 고유나 | [next-seoulw](https://github.com/tolix-a/next-seoulw) |
 | 박지연 | [업데이트중]() |
-| 성주영 | [업데이트중]() |
+| 성주영 | [seoulw-sjy](https://github.com/0011git/seoulw-sjy) |
 | 허다영 | [seoulw-dy](https://github.com/Pon119/seoulw-dy) |
 
 
