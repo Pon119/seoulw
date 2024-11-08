@@ -50,7 +50,7 @@ function Mypage() {
             <Link href="/bookmark">북마크</Link>
           </li>
           <li>
-            <Link href="/review">나의 리뷰</Link>
+            <Link href="/myreview">나의 리뷰</Link>
           </li>
           <li onClick={popUp}>로그아웃</li>
           <li>
