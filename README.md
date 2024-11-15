@@ -6,7 +6,8 @@
 ## 🌱 소개
 서울 문화 공연 정보 PWA 사이트 **Seoul, W**입니다.
 
-![seoulw_main](https://github.com/user-attachments/assets/5f4caca1-7443-4e66-966d-01231c131397)
+<!--![seoulw_main](https://github.com/user-attachments/assets/5f4caca1-7443-4e66-966d-01231c131397)-->
+![seoulw_thumbnail](https://github.com/user-attachments/assets/1fe99bc0-edcb-4945-b668-3b929c89e2aa)
 
 
 
@@ -137,6 +138,8 @@
 
 
 ## 📱 스크린샷
+![seoulw_sub (1)](https://github.com/user-attachments/assets/a7cc6aa6-1421-4a22-b6df-504e0cae0d57)
+
 ![t](https://github.com/user-attachments/assets/dd46735e-4f07-4ab9-9eb6-7377388ddaa3)
 
 
